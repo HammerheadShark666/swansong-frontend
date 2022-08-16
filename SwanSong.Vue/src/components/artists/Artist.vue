@@ -4,7 +4,7 @@
 			<div class="card-header">
 				<el-row class="card-header-row">
 					<el-col :span="12">
-						<span>{{artist.name}}</span>
+						<span>{{artist.name}} #############</span>
 					</el-col>				
 				</el-row>       
 			</div>
