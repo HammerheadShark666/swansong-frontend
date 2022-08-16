@@ -1,0 +1,99 @@
+{
+	"PATCH:master/groups/id": {
+		"400": "You entered something incorrectly",
+		"404": "Could not find group",
+		"409": "Something already exists"
+	},
+	"GET:master/groups/id": {
+		"422": "Could not find group",
+		"404": "Could not find group"
+	},
+	"POST:master/groups/my/users": {
+		"400": "You entered something incorrectly or reached maximum user limit",
+		"404": "Invalid referral code",
+		"409": "A user with that email address already exists, please choose another email address",
+		"422": "A user with that email address already exists, please choose another email address"
+	},
+	"DELETE:master/groups/my/users/id": {
+		"400": "This user cannot be deleted",
+		"404": "User does not exist",
+		"422": "Unfortunately we can't delete this user at this moment, please contact support"
+	},
+	"PATCH:master/users/id": {
+		"403": "Cannot update other Admins details",
+		"409": "Email address already exists"
+	},
+	"POST:master/users/id/service/activate": {
+		"400": "Service already activated"
+	},
+	"POST:master/users/id/profile-image": {},
+	"GET:master/pacs": {
+		"500": "Invalid PAC code"
+	},
+	"GET:master/stacs": {
+		"500": "Invalid STAC code"
+	},
+	"POST:master/users/id/orders": {
+		"400": "Something wasn't quite right, please re-enter your stac/pac code"
+	},
+	"GET:master/orders/port-date/min": {},
+	"GET:master/orders/port-date/black-list": {},
+	"POST:master/users": {
+		"400": "User needs to be at least 16 years old",
+		"403": "You need to login with the email you used to register interest before trying to sign up",
+		"404": "The referral code you entered is invalid, please try again",
+		"405": "Unable to register user, please try again later",
+		"409": "Email address already exists, please log in",
+		"422": "Unable to register user, please try again later",
+		"500": "Unable to register user, please try again later"
+	},
+	"POST:master/early-adopter/register-interest": {
+		"400": "User needs to be at least 16 years old",
+		"404": "The referral code you entered is invalid, please try again",
+		"405": "Unable to register interest, please try again later",
+		"409": "Email address already exists, please log in",
+		"422": "Unable to register interest, please try again later",
+		"500": "Unable to register interest, please try again later"
+	},
+	"POST:master/users/login": {
+		"404": "The email address you entered is not recognised, please try again",
+		"500": "The email address you entered is not recognised, please try again"
+	},
+	"GET:cdr/usages": {
+		"422": "Unable to calculate group usage",
+		"500": "We are having a small issue at the moment, please check back later"
+	},
+	"GET:cdr/usages/id": {
+		"404": "User not found",
+		"400": "User does not have a valid service"
+	},
+	"PUT:master/users/id/bill-limit": {
+		"400": "Bill limit too small",
+		"404": "User not found"
+	},
+	"POST:master/users/id/cancellation": {
+		"409": "Cancellation already exists, please use your pac code to cancel",
+		"400": "User has no cli",
+		"404": "User not found"
+	},
+	"GET:master/users/id/bars": {
+		"400": "User has no cli"
+	},
+	"PATCH:master/users/id/bars/type": {
+		"403": "Cannot modify bars"
+	},
+	"GET:notification/fetch": {
+		"400": "Push token does not exist for user"
+	},
+	"GET:master/help/categories": {},
+	"GET:master/help/pages/id": {},
+	"GET:master/help/pages": {},
+	"GET:cdr/bills": {},
+	"GET:cdr/bills/date": {},
+	"GET:cdr/bills/type": {},
+	"invalid-params": {
+		"general": "You entered something wrong, please try again",
+		"required": "You missed something, please try again"
+	},
+	"generic": "Something went wrong, please try again later"
+}

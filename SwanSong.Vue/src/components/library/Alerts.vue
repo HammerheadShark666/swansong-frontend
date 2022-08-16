@@ -1,0 +1,43 @@
+<template>
+    <div>
+        <el-alert show-icon class="alert" v-for="error in errorMessages()" v-bind:key="error" type="error">{{error.message}}</el-alert>
+        <el-alert show-icon class="alert" v-for="warning in warningMessages()" v-bind:key="warning" type="warning">{{warning.message}}</el-alert>
+        <el-alert show-icon class="alert" v-for="info in infoMessages()" v-bind:key="info" type="info">{{info.message}}</el-alert>
+    </div>
+</template>
+
+<script>   
+
+import { getMessagesBySeverity } from '../../helpers/helper'
+import { MESSAGE_ERROR, MESSAGE_INFO, MESSAGE_WARNING } from '../../helpers/helper'
+
+export default {
+	name: "Alerts", 
+    props: ['messages'],    
+    computed: {
+        show() { 
+            return this.visible;     
+        },
+    },
+	methods: {      
+        infoMessages() {      
+            return getMessagesBySeverity(this.messages, MESSAGE_INFO); 
+        },
+        warningMessages() { 
+            return getMessagesBySeverity(this.messages, MESSAGE_WARNING); 
+        },
+        errorMessages() { 
+            return getMessagesBySeverity(this.messages, MESSAGE_ERROR); 
+        } 
+	}
+};
+
+</script>
+
+<style scoped>
+
+.alert {
+    margin-bottom: 5px;
+}
+
+</style>

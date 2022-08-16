@@ -1,0 +1,205 @@
+html, body {
+    margin:0;
+    padding:0;
+    height: 100%;
+}
+h1 {
+    margin:0;
+}
+ 
+.nav-bar-color {
+    background-color: #000000;
+    height: 90px;
+}
+
+.navbar-nav.navbar-center {
+    position: absolute;
+    left: 47%;
+    transform: translatex(-50%);
+    height: 100%;
+    top:0px;
+}
+
+.navbar-nav.navbar-center .nav-item {
+    padding-top:25px;
+}
+
+.nav-bar-white {
+    background-color: #ffffff;
+    height: 3px;
+    padding: 0px;
+}
+
+.container {
+    background-color: #343a40!important;
+}
+
+#app {
+    background-color: #343a40!important;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -20px;
+}
+
+.jumbotron-custom {
+    padding: 1rem 1rem!important;
+    background-color: #000000;
+    border-radius:0%;
+}
+
+h3 {
+    color:white;
+}
+
+.el-input__inner {
+    border-radius: 0px;
+}
+
+.box-card {
+    border-radius: 0%;
+}
+
+.el-card__header {
+    background-color: #122620;
+    padding:0px;
+}
+
+.card-header {
+    color: white;
+    padding: .25rem 1.0rem!important;
+}   
+
+.card-header-row {
+	margin-top: 0px;
+}
+ 
+.el-drawer__header {
+    background-color: #122620;
+    color: white;
+    padding:10px;
+    margin-bottom:0px;
+    font-size: 20px;
+}   
+
+.el-button--primary {
+    background-color: #B68D40;
+    border-color: #B68D40;
+    color: #000;
+    border-radius: 0px;;
+}
+
+.el-button--primary:hover {
+    background-color: #B68D40;
+    border-color: #B68D40;
+}
+
+.el-button--primary:focus {
+    background-color: #B68D40;
+    border-color: #B68D40;
+} 
+ 
+.el-dialog__header {
+    padding: 10px 20px 10px!important;
+}
+
+.el-dialog__body {
+    padding: 20px 20px 20px 20px!important;
+}
+
+.el-dialog__footer {
+    padding: 10px 20px 10px 20px!important;
+}
+
+.el-dialog__headerbtn {
+    top: 10px!important;
+}
+
+.el-card__body {
+    /* padding-bottom: 5px;
+    padding-top: 5px;  */
+    padding: 20px;
+} 
+ 
+.el-button {
+    height: 30px;
+    padding: 8px 12px;
+    font-size: 12px;
+    min-height: 0px;
+}
+
+h4 {
+    color: white;
+}
+
+.el-form--label-top .el-form-item__label {
+	height: 30px!important;
+	padding: 0px!important;
+	margin-bottom: 10px!important;
+}
+
+.vertical-center-outer {
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.vertical-center-middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.vertical-center-inner {
+    margin-left: auto;
+    margin-right: auto; 
+}
+  
+.el-form-item__label {
+    margin-bottom: 0px!important;
+}
+
+.form-item-button {
+    margin-bottom: 0px!important;
+}
+
+.el-alert .el-alert__description {
+    margin: 0px;
+}
+
+.card-header {
+    padding: .45rem 1.0rem;
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+    background-color: #212529;
+    color: #FFF;
+} 
+
+.el-table--enable-row-hover .el-table__body tr:hover>td {
+    background-color: #5ef1f167!important;
+}
+
+.el-table__body tr:hover>td {
+    background-color: #e1e7f0!important;
+}
+
+.el-table__body tr.current-row>td {
+    background-color: #e1e7f0!important;
+} 
+
+.messages-dialog .el-dialog__header {
+    display: none!important;
+}
+
+.messages-dialog .el-dialog__body {
+    padding: 0px!important;
+}
+
+.member-photo img {
+    margin-top: 7px!important;
+    margin-left: 7px!important;
+	object-fit: cover;    
+}

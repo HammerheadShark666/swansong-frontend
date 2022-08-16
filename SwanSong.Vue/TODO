@@ -1,0 +1,11 @@
+
+vue component testing
+ 
+Caching 
+
+VUE_APP_BASE_URL = https://swansong-api-uat.azurewebsites.net/api
+VUE_APP_BASE_URL = https://swansong-api-live.azurewebsites.net/api
+
+VUE_APP_BASE_URL = https://swansong-api.azurewebsites.net/api
+
+VUE_APP_BASE_URL = https://localhost:44343/api/
