@@ -107,7 +107,8 @@ export function delayAlertRemove() {
 export function getPages(list) {
     const pages = []
     list.forEach((item, index) => {
-        const page = Math. floor (index / 2);
+        // const page = Math. floor (index / 2);   
+        const page = Math. floor (index / 10);
         if (!pages[page]) {
             pages[page] = [];
         }

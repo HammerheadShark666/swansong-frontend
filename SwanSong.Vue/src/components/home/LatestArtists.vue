@@ -2,26 +2,30 @@
     <div>
         <el-row>
             <el-col>
-                <h6 class="column-title">Latest Artists</h6>
+                <h6 class="column-title">Artists</h6>
             </el-col> 
         </el-row>
-        <el-row v-for="(page, index) of pages" :key="index">        
-            <el-col
-                v-for="(artist, index) in page"
-                :key="index"
-                :span="11"
-                :offset="1"
-                >
-                <router-link :to="{ name: 'artists-artist', params:{artistId:artist.id} }" class="nav-link nav-link-artist" @click.prevent="closeDrawer()">
-                    <div class="artist-card">
-                        <div class="title-container">
-                            <span class="title">{{ artist.name }}</span>   
-                        </div> 
-                        <el-image v-if="artist.photo" class="list-artist-photo" v-bind:src="getImageUrl(artist.photo)"></el-image>
-                        <el-image v-else class="list-artist-photo" v-bind:src="getDefaultImageUrl()"></el-image>                     
-                    </div>       
-                </router-link>     
-            </el-col>        
+        <el-row v-for="(page, index) of pages" :key="index">    
+            <el-scrollbar>
+                <div class="scrollbar-flex-content">    
+                    <div
+                        v-for="(artist, index) in page"
+                        :key="index"
+                        :span="24"
+                        :offset="1"
+                        >
+                        <router-link :to="{ name: 'artists-artist', params:{artistId:artist.id} }" class="nav-link nav-link-artist" @click.prevent="closeDrawer()">
+                            <div class="artist-card">
+                                <div class="title-container">
+                                    <span class="title">{{ artist.name }}</span>   
+                                </div> 
+                                <el-image v-if="artist.photo" class="list-artist-photo" v-bind:src="getImageUrl(artist.photo)"></el-image>
+                                <el-image v-else class="list-artist-photo" v-bind:src="getDefaultImageUrl()"></el-image>                     
+                            </div>       
+                        </router-link>     
+                    </div>  
+                </div>
+            </el-scrollbar>         
             <div class="padding"></div>
         </el-row>
     </div>
@@ -95,18 +99,14 @@ export default defineComponent({
     padding-bottom: 0%;
 }
 
-.list-member-photo { 
-    width: 152px; 
-    height: 100px; 
-    background-color: black; 
-}
-
 h5 {
     color: white;
 }
  
 .nav-link-artist {
     padding: 0px!important;
+    width:152px;
+    margin-right: 5px;
 }
   
 .column-title {
@@ -143,5 +143,31 @@ h5 {
     margin-bottom:5px;
 }
 
+.list-artist-photo {
+    width:140px;
+    height: 90px;
+}
+
+.scrollbar-flex-content {
+  display: flex;
+}
+
+.scrollbar-demo-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 50px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 4px;
+  background: var(--el-color-danger-light-9);
+  color: var(--el-color-danger);
+}
+
+.el-scrollbar {
+    padding-bottom: 20px;
+}
 
 </style>

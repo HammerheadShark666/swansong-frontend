@@ -2,26 +2,69 @@
     <div>
         <el-row>
             <el-col>
-                <h6 class="column-title">Latest Albums</h6>
+                <h6 class="column-title">Albums</h6>
             </el-col> 
         </el-row>
-        <el-row v-for="(page, index) of pages" :key="index">        
-            <el-col
-                v-for="(album, index) in page"
-                :key="index"
-                :span="8"
-                :offset="1"
-                >
-                <router-link :to="{ name: 'albums-album', params:{albumId:album.id} }" class="nav-link nav-link-album" @click.prevent="closeDrawer()">
-                    <div class="album-card">
-                        <div class="title-container">
-                            <span class="title">{{ album.name }}</span>   
-                        </div> 
-                        <el-image v-if="album.photo" class="list-album-photo" v-bind:src="getImageUrl(album.photo)"></el-image>
-                        <el-image v-else class="list-album-photo" v-bind:src="getDefaultImageUrl()"></el-image>                     
-                    </div>       
-                </router-link>     
-            </el-col>        
+        <el-row v-for="(page, index) of pages" :key="index">    
+            <el-scrollbar>
+                <div class="scrollbar-flex-content">
+                    <div
+                        v-for="(album, index) in page"
+                        :key="index"
+                        :span="24"
+                        :offset="1"
+                        >
+                        <router-link :to="{ name: 'albums-album', params:{albumId:album.id} }" class="nav-link nav-link-album" @click.prevent="closeDrawer()">
+                            <el-popover
+                                placement="bottom-start" 
+                                :width="200"                        
+                                trigger="hover" 
+                            >
+                                <template #reference>
+                                    <el-card :body-style="{ padding: '0px', width: '100px' }">
+                                        <el-image v-if="album.photo" class="list-album-photo" v-bind:src="getImageUrl(album.photo)"></el-image>
+                                        <el-image v-else class="list-album-photo" v-bind:src="getDefaultImageUrl()"></el-image>  
+                                    </el-card>
+                                </template>
+                                <el-row>                             
+                                    <el-col :span="24">
+                                        <div class="popover-text">
+                                            <el-row>
+                                                <el-col :span="6">Title:</el-col>
+                                                <el-col :span="18" class="custom-wrap-text"><p>{{album.name}}</p></el-col>
+                                            </el-row> 
+                                        </div>
+                                    </el-col>    
+                                    <el-col :span="24">
+                                        <div class="popover-text">
+                                            <el-row>
+                                                <el-col :span="6">Artist:</el-col>
+                                                <el-col :span="18" class="custom-wrap-text">{{ album.artistName }}</el-col>
+                                            </el-row> 
+                                        </div>
+                                    </el-col>                        
+                                    <el-col :span="24">
+                                        <div class="popover-text">
+                                            <el-row>
+                                                <el-col :span="6">Tracks:</el-col>
+                                                <el-col :span="18">{{ album.tracks }}</el-col>
+                                            </el-row> 
+                                        </div>
+                                    </el-col>
+                                    <el-col :span="24">
+                                        <div class="popover-text">
+                                            <el-row>
+                                                <el-col :span="6">Length:</el-col>
+                                                <el-col :span="18">{{ album.length }}</el-col>
+                                            </el-row> 
+                                        </div>
+                                    </el-col>
+                                </el-row>                      
+                            </el-popover>                    
+                        </router-link>     
+                    </div>    
+                </div>
+            </el-scrollbar>     
             <div class="padding"></div>
         </el-row>
     </div>
@@ -95,9 +138,10 @@ export default defineComponent({
 }
 
 .list-album-photo { 
-    width: 107px; 
-    height: 108px; 
+    width: 105px;
+    height: 105px; 
     background-color: black; 
+    border: 1px black solid;
 }
 
 h5 {
@@ -105,7 +149,9 @@ h5 {
 }
  
 .nav-link-album {
-    padding: 0px!important;
+    padding: 5px!important;
+    width:127px;
+    height: 121px;
 }
   
 .column-title {
@@ -113,33 +159,44 @@ h5 {
     color: white;
     margin-left: 16px;
 }
-
-.title {
-    font-size: 12px;
-    color: black;    
-    margin-bottom: 2px;
-    line-height: 0;
-}
-
+  
 .padding {
     height: 10px;
     width: 100%;
 }
-
-.album-card {
-    padding: 1px 5px 1px 5px!important;
-    border: 1px solid #000;
-    background-color: white;
-}
   
-.album-card:hover {
-    background-color: #5ef1f167!important;
+.scrollbar-flex-content {
+  display: flex;
 }
 
-.title-container {
-    padding: 0px;
-    line-height:17px;
-    margin-bottom:5px;
+.scrollbar-demo-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 50px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 4px;
+  background: var(--el-color-danger-light-9);
+  color: var(--el-color-danger);
 }
+
+.el-card {
+    padding: 5px!important;
+    border-radius: 0!important;
+}
+
+.el-scrollbar {
+    padding-bottom: 20px;
+}
+
+.popover-text {
+    font-size: 12px;
+    color: black;
+    font-weight: bold;
+}
+
 
 </style>
