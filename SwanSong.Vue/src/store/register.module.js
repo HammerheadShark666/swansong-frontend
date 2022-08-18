@@ -25,7 +25,7 @@ export const register = {
 		},
 	},
 	actions: {
-        async register({ commit }, user) {
+    async register({ commit }, user) {
 
 			var data = {
 				title: "Mr",

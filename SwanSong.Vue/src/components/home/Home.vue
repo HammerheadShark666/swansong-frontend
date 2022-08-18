@@ -1,12 +1,6 @@
 <template>
     <div>  
-		<el-row :gutter="20" class="home-row"> 			 
-			<!-- <el-col :span="8">
-				<latest-artists></latest-artists>
-			</el-col>			
-			<el-col :span="8">
-				<latest-members></latest-members>
-			</el-col> -->
+		<el-row :gutter="20" class="home-row"> 		 
 			<el-col :span="24">
 				<latest-albums></latest-albums>
 			</el-col>
