@@ -203,3 +203,7 @@ h4 {
     margin-left: 7px!important;
 	object-fit: cover;    
 }
+
+.custom-wrap-text { 
+    word-break: break-all!important;
+}

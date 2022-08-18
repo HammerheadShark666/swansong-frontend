@@ -2,26 +2,30 @@
     <div>
         <el-row>
             <el-col>
-                <h6 class="column-title">Latest Members</h6>
+                <h6 class="column-title">Members</h6>
             </el-col> 
         </el-row>
         <el-row v-for="(page, index) of pages" :key="index">        
-            <el-col
-                v-for="(member, index) in page"
-                :key="index"
-                :span="11"
-                :offset="1" 
-                >
-                <router-link :to="{ name: 'members-member', params:{memberId:member.id} }" class="nav-link nav-link-member" @click.prevent="closeDrawer()">
-                    <div class="member-card">
-                        <div class="title-container">
-                            <span class="title">{{ member.stageName }}</span>   
-                        </div> 
-                        <el-image v-if="member.photo" class="list-member-photo" v-bind:src="getImageUrl(member.photo)"></el-image>
-                        <el-image v-else class="list-member-photo" v-bind:src="getDefaultImageUrl()"></el-image>                     
-                    </div>       
-                </router-link>     
-            </el-col>        
+            <el-scrollbar>
+                <div class="scrollbar-flex-content">    
+                    <div
+                        v-for="(member, index) in page"
+                        :key="index"
+                        :span="24"
+                        :offset="1" 
+                        >
+                        <router-link :to="{ name: 'members-member', params:{memberId:member.id} }" class="nav-link nav-link-member" @click.prevent="closeDrawer()">
+                            <div class="member-card">
+                                <div class="title-container">
+                                    <span class="title">{{ member.stageName }}</span>   
+                                </div> 
+                                <el-image v-if="member.photo" class="list-member-photo" v-bind:src="getImageUrl(member.photo)"></el-image>
+                                <el-image v-else class="list-member-photo" v-bind:src="getDefaultImageUrl()"></el-image>                     
+                            </div>       
+                        </router-link>     
+                    </div>
+                </div>  
+            </el-scrollbar>     
             <div class="padding"></div>
         </el-row>
     </div>
@@ -96,8 +100,8 @@ export default defineComponent({
 }
 
 .list-member-photo { 
-    width: 152px; 
-    height: 100px; 
+    width:140px;
+    height: 90px;
     background-color: black; 
 }
 
@@ -107,6 +111,8 @@ h5 {
  
 .nav-link-member {
     padding: 0px!important;
+    width:152px;
+    margin-right: 5px;
 }
   
 .column-title {
@@ -143,5 +149,27 @@ h5 {
     margin-bottom:5px;
 }
 
+
+.scrollbar-flex-content {
+  display: flex;
+}
+
+.scrollbar-demo-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 50px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 4px;
+  background: var(--el-color-danger-light-9);
+  color: var(--el-color-danger);
+}
+
+.el-scrollbar {
+    padding-bottom: 20px;
+}
 
 </style>
