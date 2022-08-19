@@ -103,6 +103,7 @@ export default defineComponent({
     width:140px;
     height: 90px;
     background-color: black; 
+    border: 1px solid black;
 }
 
 h5 {
