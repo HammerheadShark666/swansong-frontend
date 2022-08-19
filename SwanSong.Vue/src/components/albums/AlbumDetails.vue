@@ -64,10 +64,7 @@
                             :value="studio.id">
                         </el-option>
                     </el-select>
-                </el-form-item>
-                <el-form-item label="Length" prop="length">
-                    <el-input placeholder="mm:ss" v-model="album.length" maxlength="5" class="album-length-select"></el-input>
-                </el-form-item>           
+                </el-form-item> 
                 <el-form-item label="Producers" prop="producers">
                     <el-input placeholder="Producers" maxlength="250" show-word-limit v-model="album.producers"></el-input>
                 </el-form-item>          
@@ -87,7 +84,7 @@
 <script>
 
 import { defineComponent } from 'vue'   
-import { validateLength, delayAlertRemove } from '../../helpers/helper' 
+import { delayAlertRemove } from '../../helpers/helper'
 import { emitter } from '../../main'  
 import Alerts from '../library/Alerts.vue' 
 
@@ -105,10 +102,7 @@ export default defineComponent({
                 name: [	{ required: true, message: 'Please input name' },		
                         { min: 5, max: 150, message: 'Length should be 5 to 150' } ],	
                 artistId: [ { required: true, message: 'Please select an artist' }, 
-                            { validator: this.artistSelected } ],		
-                length: [ { required: true, message: 'Please input length' },
-                            { min: 5, max: 5, message: 'Length should be 5' },
-                            { validator: this.confirmLengthCorrect } ],				       
+                            { validator: this.artistSelected } ],	   
                 producers: [ { min: 1, max: 250, message: 'Length should be 1 to 250', trigger: 'change' } ],
                 arrangers: [ { min: 1, max: 250, message: 'Length should be 1 to 250', trigger: 'change' } ],
                 artwork: [ { min: 1, max: 100, message: 'Length should be 1 to 100', trigger: 'change' } ],
@@ -177,12 +171,7 @@ export default defineComponent({
         },
         loadArtistInTitleBar(key) {    
             this.$store.dispatch("album/updateArtistName", key); 
-        },
-        confirmLengthCorrect(rule, value, callback) {
-            if(!validateLength(value))
-                callback(new Error("Please input correct length, 'mm:ss'"));                            
-            callback();
-        },
+        },        
         artistSelected(rule, value, callback) {
             if(value != null)
                 callback();
