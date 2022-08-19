@@ -146,6 +146,8 @@ h5 {
 .list-artist-photo {
     width:140px;
     height: 90px;
+    background-color: black;
+    border: 1px solid black;
 }
 
 .scrollbar-flex-content {
