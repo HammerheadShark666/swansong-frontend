@@ -22,7 +22,7 @@ const mutation = {
 const getAlbum = () => {
     return {
         id: 0, name: "", releaseDate: null, recordedDate: null, labelId: null, 
-        recordedAtId: null, length: "45:12", producers: "", arrangers: "", engineers: "",
+        recordedAtId: null, producers: "", arrangers: "", engineers: "",
         artwork: "", artistId: null, photo: null
     }     
 }
@@ -193,9 +193,7 @@ export const album = {
         async savePhoto ({ commit }, { albumId, formData }) {
             return new Promise(async (resolve, reject) => {
                 await ajax.post('/albums/album/upload-photo/' + albumId, formData,  {
-                    headers: {
-                       // 'Content-Type': 'multipart/form-data'
-                    }  
+                    headers: {}  
                     }).then(response => {
                         commit(mutation.SET_ALBUM_PHOTO, response.data);  
                         resolve();
