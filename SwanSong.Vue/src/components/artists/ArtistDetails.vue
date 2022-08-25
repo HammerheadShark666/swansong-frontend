@@ -50,7 +50,7 @@
                 </el-select>
             </el-form-item>  
             <el-form-item class="form-item-button form-item-buttons">                    
-                <el-button type="primary" class="save-artist-button" @click="submitForm('artistDetailsForm')">Save</el-button>
+                <el-button type="primary" :disabled="disabled" class="save-artist-button" @click="submitForm('artistDetailsForm')">Save</el-button>
             </el-form-item>        
         </el-form>
     </el-card>
@@ -73,6 +73,7 @@ export default defineComponent({
         return {        
             artistId: 0,
             messages: [],
+            disabled: false,
             labelPosition: 'left',   
             rules: {				
                 name: [ { required: true, message: 'Please input name' },		
@@ -141,10 +142,11 @@ export default defineComponent({
             this.messages = [];
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
+                        this.disabled = true;
                         this.$store.dispatch("artist/saveArtist").then(
 						(response) => {			
                             this.messages = response.data.messages;	 
-
+                            this.resetForm();
                             if(this.$router.currentRoute.value.path == "/artists/artist/add")
                                 this.$router.push("/artists/artist/" + this.artist.id);               
  
@@ -155,6 +157,7 @@ export default defineComponent({
 						},
 						(error) => { 
                             this.messages = error.data;
+                            this.disabled = false;
 						});
                 }
             })
@@ -169,6 +172,9 @@ export default defineComponent({
             }
 
             callback();
+        },
+        resetForm() {   
+            this.disabled = false;
         }
     } 
 })

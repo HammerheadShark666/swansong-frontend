@@ -25,7 +25,7 @@
                     <el-input type="password" show-password v-model="changePasswordForm.confirmpassword"></el-input>
                 </el-form-item>	
                 <el-form-item class="form-item-button form-item-buttons">                    
-                    <el-button type="primary" class="save-change-password-button" @click="submitForm()">Save</el-button>
+                    <el-button type="primary" :disabled="disabled" class="save-change-password-button" @click="submitForm()">Save</el-button>
                 </el-form-item>    
         </el-form>   
 	</el-card>
@@ -44,6 +44,7 @@ export default defineComponent({
         return {   
 			messages: [],	
 			message: "",
+            disabled: false,
             changePasswordForm: {
                 currentpassword: '', 
                 password: '', 
@@ -67,21 +68,23 @@ export default defineComponent({
     },
     methods: {	
         submitForm() {
-            this.messages = [];
+            this.messages = [];            
             this.$refs.changePasswordForm.validate((valid) => {
 				if (valid) {
-                        this.$store.dispatch("profilePasswordChange/savePasswordChange", this.changePasswordForm).then(
-						(response) => {			
-                            this.messages = response.data.messages;
-                            this.$store.dispatch("profilePasswordChange/clearPasswords");	   
-                            delayAlertRemove().then(function() {
-                                this.messages = [];                                      
-                            }.bind(this));            
-						},
-						(error) => { 
-                            this.messages = error.data;
-						});
-                }
+                    this.disabled = true;
+                    this.$store.dispatch("profilePasswordChange/savePasswordChange", this.changePasswordForm).then(
+                    (response) => {			
+                        this.messages = response.data.messages;
+                        this.resetForm();    
+                        delayAlertRemove().then(function() {
+                            this.messages = [];                                      
+                        }.bind(this));            
+                    },
+                    (error) => { 
+                        this.messages = error.data;
+                        this.disabled = false;
+                    });
+                } 
             })
         },	
 		confirmPasswordsSame(rule, value, callback) {
@@ -92,7 +95,12 @@ export default defineComponent({
 			} else {
 				callback();
 			}
-		}	
+        },
+        resetForm() {  
+            this.$refs["changePasswordForm"].resetFields();
+            this.disabled = false;
+        }
+
 	},
 })
 

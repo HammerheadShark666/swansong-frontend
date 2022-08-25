@@ -39,7 +39,7 @@
 											</el-col>		
 										<el-col :span="12" class="reg-col">
 											<el-form-item class="form-item-button">
-												<el-button type="primary" class="request-reset-password-button" @click="submitForm()">Send</el-button>
+												<el-button :disabled="disabled" type="primary" class="request-reset-password-button" @click="submitForm()">Send</el-button>
 											</el-form-item>
 										</el-col>
 									</el-row>	
@@ -63,10 +63,11 @@ export default {
           
 		return {
 			successful: false, 
+			disabled: false,
 			messages: [],			
-			labelPosition: 'top',
+			labelPosition: 'top', 
 			requestResetPasswordForm: {
-				email: '@hotmail.com'
+				email: ''
 			},
 			rules: { email: [ 	{required: true, message: 'Please input Email', trigger: 'blur'},
 								{min: 5, max: 150, message: 'Length should be 5 to 150', trigger: 'blur'},
@@ -78,26 +79,31 @@ export default {
     },	
 	methods: {
 		submitForm() {
-
-			var email = this.requestResetPasswordForm.email;
-
 			this.$refs.requestResetPasswordForm.validate((valid) => {
 				if (valid) {
+					this.disabled = true;
 					this.messages = [];
-					this.successful = false; 
+					this.successful = false;  
+					var email = this.requestResetPasswordForm.email;			
 
 					this.$store.dispatch("forgottenPassword/forgottenPassword", email).then(
 						() => {							
-							this.successful = true;
+							this.successful = true;	
+							this.resetForm();						
 							this.messages.push({ message: "A reset password email has been sent", severity:"info" });
 						},
 						(error) => {	
-							this.messages = error;
+							this.messages = error; 
+							this.disabled = false;
 						});
 				} else { 
 					return false;
 				}
 			})
+		},
+		resetForm() {
+			this.$refs["requestResetPasswordForm"].resetFields(); 
+			this.disabled = false;
 		}		
 	},
 };

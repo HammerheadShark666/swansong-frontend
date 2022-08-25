@@ -41,7 +41,7 @@
 									<el-row>
 										<el-col :span="24" class="reg-col">
 											<el-form-item class="form-item-button">
-												<el-button type="primary" class="reset-password-button" @click="submitForm()">Send</el-button>
+												<el-button :disabled="disabled" type="primary" class="reset-password-button" @click="submitForm()">Send</el-button>
 											</el-form-item>
 										</el-col>
 									</el-row>	
@@ -66,9 +66,10 @@ export default {
 			successful: false, 
 			messages: [],			
 			labelPosition: 'top', 
+			disabled: false,
 			resetPasswordForm: {
-				password: 'Password#1',				
-				confirmPassword: 'Password#1',
+				password: '',				
+				confirmPassword: '',
 				token: ''
 			},
 			rules: {
@@ -90,14 +91,17 @@ export default {
 		submitForm() { 
 			this.$refs.resetPasswordForm.validate((valid) => {
 				if (valid) {
+					this.disabled = true;
 					this.messages = [];
-					this.successful = false; 		 
+					this.successful = false; 						
 					this.$store.dispatch("forgottenPassword/resetPassword", this.resetPasswordForm).then(
 						() => {							
 							this.successful = true;
+							this.resetForm();	 
 						},
 						(error) => {			 
 							this.messages = error.data;
+							this.disabled = false;
 						});
 				} else { 
 					return false;
@@ -112,6 +116,9 @@ export default {
 			} else {
 				callback();
 			}
+		},
+		resetForm() {
+			this.$refs["resetPasswordForm"].resetFields(); 
 		}		
 	},
 };

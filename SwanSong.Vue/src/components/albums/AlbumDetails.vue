@@ -75,7 +75,7 @@
                     <el-input placeholder="Artwork" maxlength="100" show-word-limit v-model="album.artwork"></el-input>
                 </el-form-item>           
                 <el-form-item class="form-item-button form-item-buttons">                    
-                    <el-button type="primary" class="save-album-button" @click="submitForm('albumDetailsForm')">Save</el-button>
+                    <el-button type="primary" :disabled="disabled" class="save-album-button" @click="submitForm('albumDetailsForm')">Save</el-button>
                 </el-form-item>     
         </el-form>    
     </el-card>
@@ -97,6 +97,7 @@ export default defineComponent({
         return {        
             albumId: 0, 
             messages: [],
+            disabled: false,
             labelPosition: 'left',   
             rules: {				
                 name: [	{ required: true, message: 'Please input name' },		
@@ -153,9 +154,11 @@ export default defineComponent({
             this.messages = [];
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
+                        this.disabled = true;
                         this.$store.dispatch("album/saveAlbum").then(
 						(response) => {	 
                             this.messages = response.data.messages;	 
+                            this.resetForm();
                             delayAlertRemove().then(function() {
                                 this.messages = [];
                             }.bind(this));
@@ -165,6 +168,7 @@ export default defineComponent({
 						},
 						(error) => {  
                             this.messages = error.data;
+                            this.disabled = false;
 						}).bind(this)        
                 }
             })
@@ -176,6 +180,9 @@ export default defineComponent({
             if(value != null)
                 callback();
             callback(new Error("Please select an artist")); 
+        },
+        resetForm() {   
+            this.disabled = false;
         }
     } 
 })

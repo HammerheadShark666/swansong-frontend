@@ -3,9 +3,7 @@ import ajax from '../helpers/http-common'
 
 const mutation = { 
 	REGISTER_SUCCESS: "REGISTER_SUCCESS",  
-	REGISTER_FAILURE: "REGISTER_FAILURE",
-	VERIFY_REGISTRATION_TOKEN_SUCCESS: "VERIFY_REGISTRATION_TOKEN_SUCCESS",
-	VERIFYING_REGISTRATION_TOKEN: "VERIFYING_REGISTRATION_TOKEN"
+	REGISTER_FAILURE: "REGISTER_FAILURE"
 }
 
 const user = JSON.parse(localStorage.getItem('user'));
@@ -49,14 +47,10 @@ export const register = {
 						})    
 			})
 		},
-		async verifyRegistrationToken({ commit }, token) {
-						
-			commit(mutation.VERIFYING_REGISTRATION_TOKEN);					 
-
+		async verifyRegistrationToken( commit, token) {			
 			return new Promise(async (resolve, reject) => {
 				await ajax.post(`/register/verify-email/`, { token: token })
 						.then(response => {
-							commit(mutation.VERIFY_REGISTRATION_TOKEN_SUCCESS, response.data);
 							resolve(response.data.message);
 						})
 						.catch(error => {

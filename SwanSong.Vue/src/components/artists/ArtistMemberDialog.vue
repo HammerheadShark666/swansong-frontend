@@ -56,7 +56,7 @@
                     </el-form-item> 
                     <div class="form-item-button form-item-buttons">  
                         <el-button type="primary" class="cancel-member-button" @click="closeDialog">Cancel</el-button>     
-                        <el-button class="member-save-button" type="primary" @click="submitForm('memberForm')">Save</el-button>
+                        <el-button class="member-save-button" :disabled="disabled" type="primary" @click="submitForm('memberForm')">Save</el-button>
                     </div>
                 </el-form>
             </el-card>
@@ -81,6 +81,7 @@ export default defineComponent({
             formLabelWidth: '100px', 
             fileList: [],
             messages: [], 	
+            disabled: false,
 			labelPosition: 'left',	 
             memberState: 'Add',          
 			rules: {
@@ -119,9 +120,11 @@ export default defineComponent({
             this.messages = [];
 			this.$refs[formName].validate((valid) => {
 				if (valid) { 
+                    this.disabled = true;
 					this.$store.dispatch("member/saveMember").then(
 						(response) => {
                             this.messages = response.messages;
+                            this.resetForm();
                             delayAlertRemove().then(function() {
                                 this.messages = [];                                
                             }.bind(this));  
@@ -130,6 +133,7 @@ export default defineComponent({
 						},
 						(error) => {
                             this.messages = error.data;
+                            this.disabled = false;
 						});
 				} else { 
 					return false
@@ -152,7 +156,10 @@ export default defineComponent({
         },
         openDialog() {
             this.showDialog = true;
-        } 
+        },
+        resetForm() {   
+            this.disabled = false;
+        }
      }
 });
 
