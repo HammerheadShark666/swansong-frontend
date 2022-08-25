@@ -17,21 +17,21 @@
             :model="profile"
             label-width="120px">    
  
-            <el-form-item label="First Name" prop="firstName">
-                <el-input placeholder="First Name" maxlength="32" show-word-limit v-model="profile.firstName"></el-input>
-            </el-form-item>    
+                <el-form-item label="First Name" prop="firstName">
+                    <el-input placeholder="First Name" maxlength="32" show-word-limit v-model="profile.firstName"></el-input>
+                </el-form-item>    
 
-             <el-form-item label="Last Name" prop="lastName">
-                <el-input placeholder="Last Name" maxlength="100" show-word-limit v-model="profile.lastName"></el-input>
-            </el-form-item>    
+                <el-form-item label="Last Name" prop="lastName">
+                    <el-input placeholder="Last Name" maxlength="100" show-word-limit v-model="profile.lastName"></el-input>
+                </el-form-item>    
 
-            <el-form-item label="Email/Username" prop="email">
-                <el-input type="email" placeholder="Email" show-word-limit v-model="profile.email"></el-input>
-            </el-form-item>    
-  
-            <el-form-item class="form-item-button form-item-buttons">                    
-                <el-button type="primary" class="save-profile-details-button" @click="submitForm('profileDetailsForm')">Save</el-button>
-            </el-form-item>   
+                <el-form-item label="Email/Username" prop="email">
+                    <el-input type="email" placeholder="Email" show-word-limit v-model="profile.email"></el-input>
+                </el-form-item>    
+    
+                <el-form-item class="form-item-button form-item-buttons">                    
+                    <el-button type="primary" :disabled="disabled" class="save-profile-details-button" @click="submitForm('profileDetailsForm')">Save</el-button>
+                </el-form-item>   
         </el-form>   
 	</el-card>
 </template>
@@ -51,7 +51,8 @@ export default defineComponent({
     data() {
         return {   
             messages: [],  
-            labelPosition: 'left',         
+            labelPosition: 'left',   
+            disabled: false,      
             rules: { 	email: [{required: true, message: 'Please input Email', trigger: 'blur'},
 								{min: 5, max: 150, message: 'Length should be 5 to 150', trigger: 'blur'},
 								{type: 'email', message: 'Please input correct Email'}],
@@ -77,9 +78,11 @@ export default defineComponent({
             this.messages = [];
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
+                        this.disabled = true;
                         this.$store.dispatch("profile/saveProfile").then(
 						(response) => {			
                             this.messages = response.data.messages;	  
+                            this.resetForm();
                             delayAlertRemove().then(function() {
                                 this.messages = [];  
                                 this.$store.dispatch("profile/clearMessages");   
@@ -87,10 +90,15 @@ export default defineComponent({
 						},
 						(error) => { 
                             this.messages = error.data;
+                            this.disabled = false;
 						});
                 }
             })
         },
+        resetForm() {  
+            this.$refs["profileDetailsForm"].resetFields();
+            this.disabled = false;
+        }
     }
 })
 

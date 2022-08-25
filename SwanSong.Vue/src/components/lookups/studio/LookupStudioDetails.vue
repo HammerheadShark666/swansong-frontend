@@ -30,7 +30,7 @@
                                 </el-button>
                             </template>
                     </el-popconfirm>      
-                    <el-button type="primary" class="save-studio-button" @click="saveStudioOnClick('studioDetailsForm')">Save</el-button>
+                    <el-button type="primary" :disabled="disabled" class="save-studio-button" @click="saveStudioOnClick('studioDetailsForm')">Save</el-button>
                 </el-col>
             </el-row>
         </el-form>
@@ -54,6 +54,7 @@ export default defineComponent({
         return {        
             studioId: 0,
             messages: [],
+            disabled: false,
             labelPosition: 'left',   
             rules:  {				
                 name: [	{ required: true, message: 'Name is required' },		
@@ -80,19 +81,21 @@ export default defineComponent({
     methods: {     
         
         saveStudioOnClick(formName) {
-            this.messages = [];
+            this.messages = [];            
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
+                    this.disabled = true;
                     this.$store.dispatch("studio/saveStudio").then(
                     (response) => {			
                         this.messages = response.data.messages;
-                        this.$refs['studioDetailsForm'].resetFields(); 
+                        this.resetForm();
                         delayAlertRemove().then(function() {
                             this.messages = [];                               
                         }.bind(this));                             
                     },
                     (error) => { 
                         this.messages = error.data;
+                        this.disabled = false;
                     });
                 }
             })
@@ -110,6 +113,10 @@ export default defineComponent({
                 (error) => {  
                     this.messages = error.data;
                 });
+        },
+        resetForm() {  
+            this.$refs['studioDetailsForm'].resetFields(); 
+            this.disabled = false;
         }
     } 
 })

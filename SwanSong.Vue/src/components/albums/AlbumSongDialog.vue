@@ -54,7 +54,7 @@
                         </el-form-item>
                         <div class="form-item-button form-item-buttons">  
                             <el-button type="primary" class="cancel-save-button" @click="closeOnClick">Cancel</el-button>     
-                            <el-button class="song-save-button" type="primary" @click="submitForm('songForm')">Save</el-button>
+                            <el-button :disabled="disabled" class="song-save-button" type="primary" @click="submitForm('songForm')">Save</el-button>
                         </div>
                 </el-form> 
             </el-card>           
@@ -78,6 +78,7 @@ export default defineComponent({
             messages: [], 	
 			labelPosition: 'left',
             songState: 'Add',
+            disabled: false,  
 			rules: {				
                 'song.title': [ { required: true, message: 'Please input title', trigger: 'blur' },
                                 { max: 150, message: 'Title can be up to 150 characters', trigger: 'blur' } 
@@ -132,9 +133,11 @@ export default defineComponent({
             this.messages = [];
 			this.$refs[formName].validate((valid) => {
 				if (valid) { 
+                    this.disabled = true;
 					this.$store.dispatch("albumSong/saveAlbumSong").then(
 						(response) => {
                             this.messages = response.messages; 
+                            this.resetForm();
                             delayAlertRemove().then(function() {
                                 this.messages = [];                                
                             }.bind(this));  
@@ -143,6 +146,7 @@ export default defineComponent({
 						},
 						(error) => {
                             this.messages = error.data;
+                            this.disabled = false;
 						});
 				} else { 
 					return false
@@ -166,6 +170,9 @@ export default defineComponent({
             if(!validateLength(value))
                 callback(new Error("Please input correct length, 'mm:ss'"));                            
             callback();
+        },
+        resetForm() {   
+            this.disabled = false;
         }
      }
 });

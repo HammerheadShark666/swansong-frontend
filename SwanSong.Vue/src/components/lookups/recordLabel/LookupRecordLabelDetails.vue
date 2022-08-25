@@ -30,7 +30,7 @@
                                 </el-button>
                             </template>
                     </el-popconfirm>      
-                    <el-button type="primary" class="save-record-label-button" @click="saveRecordLabelOnClick('recordLabelDetailsForm')">Save</el-button>
+                    <el-button type="primary" :disabled="disabled" class="save-record-label-button" @click="saveRecordLabelOnClick('recordLabelDetailsForm')">Save</el-button>
                 </el-col>
             </el-row>
         </el-form>
@@ -54,6 +54,7 @@ export default defineComponent({
         return {        
             recordLabelId: 0,
             messages: [],
+            disabled: false,
             labelPosition: 'left',   
             rules: {				
                 name: [	{ required: true, message: 'Name is required' },		
@@ -83,16 +84,18 @@ export default defineComponent({
             this.messages = [];
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
+                    this.disabled = true;
                     this.$store.dispatch("recordLabel/saveRecordLabel").then(
                     (response) => {			
                         this.messages = response.data.messages;
-                        this.$refs['recordLabelDetailsForm'].resetFields(); 
+                        this.resetForm();
                         delayAlertRemove().then(function() {
                             this.messages = [];                               
                         }.bind(this));                             
                     },
                     (error) => { 
                         this.messages = error.data;
+                        this.disabled = false;
                     });
                 }
             })
@@ -110,6 +113,10 @@ export default defineComponent({
 						(error) => {  
                             this.messages = error.data; 
 						});
+        },
+        resetForm() {  
+            this.$refs['recordLabelDetailsForm'].resetFields(); 
+            this.disabled = false;
         }
     } 
 })

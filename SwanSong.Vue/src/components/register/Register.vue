@@ -54,7 +54,7 @@
 												</router-link>
 											</el-col>											
 											<el-col :span="12" class="reg-col">												
-												<el-button class="register-button" type="primary" @click="submitForm()">Register</el-button>												
+												<el-button :disabled="disabled" class="register-button" type="primary" @click="submitForm()">Register</el-button>												
 											</el-col>
 										</el-row>	
 									</el-form>
@@ -86,12 +86,13 @@ export default {
 			messages: [],	
 			message: "",	
 			labelPosition: 'top',
+			disabled: false,
 			registerForm: {
-				email: '@hotmail.com',
-				firstname: 'test',
-				lastname: 'test',
-				password: 'Password#1',
-				confirmpassword: 'Password#1'
+				email: '',
+				firstname: '',
+				lastname: '',
+				password: '',
+				confirmpassword: ''
 			},			 
 			rules: { 	email: [{required: true, message: 'Please input Email', trigger: 'blur'},
 								{min: 5, max: 150, message: 'Length should be 5 to 150', trigger: 'blur'},
@@ -127,15 +128,17 @@ export default {
 					this.message = "";
 					this.messages = [];
 					this.successful = false; 
+					this.disabled = true;
 
 					this.$store.dispatch("register/register", this.registerForm).then(
 						(data) => {  							 
 							this.messages = data.messages;
-							this.successful = true;  
+							this.successful = true;   
 						},
 						(error) => {
 							this.messages = error.data;
 							this.successful = false; 
+							this.disabled = false;
 						});
 				} else { 
 					return false
@@ -150,7 +153,11 @@ export default {
 			} else {
 				callback();
 			}
-		}	
+		},
+		resetForm() {  
+            this.$refs["registerForm"].resetFields();
+            this.disabled = false;
+        }	
 	},
 };
 </script>
