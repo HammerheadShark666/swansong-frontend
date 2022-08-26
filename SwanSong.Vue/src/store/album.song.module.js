@@ -1,5 +1,6 @@
 /* eslint-disable no-async-promise-executor */
 import ajax from '../helpers/http-common'
+import { cloneDeep } from 'lodash-es'
 
 const mutation = {
     
@@ -123,7 +124,7 @@ export const albumSong = {
             commit(mutation.SET_ALBUM_SONG_DETAILS, getAlbumSong(albumId));  
         },      
         editAlbumSong({ commit }, albumSong) {
-            commit(mutation.SET_ALBUM_SONG_DETAILS, albumSong);    
+            commit(mutation.SET_ALBUM_SONG_DETAILS, cloneDeep(albumSong));    
         },  
         clearAlbumSongs ({ commit }) {
             commit(mutation.CLEAR_ALBUM_SONGS);
