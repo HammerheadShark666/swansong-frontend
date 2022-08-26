@@ -6,7 +6,7 @@ const mutation = {
 	VERIFYING_REGISTRATION_TOKEN: "VERIFYING_REGISTRATION_TOKEN"
 }
 
-const user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(sessionStorage.getItem('user'));
 const initialState = user
   ? { status: { loggedIn: true, registrationVerified: false, registrationIsBeenVerified: false }, user }
   : { status: { loggedIn: false, registrationVerified: false, registrationIsBeenVerified: false }, user: null };
