@@ -1,20 +1,20 @@
 import axios from 'axios';  
 import router from '../router';
 import store from '../store'; 
-import { getLocalAccessToken, getLocalRefreshToken } from "./authenticationHelper"
+import { getAccessToken, getRefreshToken } from "./authenticationHelper"
   
 function refreshToken() {
-	return ajax.post(`refresh-token`, getLocalRefreshToken())
+	return ajax.post(`refresh-token`, getRefreshToken())
 				.then(response => {   
 					if ((response.status === 400) && (response.data.Message === "Invalid token") && (response.config.url == "refresh-token")) {
-						localStorage.removeItem('user');    
+						sessionStorage.removeItem('user');    
 						store.dispatch('authentication/logout');
 						router.replace({
 							path: '/login',
 							query: {redirect: router.currentRoute.fullPath}
 						});
 					} else if (response.data.jwtToken) {
-						localStorage.setItem('user', JSON.stringify(response.data));
+						sessionStorage.setItem('user', JSON.stringify(response.data));
 					}
 				})
 }
@@ -28,7 +28,7 @@ ajax.isCancel = axios.isCancel
   
 ajax.interceptors.request.use(
 	(config) => {
-		const token = getLocalAccessToken();
+		const token = getAccessToken();
 		if (token) {			
 			config.headers['Authorization'] = `Bearer ${ token }`
 		}
@@ -70,7 +70,7 @@ ajax.interceptors.response.use(
 	
 						//After refreshing token, rerun api call
 						const config = error.config;
-						config.headers = { Authorization: `Bearer ${ getLocalAccessToken() }` }
+						config.headers = { Authorization: `Bearer ${ getAccessToken() }` }
 
 						return new Promise((resolve, reject) => {
 							axios.request(config).then(response => {
@@ -81,7 +81,7 @@ ajax.interceptors.response.use(
 						});
 					} catch (_error) {
 						if ((_error.response) && (_error.response.data)) { 
-							localStorage.removeItem('user');
+							sessionStorage.removeItem('user');
 							router.push('/login');
 							return Promise.reject(_error.response.data);
 						}

@@ -1,6 +1,6 @@
 
-export function getLocalAccessToken() {
-	let user = window.localStorage.getItem("user");
+export function getAccessToken() {
+	let user = window.sessionStorage.getItem("user");
 	user = JSON.parse(user);
 	if ((user) && (user.jwtToken)) {
 		return user.jwtToken;
@@ -8,8 +8,8 @@ export function getLocalAccessToken() {
 	return "";
 }
 
-export function getLocalRefreshToken() {
-	let user = window.localStorage.getItem("user");
+export function getRefreshToken() {
+	let user = window.sessionStorage.getItem("user");
 	user = JSON.parse(user);
 	if ((user) && (user.refreshToken)) {
 		return { 

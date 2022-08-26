@@ -9,7 +9,7 @@ const mutation = {
 	REGISTER_FAILURE: "REGISTER_FAILURE", 
 }
 
-const user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(sessionStorage.getItem('user'));
 const initialState = user
   ? { status: { loggedIn: true, registrationVerified: false, registrationIsBeenVerified: false }, user }
   : { status: { loggedIn: false, registrationVerified: false, registrationIsBeenVerified: false }, user: null };
@@ -38,7 +38,7 @@ export const authentication = {
 						.then(response => {
 							
 							if (response.data.jwtToken) {
-								localStorage.setItem('user', JSON.stringify(response.data));
+								sessionStorage.setItem('user', JSON.stringify(response.data));
 							}				 
 							commit(mutation.LOGIN_SUCCESS, response.data);  
 							dispatch("profile/getProfile", '', { root:true });   
@@ -51,7 +51,7 @@ export const authentication = {
 			})
 		},
 		logout({ commit }) {
-			localStorage.removeItem('user');
+			sessionStorage.removeItem('user');
 			commit(mutation.LOGOUT);
 		},	 
 	}	
