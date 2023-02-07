@@ -22,12 +22,15 @@
                         cancelButtonText="No"
                         icon="el-icon-info"
                         iconColor="red"
-                        title="Are you sure to delete this?"
+                        width="300px"
+                        title="Are you sure to delete this country?"
                         @confirm="deleteCountryOnClick">
-                            <template #reference>
+                            <template #reference>                                
                                 <el-button  type="primary" class="delete-country-button">
-                                    Delete Country
-                                </el-button>
+                                    <el-icon style="vertical-align: middle;">
+                                        <Delete />
+                                    </el-icon>  
+                                </el-button>  
                             </template>
                     </el-popconfirm>      
                     <el-button type="primary" :disabled="disabled" class="save-country-button" @click="saveCountryOnClick('countryDetailsForm')">Save</el-button>
@@ -43,12 +46,14 @@ import { defineComponent } from 'vue'
 import { delayAlertRemove } from '../../../helpers/helper'
 import Alerts from '../../library/Alerts.vue'
 import { emitter } from '../../../main' 
+import { Delete } from '@element-plus/icons'
 
 export default defineComponent({
    
     el: 'CountryDetails', 
     components:{  
-        'alerts': Alerts
+        'alerts': Alerts,
+        Delete
     }, 
     data() {
         return {        

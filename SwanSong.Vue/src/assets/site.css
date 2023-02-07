@@ -207,3 +207,18 @@ h4 {
 .custom-wrap-text { 
     word-break: break-all!important;
 }
+
+.el-dialog__headerbtn {
+    top: 0px!important;
+    width: 24px;
+    height: 24px;
+}
+
+.el-dialog__body {
+    padding-top: 10px!important;
+}
+            
+#album-songs-table .el-table__footer-wrapper .el-table_1_column_2 div {
+    text-align: right;
+    padding-right: 25px!important;
+}
