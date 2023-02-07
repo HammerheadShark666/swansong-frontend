@@ -23,5 +23,5 @@ export function getDefaultMemberImageUrl() {
 }
 
 export function getLogoImageUrl() {
-  return `${process.env.VUE_APP_IMAGE_STORAGE}` + '/' + `${process.env.VUE_APP_SITE_IMAGES}` + '/SwanSongLogo2.PNG' 
+  return `${process.env.VUE_APP_IMAGE_STORAGE}` + '/' + `${process.env.VUE_APP_SITE_IMAGES}` + '/SwanSongLogo2.png' 
 }
