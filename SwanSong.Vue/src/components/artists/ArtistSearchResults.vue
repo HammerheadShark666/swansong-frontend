@@ -22,11 +22,11 @@
                         <template #default="props"> 
                             <router-link :to="{ name: 'artists-artist', params:{artistId:props.row.id} }" class="nav-link nav-link-search" @click.prevent="closeDrawer()"> 
                                 <el-row :gutter="10">                           
-                                    <el-col :span="4">    
+                                    <el-col :span="5">    
                                         <el-image v-if="props.row.photo" class="search-artist-photo" v-bind:src="getImageUrl(props.row.photo)"></el-image>
                                         <el-image v-else class="search-artist-photo" v-bind:src="getDefaultImageUrl()"></el-image>
                                     </el-col>
-                                    <el-col :span="20" class="artist-text-container">    
+                                    <el-col :span="19" class="artist-text-container">    
                                         <h6 class="artist-title">{{ props.row.name }}</h6>
                                     </el-col>                 
                                 </el-row>        

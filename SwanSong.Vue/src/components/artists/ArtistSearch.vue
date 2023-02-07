@@ -25,8 +25,10 @@
                             </el-col>
                             <el-col :span="4">
                                 <el-form-item class="form-item-button">
-                                    <el-button type="primary" class="search-button" @click="submitForm('artistSearchForm')">
-                                         <i class="el-icon-search"></i>   
+                                    <el-button type="primary" class="search-button" @click="submitForm('artistSearchForm')">                                        
+                                        <el-icon style="vertical-align:middle;">
+                                            <search />
+                                        </el-icon>
                                     </el-button>
                                 </el-form-item>     
                             </el-col>
@@ -100,7 +102,7 @@ import SearchByLetterSelector from '../library/SearchByLetterSelector.vue'
 .search-button { 
     border-radius:0%;
     float:right;
-    height:39px;
+    /* height:39px; */
 }
 
 .search-form {
