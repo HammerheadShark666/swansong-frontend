@@ -22,12 +22,15 @@
                         cancelButtonText="No"
                         icon="el-icon-info"
                         iconColor="red"
-                        title="Are you sure to delete this?"
+                        width="270px"
+                        title="Are you sure to delete this studio?"
                         @confirm="deleteStudioOnClick">
                             <template #reference>
                                 <el-button  type="primary" class="delete-studio-button">
-                                    Delete Studio
-                                </el-button>
+                                    <el-icon style="vertical-align: middle;">
+                                        <Delete />
+                                    </el-icon>  
+                                </el-button>  
                             </template>
                     </el-popconfirm>      
                     <el-button type="primary" :disabled="disabled" class="save-studio-button" @click="saveStudioOnClick('studioDetailsForm')">Save</el-button>
@@ -43,12 +46,14 @@ import { defineComponent } from 'vue'
 import { delayAlertRemove } from '../../../helpers/helper'
 import Alerts from '../../library/Alerts.vue'
 import { emitter } from '../../../main' 
+import { Delete } from '@element-plus/icons'
 
 export default defineComponent({
    
     el: 'StudioDetails', 
     components:{  
-        'alerts': Alerts
+        'alerts': Alerts,
+        Delete
     }, 
     data() {
         return {        

@@ -71,25 +71,30 @@
                 <el-table-column 
                     label=""
                     width="35">
-                    <template #default="scope">
-                        <i class="el-icon-edit" @click="editArtistMemberOnClick(scope.row)"></i>
+                    <template #default="scope">                       
+                        <el-icon style="vertical-align: middle;" @click="editArtistMemberOnClick(scope.row)">
+                            <Edit />
+                        </el-icon>
                     </template>
                 </el-table-column>   
                 <el-table-column 
                     label=""
-                    width="35">
+                    width="45">
                     <template #default="scope">
                     <el-popconfirm
                         v-if="scope.row.id > 0"
                         confirmButtonText="Yes"
                         cancelButtonText="No"
-                        icon="el-icon-info"
-                        iconColor="red"
+                        width="275px" 
+                        :icon="InfoFilled"
+                        icon-color="#626AEF"
                         title="Are you sure to delete this member?"
                         @confirm="deleteArtistMemberOnClick(scope.row.id)" 
                     >
                     <template #reference>
-                        <i class="el-icon-delete"></i>
+                        <el-icon style="vertical-align: middle;">
+                            <Delete />  
+                        </el-icon>     
                     </template>
                 </el-popconfirm>    
                 </template>   
@@ -106,6 +111,7 @@ import ArtistMemberDialog from './ArtistMemberDialog.vue'
 import DialogMessages from '../library/DialogMessages.vue'
 import { formatDate } from '../../helpers/helper'   
 import { getMemberImageUrl, getDefaultMemberImageUrl } from '../../helpers/imageHelper'
+import { Edit, Delete } from '@element-plus/icons'
 
 export default defineComponent({
 
@@ -118,7 +124,9 @@ export default defineComponent({
 	},   
     components:{ 
 		'artist-member-dialog': ArtistMemberDialog, 
-        'dialog-messages': DialogMessages
+        'dialog-messages': DialogMessages,
+        Edit,
+        Delete
     },
     computed: {
         members() { 

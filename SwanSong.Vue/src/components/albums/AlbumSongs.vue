@@ -24,36 +24,42 @@
                         <span class="song-title">{{ scope.row.song.title }}</span>
                     </template>
                 </el-table-column>   
-                <el-table-column
-                    prop="song.length"
+                <el-table-column                  
                     label="Length"
                     width="60">
+                    <template #default="scope">
+                        <span class="song-length">{{ scope.row.song.length }}</span>
+                    </template>
                 </el-table-column>    
                 <el-table-column 
                     label=""
                     width="35">
-                    <template #default="scope">
-                        <i class="el-icon-edit" @click="editAlbumSongOnClick(scope.row)"></i>
+                    <template #default="scope">                     
+                        <el-icon style="vertical-align: middle;" @click="editAlbumSongOnClick(scope.row)">
+                            <Edit />
+                        </el-icon>
                     </template>
                 </el-table-column>     
                 <el-table-column 
                     label=""
-                    width="35">
+                    width="45">
                     <template #default="scope">
-                    <el-popconfirm
-                        v-if="scope.row.id > 0"
-                        confirmButtonText="Yes"
-                        cancelButtonText="No"
-                        icon="el-icon-info"
-                        iconColor="red"
-                        title="Are you sure to delete this song from the album?"
-                        @confirm="deleteAlbumSongOnClick(scope.row.id)" 
-                    >
-                    <template #reference>
-                        <i class="el-icon-delete"></i>
-                    </template>
-                </el-popconfirm>    
-                </template>   
+                        <el-popconfirm
+                            v-if="scope.row.id > 0"
+                            confirmButtonText="Yes"
+                            cancelButtonText="No"
+                            width="350px" 
+                            :icon="InfoFilled"
+                            icon-color="#626AEF"
+                            title="Are you sure to delete this song from the album?"
+                            @confirm="deleteAlbumSongOnClick(scope.row.id)">
+                            <template #reference> 
+                                <el-icon style="vertical-align: middle;">
+                                    <Delete />  
+                                </el-icon>           
+                            </template>
+                        </el-popconfirm>    
+                    </template>   
                 </el-table-column>                      
         </el-table>        
         <dialog-messages @closeMessagesDialog="closeMessagesDialog" v-bind:visible="messages.length > 0" v-bind:messages="messages"></dialog-messages>
@@ -66,6 +72,7 @@ import { defineComponent } from 'vue'
 import AlbumSongDialog from './AlbumSongDialog.vue' 
 import DialogMessages from '../library/DialogMessages.vue'
 import { getAlbumSongsTotalLength } from '../../helpers/helper'
+import { Edit, Delete } from '@element-plus/icons'
  
 export default defineComponent({
 
@@ -78,7 +85,9 @@ export default defineComponent({
 	},   
     components:{ 
 		'album-song-dialog': AlbumSongDialog,
-        'dialog-messages': DialogMessages
+        'dialog-messages': DialogMessages,
+        Edit,
+        Delete
     },
     computed: {
         songs() { 
@@ -135,6 +144,13 @@ export default defineComponent({
     white-space: pre-wrap;
     word-break: keep-all;
 } 
+
+.song-length {
+    text-align: right;
+    padding-right: 25px;
+    width: 100%;
+    display: block;
+}
 
 .title-col {
     margin-top:3px;
