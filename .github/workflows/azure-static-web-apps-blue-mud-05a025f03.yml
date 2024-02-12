@@ -17,14 +17,16 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-      - run: echo "Value of secrets"
-        env:
-          VUE_APP_BASE_URL: ${{ secrets.VUE_APP_BASE_URL }}
-          VUE_APP_IMAGE_STORAGE: ${{ secrets.VUE_APP_IMAGE_STORAGE }}
-          VUE_APP_SITE_IMAGES: ${{ secrets.VUE_APP_SITE_IMAGES }}
-          VUE_APP_SITE_ALBUMS: ${{ secrets.VUE_APP_SITE_ALBUMS }}
-          VUE_APP_SITE_ARTISTS: ${{ secrets.VUE_APP_SITE_ARTISTS }}
-          VUE_APP_SITE_MEMBERS: ${{ secrets.VUE_APP_SITE_MEMBERS }}
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_VUE_APP_BASE_URL: ${{ secrets.VUE_APP_BASE_URL }}
+          envkey_VUE_APP_IMAGE_STORAGE: ${{ secrets.VUE_APP_IMAGE_STORAGE }}
+          envkey_VUE_APP_SITE_IMAGES: ${{ secrets.VUE_APP_SITE_IMAGES }}
+          envkey_VUE_APP_SITE_ALBUMS: ${{ secrets.VUE_APP_SITE_ALBUMS }}
+          envkey_VUE_APP_SITE_ARTISTS: ${{ secrets.VUE_APP_SITE_ARTISTS }}
+          envkey_VUE_APP_SITE_MEMBERS: ${{ secrets.VUE_APP_SITE_MEMBERS }}
+          file_name: .env     
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
