@@ -197,7 +197,7 @@ export const album = {
                 await ajax.post('/albums/album/upload-photo/' + albumId, formData,  {
                     headers: {}  
                     }).then(response => {
-                        commit(mutation.SET_ALBUM_PHOTO, response.data);  
+                        commit(mutation.SET_ALBUM_PHOTO, response.data.filename);  
                         resolve();
                     })
                     .catch(error => {

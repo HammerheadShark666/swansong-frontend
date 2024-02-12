@@ -78,8 +78,8 @@ export default {
 			successful: false, 					
 			labelPosition: 'top',
 			loginForm: {
-				email: 'johnwmiller33@hotmail.com',				
-				password: 'Password#2'
+				email: '',				
+				password: ''
 			},
 			rules: {
 				email: [{required: true, message: 'Please input Email', trigger: 'blur'},

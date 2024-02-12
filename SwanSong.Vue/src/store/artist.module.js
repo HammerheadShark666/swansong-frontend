@@ -203,7 +203,7 @@ export const artist = {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }}).then(response => {
-                            commit(mutation.SET_ARTIST_PHOTO, response.data);  
+                            commit(mutation.SET_ARTIST_PHOTO, response.data.filename);  
                             resolve();
                         }).catch(error => { 
                             reject(error.response);
