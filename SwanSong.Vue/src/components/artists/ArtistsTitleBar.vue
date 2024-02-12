@@ -5,7 +5,7 @@
             <el-col :span="10">
                 <artist-search class="artist-search"></artist-search>
                 <router-link :to="{ name: 'artists-artist-add' }" class="nav-link"> 
-                    <el-button type="primary" class="add-artist-button">
+                    <el-button type="primary" class="add-artist-button" @click="addArtist()">
                         Add Artist
                     </el-button> 
                 </router-link>
@@ -15,7 +15,8 @@
                     cancelButtonText="No"
                     icon="el-icon-info"
                     iconColor="red"
-                    title="Are you sure to delete this?"
+                    width="325px"
+                    title="Are you sure you want to delete this artist?"
                     @confirm="deleteArtistOnClick">
                         <template #reference>
                         <el-button  type="primary" class="delete-artist-button">
@@ -77,6 +78,9 @@ export default defineComponent({
         closeMessagesDialog() { 
             this.messages = [];
             this.$router.push("/artists/artist/add");
+        },
+        addArtist() {
+            this.$store.dispatch("artist/addArtist");   
         }
     }
 });

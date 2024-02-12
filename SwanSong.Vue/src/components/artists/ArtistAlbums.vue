@@ -13,7 +13,7 @@
                             <el-row>                          
                                 <el-col :span="6">    
                                     <el-image v-if="album.photo != null" class="album-photo" v-bind:src="getImageUrl(album.photo)"></el-image>
-                                    <el-image v-else class="album-photo" v-bind:src="getDefaultAlbumImageUrl()"></el-image>
+                                    <el-image v-else class="album-photo" v-bind:src="getDefaultImageUrl()"></el-image>
                                 </el-col>  
                                 <el-col :span="18" class="details">                                    
                                     <h6 class="album-title">{{ album.name }}</h6>   

@@ -161,11 +161,13 @@ export const album = {
         async addAlbum({commit}) {
             commit(mutation.SET_NEW_ALBUM);       
         },
-        saveAlbum ({ commit, state }) {    
+        saveAlbum ({ state }, id) {   
+
+            let url = 'albums/album/' + (id > 0 ? 'update' : 'add');
+
             return new Promise(async (resolve, reject) => {
-                await ajax.post(`albums/album/save/`, state.album)  
-                       .then(response => {
-                            commit(mutation.SET_SAVED_ALBUM, response.data); 
+                await ajax.post(url, state.album)  
+                       .then(response => { 
                             resolve(response);  
                        })
                        .catch(error => {

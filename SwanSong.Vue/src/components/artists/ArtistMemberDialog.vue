@@ -128,11 +128,10 @@ export default defineComponent({
                             delayAlertRemove().then(function() {
                                 this.messages = [];                                
                             }.bind(this));  
-                            this.memberState = 'Add';
-                            this.$store.dispatch("artistMember/addArtistMember", this.$store.state.artist.artist.id);                                
+                            this.memberState = 'Add';                            
 						},
 						(error) => {
-                            this.messages = error.data;
+                            this.messages = error.data.messages;
                             this.disabled = false;
 						});
 				} else { 

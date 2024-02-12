@@ -164,19 +164,20 @@ export const artist = {
         addArtist({commit}) {
             commit(mutation.SET_NEW_ARTIST, getArtistDetails());       
         }, 
-        async saveArtist ({ commit, state, dispatch }) {
+        async saveArtist ({ state, dispatch }, id) {
+ 
+            let url = 'artists/artist/'  + (id > 0 ? 'update' : 'add');
 
             return new Promise(async (resolve, reject) => {
-                await ajax.post(`artists/artist/save/`, state.artist)  
+                await ajax.post(url, state.artist)
                             .then(response => {
-                                commit(mutation.SET_SAVED_ARTIST, response.data); 
                                 dispatch("member/setArtistId", state.artist.id, { root:true });   
                                 resolve(response);
                             }).catch(error => {
                                 reject(error.response);
                             })
             });
-        },
+        },        
         async deleteArtist ({ commit, state, dispatch }) {
 
             let artistId = state.artist.id; 

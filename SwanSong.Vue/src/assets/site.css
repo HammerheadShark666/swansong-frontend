@@ -222,3 +222,7 @@ h4 {
     text-align: right;
     padding-right: 25px!important;
 }
+
+.el-popconfirm__action {
+    margin-right: 20px!important;
+}

@@ -1,8 +1,8 @@
 <template>
     <div>
-        <el-alert show-icon class="alert" v-for="error in errorMessages()" v-bind:key="error" type="error">{{error.message}}</el-alert>
-        <el-alert show-icon class="alert" v-for="warning in warningMessages()" v-bind:key="warning" type="warning">{{warning.message}}</el-alert>
-        <el-alert show-icon class="alert" v-for="info in infoMessages()" v-bind:key="info" type="info">{{info.message}}</el-alert>
+        <el-alert show-icon class="alert" v-for="error in errorMessages()" v-bind:key="error" type="error">{{error.text}}</el-alert>
+        <el-alert show-icon class="alert" v-for="warning in warningMessages()" v-bind:key="warning" type="warning">{{warning.text}}</el-alert>
+        <el-alert show-icon class="alert" v-for="info in infoMessages()" v-bind:key="info" type="info">{{info.text}}</el-alert>
     </div>
 </template>
 

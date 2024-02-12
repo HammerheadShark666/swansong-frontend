@@ -2,7 +2,7 @@
     <el-dialog        
         v-model="show"   
         :show-close="false" 
-        custom-class="messages-dialog"
+        class="messages-dialog"
         width="30%"> 
         <el-card class="box-card box-card-songs">
                 <template #header>
@@ -14,9 +14,9 @@
                         </el-row>  
                     </div>
                 </template>
-                <el-alert :closable="false" class="alert" v-for="info in infoMessages()" v-bind:key="info" show-icon type="info">{{info.message}}</el-alert>
-                <el-alert :closable="false" class="alert" v-for="warning in warningMessages()" v-bind:key="warning" show-icon type="warning">{{warning.message}}</el-alert>
-                <el-alert :closable="false" class="alert" v-for="error in errorMessages()" v-bind:key="error" show-icon type="error">{{error.message}}</el-alert>
+                <el-alert :closable="false" class="alert" v-for="info in infoMessages()" v-bind:key="info" show-icon type="info">{{info.text}}</el-alert>
+                <el-alert :closable="false" class="alert" v-for="warning in warningMessages()" v-bind:key="warning" show-icon type="warning">{{warning.text}}</el-alert>
+                <el-alert :closable="false" class="alert" v-for="error in errorMessages()" v-bind:key="error" show-icon type="error">{{error.text}}</el-alert>
                 <div class="form-item-button form-item-buttons">                              
                     <el-button class="close-button" type="primary" @click="closeMessagesDialogBox">Close</el-button>    
                 </div>

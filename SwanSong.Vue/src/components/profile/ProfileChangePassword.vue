@@ -81,7 +81,7 @@ export default defineComponent({
                         }.bind(this));            
                     },
                     (error) => { 
-                        this.messages = error.data;
+                        this.messages = error.data.messages;
                         this.disabled = false;
                     });
                 } 

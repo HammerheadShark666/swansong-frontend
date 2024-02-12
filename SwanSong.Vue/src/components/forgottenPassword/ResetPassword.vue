@@ -100,7 +100,7 @@ export default {
 							this.resetForm();	 
 						},
 						(error) => {			 
-							this.messages = error.data;
+							this.messages = error.data.messages;
 							this.disabled = false;
 						});
 				} else { 

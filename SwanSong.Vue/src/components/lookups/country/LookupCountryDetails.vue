@@ -32,8 +32,8 @@
                                     </el-icon>  
                                 </el-button>  
                             </template>
-                    </el-popconfirm>      
-                    <el-button type="primary" :disabled="disabled" class="save-country-button" @click="saveCountryOnClick('countryDetailsForm')">Save</el-button>
+                    </el-popconfirm> 
+                    <el-button type="primary" :disabled="disabled" class="save-country-button" @click="saveCountryOnClick()">Save</el-button>
                 </el-col>
             </el-row>
         </el-form>
@@ -50,7 +50,7 @@ import { Delete } from '@element-plus/icons'
 
 export default defineComponent({
    
-    el: 'CountryDetails', 
+    el: 'CountryDetails',  
     components:{  
         'alerts': Alerts,
         Delete
@@ -84,10 +84,9 @@ export default defineComponent({
         });
     }, 
     methods: {     
-        
-        saveCountryOnClick(formName) {
+        saveCountryOnClick() {
             this.messages = [];
-			this.$refs[formName].validate((valid) => {
+			this.$refs['countryDetailsForm'].validate((valid) => {
 				if (valid) {
                     this.disabled = true;
                     this.$store.dispatch("country/saveCountry").then(
@@ -99,7 +98,7 @@ export default defineComponent({
                         }.bind(this));                             
                     },
                     (error) => { 
-                        this.messages = error.data;
+                        this.messages = error.data.messages;
                         this.disabled = false;
                     });
                 }
@@ -109,18 +108,18 @@ export default defineComponent({
             this.messages = []; 
             await this.$store.dispatch("country/deleteCountry").then(
                         (response) => {                         
-                            this.messages = response.data.messages;
-                            this.$refs['countryDetailsForm'].resetFields();                                                 
+                            this.messages = response.data.messages; 
+                            this.disabled = false;                                  
                             delayAlertRemove().then(function() {
                                this.messages = [];                               
                             }.bind(this)); 
 						},
 						(error) => {  
-                            this.messages = error.data;
+                            this.messages = error.data.messages;
 						});
         },
         resetForm() {  
-            this.$refs['countryDetailsForm'].resetFields(); 
+            this.$refs['countryDetailsForm'].resetFields();  
             this.disabled = false;
         }
     } 

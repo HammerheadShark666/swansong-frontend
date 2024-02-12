@@ -75,7 +75,7 @@
                     <el-input placeholder="Artwork" maxlength="100" show-word-limit v-model="album.artwork"></el-input>
                 </el-form-item>           
                 <el-form-item class="form-item-button form-item-buttons">                    
-                    <el-button type="primary" :disabled="disabled" class="save-album-button" @click="submitForm('albumDetailsForm')">Save</el-button>
+                    <el-button type="primary" :disabled="disabled" class="save-album-button" @click="submitForm()">Save</el-button>
                 </el-form-item>     
         </el-form>    
     </el-card>
@@ -150,26 +150,27 @@ export default defineComponent({
         }); 
     }, 
     methods: {               
-        submitForm(formName) {
+        submitForm() {
             this.messages = [];
-			this.$refs[formName].validate((valid) => {
+			this.$refs['albumDetailsForm'].validate((valid) => {
 				if (valid) {
                         this.disabled = true;
-                        this.$store.dispatch("album/saveAlbum").then(
-						(response) => {	 
-                            this.messages = response.data.messages;	 
-                            this.resetForm();
-                            delayAlertRemove().then(function() {
-                                this.messages = [];
-                            }.bind(this));
-
-                            if(this.$router.currentRoute.value.path == "/albums/album/add")
-                                    this.$router.push("/albums/album/" + this.album.id);                                     
-						},
-						(error) => {  
-                            this.messages = error.data;
-                            this.disabled = false;
-						}).bind(this)        
+                        this.$store.dispatch("album/saveAlbum", this.album.id).then(
+                            (response) => {	 
+                                this.messages = response.data.messages;	 
+                                this.resetForm();
+                                
+                                if(this.$router.currentRoute.value.path == "/albums/album/add")
+                                        this.$router.push("/albums/album/" + response.data.id);           
+                                    
+                                delayAlertRemove().then(function() {
+                                    this.messages = [];
+                                }.bind(this));
+                            },
+                            (error) => {  
+                                this.messages = error.data.messages;
+                                this.disabled = false;
+                            })     
                 }
             })
         },

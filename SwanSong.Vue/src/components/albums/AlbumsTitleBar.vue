@@ -15,7 +15,8 @@
                     cancelButtonText="No"
                     icon="el-icon-info"
                     iconColor="red"
-                    title="Are you sure to delete this?"
+                    width="270px"
+                    title="Are you sure to delete this album?"
                     @confirm="deleteAlbumOnClick">
                         <template #reference>
                             <el-button  type="primary" class="delete-album-button">

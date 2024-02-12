@@ -14,8 +14,9 @@
                     confirmButtonText="Yes"
                     cancelButtonText="No"
                     icon="el-icon-info"
+                    width="290px"
                     iconColor="red"
-                    title="Are you sure to delete this?"
+                    title="Are you sure to delete this member?"
                     @confirm="deleteMemberOnClick">
                         <template #reference>
                             <el-button  type="primary" class="delete-member-button">

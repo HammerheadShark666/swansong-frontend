@@ -70,9 +70,11 @@ export const recordLabel = {
             commit(mutation.SET_RECORD_LABEL, recordLabel); 
         },
         async saveRecordLabel ({ commit, state }) {  
+ 
+            let url = 'record-labels/record-label/' + (state.recordLabel.id > 0 ? 'update' : 'add');
 
             return new Promise(async (resolve, reject) => {
-                await ajax.post(`record-labels/record-label/save/`, state.recordLabel)  
+                await ajax.post(url, state.recordLabel)  
                             .then(response => {
                                 commit(mutation.SET_SAVED_RECORD_LABEL, response.data);   
                                 resolve(response);

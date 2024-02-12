@@ -1,4 +1,5 @@
 <template>
+    <div>
     <el-card class="box-card card-margin-right">
         <template #header>
             <div class="card-header">
@@ -59,6 +60,7 @@
                 </el-form-item>     
         </el-form>    
     </el-card>
+</div>
 </template>
 
 <script>
@@ -125,7 +127,7 @@ export default defineComponent({
             this.messages = [];
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
-                        this.$store.dispatch("member/saveMember2").then(
+                        this.$store.dispatch("member/saveMember").then(
 						(response) => {	 
                             this.messages = response.messages;	 
 
@@ -137,14 +139,16 @@ export default defineComponent({
                             }.bind(this));         
 						},
 						(error) => {  
-                            this.messages = error.data;
+                            this.messages = error.data.messages;
 						}).bind(this)        
                 }
             })
         },    
         artistSelected(rule, value, callback) {
-            if(value != null)
+            if(value != null) {
+                this.$store.dispatch("member/setArtistId", value)
                 callback();
+            } 
             callback(new Error("Please select an artist"));
         }
     } 

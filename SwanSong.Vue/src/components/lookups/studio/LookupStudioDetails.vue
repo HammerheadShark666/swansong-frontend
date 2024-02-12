@@ -33,7 +33,7 @@
                                 </el-button>  
                             </template>
                     </el-popconfirm>      
-                    <el-button type="primary" :disabled="disabled" class="save-studio-button" @click="saveStudioOnClick('studioDetailsForm')">Save</el-button>
+                    <el-button type="primary" :disabled="disabled" class="save-studio-button" @click="saveStudioOnClick()">Save</el-button>
                 </el-col>
             </el-row>
         </el-form>
@@ -50,7 +50,7 @@ import { Delete } from '@element-plus/icons'
 
 export default defineComponent({
    
-    el: 'StudioDetails', 
+    el: 'StudioDetails',
     components:{  
         'alerts': Alerts,
         Delete
@@ -85,9 +85,9 @@ export default defineComponent({
     }, 
     methods: {     
         
-        saveStudioOnClick(formName) {
+        saveStudioOnClick() {
             this.messages = [];            
-			this.$refs[formName].validate((valid) => {
+			this.$refs['studioDetailsForm'].validate((valid) => {
 				if (valid) {
                     this.disabled = true;
                     this.$store.dispatch("studio/saveStudio").then(
@@ -99,7 +99,7 @@ export default defineComponent({
                         }.bind(this));                             
                     },
                     (error) => { 
-                        this.messages = error.data;
+                        this.messages = error.data.messages;
                         this.disabled = false;
                     });
                 }
@@ -109,14 +109,14 @@ export default defineComponent({
             this.messages = []; 
             await this.$store.dispatch("studio/deleteStudio").then(
                 (response) => {                         
-                    this.messages = response.data.messages;	    
-                    this.$refs['studioDetailsForm'].resetFields();                                                 
+                    this.messages = response.data.messages;	 
+                    this.disabled = false;                                                
                     delayAlertRemove().then(function() {
                         this.messages = [];                               
                     }.bind(this)); 
                 },
                 (error) => {  
-                    this.messages = error.data;
+                    this.messages = error.data.messages;
                 });
         },
         resetForm() {  

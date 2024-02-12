@@ -20,11 +20,11 @@ const defaults = {
 export const profile = {
   namespaced: true,
   state: Object.assign({}, defaults),
-  mutations: {   
-    SET_PROFILE (state, profile) {
-      state.profile.lastName = profile.lastName;
-      state.profile.firstName = profile.firstName;
-      state.profile.email = profile.email;
+  mutations: {    
+    SET_PROFILE (state, data) {  
+      state.profile.lastName = data.lastName;
+      state.profile.firstName = data.firstName;
+      state.profile.email = data.email;
     },    
     CLEAR_MESSAGES (state) {
       state.profile.messages = [];
@@ -42,12 +42,12 @@ export const profile = {
                     })
       });    
     },
-    async saveProfile ({ commit, state }) {
+    async saveProfile ({ dispatch, state }) {
 
       return new Promise(async (resolve, reject) => {
           await ajax.post(`profile/update`, state.profile)  
-                      .then(response => {
-                          commit(mutation.SET_PROFILE, response.data);  
+                      .then(response => { 
+                          dispatch("profile/getProfile", '', { root:true });   
                           resolve(response);
                       }).catch(error => {
                           reject(error.response);

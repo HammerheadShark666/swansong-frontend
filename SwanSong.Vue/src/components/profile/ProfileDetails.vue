@@ -27,11 +27,19 @@
 
                 <el-form-item label="Email/Username" prop="email">
                     <el-input type="email" placeholder="Email" show-word-limit v-model="profile.email"></el-input>
-                </el-form-item>    
+                </el-form-item>  
+
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('profileDetailsForm')">
+                        Save
+                    </el-button>
+                    <el-button @click="resetForm()">Reset</el-button>
+                </el-form-item>  
     
-                <el-form-item class="form-item-button form-item-buttons">                    
+                <!-- <el-form-item class="form-item-button form-item-buttons">                    
                     <el-button type="primary" :disabled="disabled" class="save-profile-details-button" @click="submitForm('profileDetailsForm')">Save</el-button>
-                </el-form-item>   
+                    <el-button type="primary" :disabled="disabled" class="reset-profile-details-button" @click="resetForm()">Reset</el-button>
+                </el-form-item>   -->
         </el-form>   
 	</el-card>
 </template>
@@ -89,7 +97,7 @@ export default defineComponent({
                             }.bind(this));        
 						},
 						(error) => { 
-                            this.messages = error.data;
+                            this.messages = error.data.messages;
                             this.disabled = false;
 						});
                 }
@@ -112,8 +120,12 @@ export default defineComponent({
 } 
 
 .save-profile-details-button {
-	float: right;
+	float: left;
 	margin-bottom: 5px;
+}
+
+.reset-profile-details-button {
+    float:right;
 }
  
 </style>

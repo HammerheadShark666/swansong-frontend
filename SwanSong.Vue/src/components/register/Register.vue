@@ -136,7 +136,7 @@ export default {
 							this.successful = true;   
 						},
 						(error) => {
-							this.messages = error.data;
+							this.messages = error.data.messages;
 							this.successful = false; 
 							this.disabled = false;
 						});
