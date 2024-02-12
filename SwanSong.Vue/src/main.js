@@ -14,7 +14,7 @@ import './utils/prototypes/DateToShortFormat'
 require('dotenv').config();
 
 import mitt from 'mitt';
-export const emitter = mitt();
+export const emitter = mitt(); 
  
 createApp(App)
   .use(router)

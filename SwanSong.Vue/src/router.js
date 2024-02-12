@@ -141,6 +141,12 @@ router.beforeEach((to, from, next) => {
   var authRequired = !publicPages.includes(to.path);
   const loggedIn = sessionStorage.getItem('user');
 
+  store.dispatch("album/clearAlbum");
+  store.dispatch("albumSong/clearAlbumSong");
+  store.dispatch("artist/clearArtist");
+  store.dispatch("member/clear");
+  store.dispatch("song/clearSongs"); 
+
   if(authRequired == true && (to.path.includes("verify-email") || to.path.includes("reset-password")))
     authRequired = false;
 

@@ -147,7 +147,7 @@ export default defineComponent({
                             this.messages =  response.messages;
 						},
 						(error) => { 
-                            this.errors = error.data;
+                            this.errors = error.data.messages;
 						});
         },        
         closeMessagesDialog() { 

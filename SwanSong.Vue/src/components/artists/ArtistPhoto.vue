@@ -19,9 +19,10 @@
                 <el-upload
                     class="upload-demo" 
                     action="#"
+                    :before-upload="isImageValid"
                     :http-request="uploadFile" 
                     :file-list="fileList"
-                    list-type="picture"
+                    list-type="picture" 
                     ref="artistPhotoUpload"
                     single>
                     <el-button size="small" type="primary">Click to upload</el-button>
@@ -64,6 +65,13 @@ export default defineComponent({
         }
     }, 
     methods: {  
+        isImageValid(image) {             
+            if((image.size / Math.pow(1024, 2)) > .5) {
+                this.messages.push({text: "Photo can not be greater than 500kb", severity: MESSAGE_ERROR }); 
+                return false;
+            } 
+            return true;    
+        },
         getImageUrl: getArtistImageUrl,
         getDefaultImageUrl: getDefaultArtistImageUrl,     
 		async uploadFile(param) {
@@ -74,13 +82,13 @@ export default defineComponent({
 			this.$store.dispatch("artist/savePhoto", { artistId, formData }).then(
 						() => {		      
                             this.$refs.artistPhotoUpload.clearFiles();  
-                            this.messages.push({message: "The artist photo was saved", severity: MESSAGE_INFO });   
+                            this.messages.push({text: "The artist photo was saved", severity: MESSAGE_INFO });   
                             delayAlertRemove().then(function() {
                                 this.messages = [];       
                             }.bind(this));     
 						},
 						(error) => { 
-                            this.messages.push({message: error.data, severity: MESSAGE_ERROR }); 
+                            this.messages.push({text: error.data, severity: MESSAGE_ERROR }); 
 						});
 		} 
     } 

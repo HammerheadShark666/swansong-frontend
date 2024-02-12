@@ -1,19 +1,21 @@
 <template>
-	<el-card class="box-card">
-		<template #header>
-			<div class="card-header">				 
-			</div>
-		</template>
-		<el-row>    
-			<el-col :span="24">				
-				<el-tabs v-model="activeName"> 
-					<el-tab-pane label="Country" name="country"><lookup-country></lookup-country></el-tab-pane>
-					<el-tab-pane label="Record Label" name="recordLabel"><lookup-record-label></lookup-record-label></el-tab-pane>
-					<el-tab-pane label="Studio" name="studio"><lookup-studio></lookup-studio></el-tab-pane> 
-				</el-tabs> 
-			</el-col>
-		</el-row>		
-	</el-card>
+	<div>
+		<el-card class="box-card">
+			<template #header>
+				<div class="card-header">				 
+				</div>
+			</template>
+			<el-row>    
+				<el-col :span="24">				
+					<el-tabs v-model="activeName"> 
+						<el-tab-pane label="Country" name="country"><lookup-country></lookup-country></el-tab-pane>
+						<el-tab-pane label="Record Label" name="recordLabel"><lookup-record-label></lookup-record-label></el-tab-pane>
+						<el-tab-pane label="Studio" name="studio"><lookup-studio></lookup-studio></el-tab-pane> 
+					</el-tabs> 
+				</el-col>
+			</el-row>		
+		</el-card>
+	</div>
 </template>
 
 <script>
@@ -25,7 +27,7 @@ import LookupStudio from './studio/LookupStudio.vue';
 
 export default defineComponent({
    
-    el: '#songForm', 
+    el: '#lookupForm',
 	data() {
 		return {
 			activeName: 'country',

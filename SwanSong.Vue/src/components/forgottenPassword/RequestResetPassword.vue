@@ -90,7 +90,7 @@ export default {
 						() => {							
 							this.successful = true;	
 							this.resetForm();						
-							this.messages.push({ message: "A reset password email has been sent", severity:"info" });
+							this.messages.push({ text: "A reset password email has been sent", severity:"info" });
 						},
 						(error) => {	
 							this.messages = error; 

@@ -69,10 +69,12 @@ export const studio = {
         setStudio({ commit }, studio) {
             commit(mutation.SET_STUDIO, studio); 
         },
-        async saveStudio ({ commit, state }) {  
+        async saveStudio ({ commit, state }) {   
+            
+            let url = 'studios/studio/' + (state.studio.id > 0 ? 'update' : 'add');
 
             return new Promise(async (resolve, reject) => {
-                await ajax.post(`studios/studio/save/`, state.studio)  
+                await ajax.post(url, state.studio)  
                             .then(response => {
                                 commit(mutation.SET_SAVED_STUDIO, response.data);   
                                 resolve(response);

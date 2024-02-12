@@ -50,7 +50,7 @@
                 </el-select>
             </el-form-item>  
             <el-form-item class="form-item-button form-item-buttons">                    
-                <el-button type="primary" :disabled="disabled" class="save-artist-button" @click="submitForm('artistDetailsForm')">Save</el-button>
+                <el-button type="primary" :disabled="disabled" class="save-artist-button" @click="submitForm()">Save</el-button>
             </el-form-item>        
         </el-form>
     </el-card>
@@ -138,25 +138,24 @@ export default defineComponent({
     }, 
     methods: {     
         
-        submitForm(formName) {
+        submitForm() {
             this.messages = [];
-			this.$refs[formName].validate((valid) => {
+			this.$refs['artistDetailsForm'].validate((valid) => {
 				if (valid) {
                         this.disabled = true;
-                        this.$store.dispatch("artist/saveArtist").then(
+                        this.$store.dispatch("artist/saveArtist", this.artist.id).then(
 						(response) => {			
                             this.messages = response.data.messages;	 
                             this.resetForm();
                             if(this.$router.currentRoute.value.path == "/artists/artist/add")
-                                this.$router.push("/artists/artist/" + this.artist.id);               
+                                this.$router.push("/artists/artist/" + response.data.id);       
  
                             delayAlertRemove().then(function() {
                                 this.messages = [];       
-                            }.bind(this));                
-
+                            }.bind(this));     
 						},
 						(error) => { 
-                            this.messages = error.data;
+                            this.messages = error.data.messages;
                             this.disabled = false;
 						});
                 }

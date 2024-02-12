@@ -60,11 +60,17 @@ export const member = {
         SET_MEMBERS_BY_PAGING (state, members) {
             state.membersByPaging = members
         }, 
-        SET_SAVED_MEMBER (state, member) {
+        SET_SAVED_MEMBER (state, response) {
+
+            let member = state.member;
+            member.id = response.id;
+
             state.members.push(member);
             state.member = member; 
         }, 
-        SET_SAVED_EDITED_MEMBER (state, member) {
+        SET_SAVED_EDITED_MEMBER (state) {
+
+            let member = state.member;
 
             var members = state.members;
             members = members.map((mber) => {
@@ -74,8 +80,7 @@ export const member = {
                 return mber;
             });
 
-            state.members = members;
-            state.member = member; 
+            state.members = members; 
         },  
         SET_DELETED_MEMBER (state, id) {
             state.members = state.members.filter(member => member.id != id);
@@ -100,6 +105,7 @@ export const member = {
         },
         CLEAR_MEMBER(state) {
             state.member = getMemberDetails();
+            state.artistId = 0;
         },
         SET_ARTIST_ID(state, artistId) {
             state.artistId = artistId
@@ -186,35 +192,20 @@ export const member = {
         },
         async saveMember ({ commit, state }) {
 
-            state.member.artistId = state.artistId;
             var isEdit = state.member.id == 0 ? false : true;
 
+            if(!isEdit)
+                state.member.artistId = state.artistId;
+            
+            var urlAction = isEdit ? "update" : "add";
+
             return new Promise(async (resolve, reject) => {
-                await ajax.post(`members/member/save/`, state.member)  
+                await ajax.post(`members/member/` + urlAction + `/`, state.member)  
                             .then(response => {
                                 if(response.data.isValid) {
                                     !isEdit
                                     ? commit("SET_SAVED_MEMBER", response.data)  
-                                    : commit("SET_SAVED_EDITED_MEMBER", response.data); 
-                                }
-                                resolve(response.data); 
-                            })
-                            .catch(error => {
-                                reject(error.response);
-                            })
-            });
-        },
-        async saveMember2 ({ commit, state }) {
- 
-            var isEdit = state.member.id == 0 ? false : true;
-
-            return new Promise(async (resolve, reject) => {
-                await ajax.post(`members/member/save/`, state.member)  
-                            .then(response => {
-                                if(response.data.isValid) {
-                                    !isEdit
-                                    ? commit("SET_SAVED_MEMBER", response.data)  
-                                    : commit("SET_SAVED_EDITED_MEMBER", response.data); 
+                                    : commit("SET_SAVED_EDITED_MEMBER"); 
                                 }
                                 resolve(response.data); 
                             })

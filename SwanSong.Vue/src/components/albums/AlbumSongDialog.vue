@@ -83,7 +83,7 @@ export default defineComponent({
                 'song.title': [ { required: true, message: 'Please input title', trigger: 'blur' },
                                 { max: 150, message: 'Title can be up to 150 characters', trigger: 'blur' } 
                 ],
-                'song.time': [ { min: 5, max: 5, message: 'Length should be 5', trigger: 'blur' },
+                'song.length': [ { min: 5, max: 5, message: 'Length should be 5', trigger: 'blur' },
                                { validator: this.confirmLengthCorrect, trigger: 'blur' }                    
                 ],		
             }   
@@ -136,7 +136,7 @@ export default defineComponent({
                     this.disabled = true;
 					this.$store.dispatch("albumSong/saveAlbumSong").then(
 						(response) => {
-                            this.messages = response.messages; 
+                            this.messages = response.messages;
                             this.resetForm();
                             delayAlertRemove().then(function() {
                                 this.messages = [];                                
@@ -145,7 +145,7 @@ export default defineComponent({
                             this.songState = 'Add';
 						},
 						(error) => {
-                            this.messages = error.data;
+                            this.messages = error.data.messages;
                             this.disabled = false;
 						});
 				} else { 

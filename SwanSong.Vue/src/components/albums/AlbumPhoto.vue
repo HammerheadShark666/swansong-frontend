@@ -75,13 +75,13 @@ export default defineComponent({
             await this.$store.dispatch("album/savePhoto", { albumId, formData }).then(
 						() => {		 
                             this.$refs.albumPhotoUpload.clearFiles();  
-                            this.messages.push({message: "The album photo was saved", severity: MESSAGE_INFO });  
+                            this.messages.push({text: "The album photo was saved", severity: MESSAGE_INFO });  
                             delayAlertRemove().then(function() {
                                 this.messages = [];       
                             }.bind(this));    
 						},
 						(error) => { 
-                            this.messages.push({message: error.data, severity: MESSAGE_ERROR }); 
+                            this.messages.push({text: error.data, severity: MESSAGE_ERROR }); 
 						});
 		} 
     } 

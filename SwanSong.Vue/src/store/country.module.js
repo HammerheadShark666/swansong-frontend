@@ -71,8 +71,10 @@ export const country = {
         },
         async saveCountry ({ commit, state }) {  
 
+            let url = 'countries/country/' + (state.country.id > 0 ? 'update' : 'add');
+
             return new Promise(async (resolve, reject) => {
-                await ajax.post(`countries/country/save/`, state.country)  
+                await ajax.post(url, state.country )  
                             .then(response => {
                                 commit(mutation.SET_SAVED_COUNTRY, response.data);   
                                 resolve(response);

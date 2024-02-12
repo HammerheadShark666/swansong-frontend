@@ -78,8 +78,8 @@ export default {
 			successful: false, 					
 			labelPosition: 'top',
 			loginForm: {
-				email: '',				
-				password: ''
+				email: 'johnwmiller33@hotmail.com',				
+				password: 'Password#2'
 			},
 			rules: {
 				email: [{required: true, message: 'Please input Email', trigger: 'blur'},
@@ -111,8 +111,8 @@ export default {
 						() => {			
                             this.$router.push("/");          
 						},
-						(error) => {							  
-							this.messages.push({message: error.response.data[0].message, severity: error.response.data[0].severity}); 					
+						(error) => {			
+							this.messages = error.response.data.messages; 				   					
 						}); 
 				} else { 
 					return false

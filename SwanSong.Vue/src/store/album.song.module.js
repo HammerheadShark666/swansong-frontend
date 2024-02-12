@@ -45,8 +45,9 @@ export const albumSong = {
             state.albumSong = albumSong;
         },        
         SET_SAVED_ALBUM_SONG (state, albumSong) {
-            state.albumSongs.push(albumSong);
-            state.albumSong = albumSong;           
+            state.albumSong.id = albumSong.id;
+            state.albumSong.song.id = albumSong.songId;
+            state.albumSongs.push(state.albumSong); 
         },   
         SET_DELETED_ALBUM_SONG (state, {id}) {
             state.albumSongs = state.albumSongs.filter(albumSong => albumSong.id != id);
@@ -57,13 +58,12 @@ export const albumSong = {
             var songs = state.albumSongs;
             songs = songs.map((song) => {
                 if (song.id === albumSong.id) {
-                    song = albumSong;
+                    song = state.albumSong;
                 }            
                 return song;
             });
 
-            state.albumSongs = songs;
-            state.albumSong = albumSong;
+            state.albumSongs = songs; 
         },   
           
         CLEAR_ALBUM_SONGS(state) {
@@ -91,9 +91,13 @@ export const albumSong = {
             })
         },
         async saveAlbumSong ({ commit, state }) {          
-            var isEdit = state.albumSong.song.id == 0 ? false : true;             
+            
+            var isEdit = state.albumSong.id == 0 ? false : true;      
+
+            let url = 'album/songs/song/' + (isEdit ? 'update' : 'add');
+
             return new Promise(async (resolve, reject) => {
-                await ajax.post(`album/songs/save/`, state.albumSong)  
+                await ajax.post(url, state.albumSong)  
                             .then(response => {
                                 if(response.data.isValid) {
                                     !isEdit

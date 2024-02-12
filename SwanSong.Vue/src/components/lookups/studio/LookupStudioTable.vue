@@ -1,21 +1,23 @@
 <template>
-    <el-row>
-        <el-col :span="24">
-            <el-button type="primary" class="add-studio-button" @click="addStudio()">Add Studio</el-button>
-        </el-col>
-        <el-col :span="24">
-            <div class="table-container">
-                <el-table
-                    class="studios-table"
-                    :data="studios"
-                    @row-click="selectStudio"
-                    :default-sort="{ prop: 'name', order: 'ascending' }">
-                    <el-table-column prop="id" label="Id" sortable width="50" />
-                    <el-table-column prop="name" sortable label="Name" /> 
-                </el-table>  
-            </div>
-        </el-col>
-    </el-row>
+    <div>
+        <el-row>
+            <el-col :span="24">
+                <el-button type="primary" class="add-studio-button" @click="addStudio()">Add Studio</el-button>
+            </el-col>
+            <el-col :span="24">
+                <div class="table-container">
+                    <el-table
+                        class="studios-table"
+                        :data="studios"
+                        @row-click="selectStudio"
+                        :default-sort="{ prop: 'name', order: 'ascending' }">
+                        <el-table-column prop="id" label="Id" sortable width="50" />
+                        <el-table-column prop="name" sortable label="Name" /> 
+                    </el-table>  
+                </div>
+            </el-col>
+        </el-row>
+    </div>
 </template>
 
 <script>
@@ -25,7 +27,7 @@ import { emitter } from '../../../main'
 
 export default defineComponent({
    
-    el: '#lookupsStudioTable', 	 
+    el: '#lookupsStudioTable',
     async created() {       
         await this.$store.dispatch("studio/getAll")
     },

@@ -1,21 +1,23 @@
 <template>
-    <el-row>
-        <el-col :span="24">
-            <el-button type="primary" class="add-record-label-button" @click="addRecordLabel()">Add Record Label</el-button>
-        </el-col>
-        <el-col :span="24">
-            <div class="table-container">
-                <el-table
-                    class="record-labels-table"
-                    :data="recordLabels"
-                    @row-click="selectRecordLabel"
-                    :default-sort="{ prop: 'name', order: 'ascending' }">
-                    <el-table-column prop="id" label="Id" sortable width="50" />
-                    <el-table-column prop="name" sortable label="Name" /> 
-                </el-table>  
-            </div>
-        </el-col>
-    </el-row>   
+    <div>
+        <el-row>
+            <el-col :span="24">
+                <el-button type="primary" class="add-record-label-button" @click="addRecordLabel()">Add Record Label</el-button>
+            </el-col>
+            <el-col :span="24">
+                <div class="table-container">
+                    <el-table
+                        class="record-labels-table"
+                        :data="recordLabels"
+                        @row-click="selectRecordLabel"
+                        :default-sort="{ prop: 'name', order: 'ascending' }">
+                        <el-table-column prop="id" label="Id" sortable width="50" />
+                        <el-table-column prop="name" sortable label="Name" /> 
+                    </el-table>  
+                </div>
+            </el-col>
+        </el-row>   
+    </div>
 </template>
 
 <script>
