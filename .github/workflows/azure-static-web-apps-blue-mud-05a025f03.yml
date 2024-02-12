@@ -27,6 +27,7 @@ jobs:
           envkey_VUE_APP_SITE_ARTISTS: ${{ secrets.VUE_APP_SITE_ARTISTS }}
           envkey_VUE_APP_SITE_MEMBERS: ${{ secrets.VUE_APP_SITE_MEMBERS }}
           file_name: .env     
+          directory: './SwanSong.Vue'
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
