@@ -235,7 +235,7 @@ export const member = {
                                     'Content-Type': 'multipart/form-data'
                                 }  
                                 }).then(response => {
-                                    var photoName = response.data;
+                                    var photoName = response.data.filename;
                                     commit(mutation.SET_MEMBER_PHOTO, { id, photoName});  
                                     resolve();
                                 })
