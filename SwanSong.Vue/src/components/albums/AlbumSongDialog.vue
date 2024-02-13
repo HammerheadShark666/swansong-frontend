@@ -1,7 +1,7 @@
 <template>    
     <div>
         <el-button type="primary" class="add-song-button" @click="addOnClick">
-            {{ songState }} Song
+            Add Song
         </el-button>
         <el-dialog v-model="showDialog" width="30%" @close="closeOnClick" :close-on-click-modal="false">
             <el-card class="box-card box-card-songs">
@@ -76,8 +76,7 @@ export default defineComponent({
             showDialog: false,
             formLabelWidth: '70px', 
             messages: [], 	
-			labelPosition: 'left',
-            songState: 'Add',
+			labelPosition: 'left', 
             disabled: false,  
 			rules: {				
                 'song.title': [ { required: true, message: 'Please input title', trigger: 'blur' },
@@ -125,8 +124,7 @@ export default defineComponent({
     }, 
     methods: {   
         addOnClick() {
-            this.showDialog = true;
-            this.songState = 'Add';
+            this.showDialog = true; 
             this.$store.dispatch("albumSong/addAlbumSong", this.$store.state.album.album.id);  
         }, 
         submitForm(formName) {
@@ -141,8 +139,7 @@ export default defineComponent({
                             delayAlertRemove().then(function() {
                                 this.messages = [];                                
                             }.bind(this));  
-                            this.$store.dispatch("albumSong/addAlbumSong", this.$store.state.album.album.id); 
-                            this.songState = 'Add';
+                            this.$store.dispatch("albumSong/addAlbumSong", this.$store.state.album.album.id);  
 						},
 						(error) => {
                             this.messages = error.data.messages;
@@ -162,9 +159,8 @@ export default defineComponent({
             this.messages = [];
             this.$store.dispatch("albumSong/resetAlbumSong"); 
         },
-        openDialog(songState) {
+        openDialog() {
             this.showDialog = true;
-            this.songState = songState;
         },
         confirmLengthCorrect(rule, value, callback) {
             if(!validateLength(value))
