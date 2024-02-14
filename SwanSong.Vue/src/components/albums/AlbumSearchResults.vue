@@ -3,7 +3,7 @@
        <el-pagination
                     small
                     v-if="this.searchResultsLength > 0"
-                    background layout="total, sizes, prev, pager, next" 
+                    background layout="sizes, prev, pager, next" 
                     :total="this.searchResultsLength"
                     :page-size="pageSize" 
                     :hide-on-single-page=true

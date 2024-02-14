@@ -26,7 +26,9 @@
                             <el-col :span="4">
                                 <el-form-item class="form-item-button">                                      
                                     <el-button type="primary" class="search-button" @click="submitForm('memberSearchForm')">                                        
-                                        <i class="el-icon-search"></i>                               
+                                        <el-icon style="vertical-align:middle;">
+                                            <search />
+                                        </el-icon>                             
                                     </el-button>
                                 </el-form-item>     
                             </el-col>
@@ -102,8 +104,7 @@ export default {
 
 .search-button { 
     border-radius:0%;
-    float:right;
-    height:39px;
+    float:right; 
 } 
  
 .search-form {
