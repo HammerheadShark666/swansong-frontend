@@ -128,4 +128,8 @@ export default defineComponent({
     float:right;
 }
  
+.box-card {
+    height: 250px;
+}
+
 </style>

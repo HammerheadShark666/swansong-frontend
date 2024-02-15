@@ -114,6 +114,8 @@ export default defineComponent({
 .save-change-password-button {
 	float: right;
 	margin-bottom: 5px;
+} 
+.box-card {
+    height: 250px;
 }
- 
 </style>
