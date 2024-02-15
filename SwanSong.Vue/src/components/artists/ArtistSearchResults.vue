@@ -1,5 +1,5 @@
 <template> 
-    <div el-row>
+    <div el-row class="search-results">
         <el-pagination
                     small
                     v-if="this.searchResultsLength > 0"
@@ -161,5 +161,9 @@ export default defineComponent({
     padding: 0px!important;
     padding-top: 4px!important;
 } 
+
+.search-results {
+    margin-top: 15px;
+}
 
 </style>
