@@ -74,7 +74,13 @@ export default defineComponent({
     computed: {	
         profile: {
             get() {
-                return this.$store.state.profile.profile;
+                let profile = this.$store.state.profile.profile;
+
+                if(profile.email == null) {
+                    profile = JSON.parse(sessionStorage.getItem('user')).profile; 
+                }
+
+                return profile;
             },   
             set(profile) {
                 this.$store.commit("SET_PROFILE", { profile });
