@@ -2,9 +2,16 @@ import axios from 'axios';
 import router from '../router';
 import store from '../store'; 
 import { getAccessToken, getRefreshToken } from "./authenticationHelper"
+
+let isGettingRefreshToken = false;
   
 function refreshToken() {
-	return ajax.post(`refresh-token`, getRefreshToken())
+
+	if(!isGettingRefreshToken) {
+
+		isGettingRefreshToken = true;
+
+		return ajax.post(`refresh-token`, getRefreshToken())
 				.then(response => {   
 					if ((response.status === 400) && (response.data.Message === "Invalid token") && (response.config.url == "refresh-token")) {
 						sessionStorage.removeItem('user');    
@@ -14,9 +21,15 @@ function refreshToken() {
 							query: {redirect: router.currentRoute.fullPath}
 						});
 					} else if (response.data.jwtToken) {
-						sessionStorage.setItem('user', JSON.stringify(response.data));
+						sessionStorage.setItem('user', JSON.stringify(response.data));						
 					}
+					isGettingRefreshToken = false;
 				})
+				.catch(error => { 
+					isGettingRefreshToken = false; 
+					console.log("error -> ", error);
+				})
+	}
 }
 
 const ajax = axios.create({
