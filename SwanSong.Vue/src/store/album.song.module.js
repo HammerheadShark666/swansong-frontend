@@ -79,7 +79,7 @@ export const albumSong = {
     actions: {       
         async getSongsForAlbum ({ commit }, albumId) {            
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`album/songs/` + albumId)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/` + albumId)
                             .then(response => {
                                 var results = response.data
                                 commit(mutation.SET_ALBUM_SONGS, results);  
@@ -94,7 +94,7 @@ export const albumSong = {
             
             var isEdit = state.albumSong.id == 0 ? false : true;      
 
-            let url = 'album/songs/song/' + (isEdit ? 'update' : 'add');
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/song/` + (isEdit ? 'update' : 'add');
 
             return new Promise(async (resolve, reject) => {
                 await ajax.post(url, state.albumSong)  
@@ -113,7 +113,7 @@ export const albumSong = {
         },  
         async deleteAlbumSong ({ commit }, id) {
             return new Promise(async (resolve, reject) => {
-                await ajax.delete(`album/songs/song/` + id)  
+                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/song/` + id)  
                             .then(response => {
                                 if(response.data.isValid)                              
                                     commit(mutation.SET_DELETED_ALBUM_SONG, { id, response }); 

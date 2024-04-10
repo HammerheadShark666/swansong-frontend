@@ -33,7 +33,7 @@ export const profile = {
   actions: {     
     async getProfile ({ commit, state }) {
       return new Promise(async (resolve, reject) => {
-        await ajax.get(`profile`, state.profile)  
+        await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/profile`, state.profile)  
                     .then(response => {
                         commit(mutation.SET_PROFILE, response.data);  
                         resolve(response);
@@ -45,7 +45,7 @@ export const profile = {
     async saveProfile ({ dispatch, state }) {
 
       return new Promise(async (resolve, reject) => {
-          await ajax.post(`profile/update`, state.profile)  
+          await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/profile/update`, state.profile)  
                       .then(response => { 
                           dispatch("profile/getProfile", '', { root:true });   
                           resolve(response);

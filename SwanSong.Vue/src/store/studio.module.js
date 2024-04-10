@@ -56,7 +56,7 @@ export const studio = {
         async getAll ({ commit }) {
 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`studios`)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/studios`)
                        .then(response => {
                            commit(mutation.SET_STUDIOS, response.data); 
                            resolve();
@@ -71,7 +71,7 @@ export const studio = {
         },
         async saveStudio ({ commit, state }) {   
             
-            let url = 'studios/studio/' + (state.studio.id > 0 ? 'update' : 'add');
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/studios/studio/` + (state.studio.id > 0 ? 'update' : 'add');
 
             return new Promise(async (resolve, reject) => {
                 await ajax.post(url, state.studio)  
@@ -88,7 +88,7 @@ export const studio = {
             let studioId = state.studio.id; 
 
             return new Promise(async (resolve, reject) => {
-                await ajax.delete(`studios/studio/` + studioId)  
+                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/studios/studio/` + studioId)  
                             .then(response => {
                                 commit(mutation.SET_DELETED_STUDIO, response.data);  
                                 commit(mutation.REMOVE_STUDIO_FROM_RESULTS, studioId); 

@@ -26,6 +26,7 @@ jobs:
           envkey_VUE_APP_SITE_ALBUMS: ${{ secrets.VUE_APP_SITE_ALBUMS }}
           envkey_VUE_APP_SITE_ARTISTS: ${{ secrets.VUE_APP_SITE_ARTISTS }}
           envkey_VUE_APP_SITE_MEMBERS: ${{ secrets.VUE_APP_SITE_MEMBERS }}
+          envkey_VUE_APP_DEFAULT_VERSION: ${{ secrets.VUE_APP_DEFAULT_VERSION }}
           file_name: .env     
           directory: './SwanSong.Vue'
       - name: Build And Deploy

@@ -113,7 +113,7 @@ export const album = {
         async random ({ commit }) { 
 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`albums/random`)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/random`)
                         .then(response => {
                             commit(mutation.SET_SEARCH_ALBUMS, response.data);  
                             resolve();
@@ -124,7 +124,7 @@ export const album = {
         },   
         async search ({ commit }, criteria) {   
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`albums/search/` + criteria)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/search/` + criteria)
                         .then(response => {
                             commit(mutation.SET_SEARCH_ALBUMS, response.data);                             
                             resolve();
@@ -136,7 +136,7 @@ export const album = {
         },
         async searchByLetter ({ commit }, letter) {
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`albums/search-by-letter/` + letter)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/search-by-letter/` + letter)
                         .then(response => {
                             commit(mutation.SET_SEARCH_ALBUMS, response.data);   
                             resolve();
@@ -148,7 +148,7 @@ export const album = {
         },  
         async getAlbum ({ commit }, id) {   
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`albums/album/` + id)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/` + id)
                        .then(response => {
                             commit(mutation.SET_ALBUM, response.data); 
                             resolve(); 
@@ -163,7 +163,7 @@ export const album = {
         },
         saveAlbum ({ state }, id) {   
 
-            let url = 'albums/album/' + (id > 0 ? 'update' : 'add');
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/` + (id > 0 ? 'update' : 'add');
 
             return new Promise(async (resolve, reject) => {
                 await ajax.post(url, state.album)  
@@ -180,7 +180,7 @@ export const album = {
             let albumId = state.album.id; 
 
             return new Promise(async (resolve, reject) => {
-                await ajax.delete(`albums/album/` + state.album.id)  
+                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/` + state.album.id)  
                        .then(response => {                            
                             commit(mutation.CLEAR_ALBUM);  
                             commit(mutation.REMOVE_ALBUM_FROM_SEARCH_RESULTS, albumId);
@@ -194,7 +194,7 @@ export const album = {
         },
         async savePhoto ({ commit }, { albumId, formData }) {
             return new Promise(async (resolve, reject) => {
-                await ajax.post('/albums/album/upload-photo/' + albumId, formData,  {
+                await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/upload-photo/` + albumId, formData,  {
                     headers: {}  
                     }).then(response => {
                         commit(mutation.SET_ALBUM_PHOTO, response.data.filename);  
@@ -207,7 +207,7 @@ export const album = {
         },
         async getAlbumsForArtist({ commit }, artistId) { 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`albums/artist/` + artistId)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/artist/` + artistId)
                         .then(response => {
                             commit(mutation.SET_ARTIST_ALBUMS, response.data);  
                             resolve();

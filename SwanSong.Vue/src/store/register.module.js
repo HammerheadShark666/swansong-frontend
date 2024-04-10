@@ -36,7 +36,7 @@ export const register = {
 			}
 
 			return new Promise(async (resolve, reject) => {
-				await ajax.post(`/register`, data)
+				await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/register`, data)
 						.then(response => {
 							commit(mutation.REGISTER_SUCCESS);
 							resolve(response.data);
@@ -49,7 +49,7 @@ export const register = {
 		},
 		async verifyRegistrationToken( commit, token) {			
 			return new Promise(async (resolve, reject) => {
-				await ajax.post(`/register/verify-email/`, { token: token })
+				await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/register/verify-email/`, { token: token })
 						.then(response => {
 							resolve(response.data.message);
 						})
