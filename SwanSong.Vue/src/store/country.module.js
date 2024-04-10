@@ -56,7 +56,7 @@ export const country = {
         async getAll ({ commit }) {
 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`countries`)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/countries`)
                        .then(response => {
                            commit(mutation.SET_COUNTRIES, response.data); 
                            resolve();
@@ -71,7 +71,7 @@ export const country = {
         },
         async saveCountry ({ commit, state }) {  
 
-            let url = 'countries/country/' + (state.country.id > 0 ? 'update' : 'add');
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/countries/country/` + (state.country.id > 0 ? 'update' : 'add');
 
             return new Promise(async (resolve, reject) => {
                 await ajax.post(url, state.country )  
@@ -88,7 +88,7 @@ export const country = {
             let countryId = state.country.id; 
 
             return new Promise(async (resolve, reject) => {
-                await ajax.delete(`countries/country/` + countryId)  
+                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/countries/country/` + countryId)  
                             .then(response => {
                                 commit(mutation.SET_DELETED_COUNTRY, response.data);  
                                 commit(mutation.REMOVE_COUNTRY_FROM_RESULTS, countryId); 

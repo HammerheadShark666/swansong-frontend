@@ -34,7 +34,7 @@ export const authentication = {
 	actions: {
 		async login({ commit, dispatch }, loginForm) {
 			return new Promise(async (resolve, reject) => {
-				await ajax.post(`/login`, loginForm)
+				await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/login`, loginForm)
 						.then(response => {
 							
 							if (response.data.jwtToken) {

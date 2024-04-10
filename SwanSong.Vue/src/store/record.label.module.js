@@ -56,7 +56,7 @@ export const recordLabel = {
         async getAll ({ commit }) {
 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`record-labels`)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/record-labels`)
                        .then(response => {
                            commit(mutation.SET_RECORD_LABELS, response.data); 
                            resolve();
@@ -71,7 +71,7 @@ export const recordLabel = {
         },
         async saveRecordLabel ({ commit, state }) {  
  
-            let url = 'record-labels/record-label/' + (state.recordLabel.id > 0 ? 'update' : 'add');
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/record-labels/record-label/` + (state.recordLabel.id > 0 ? 'update' : 'add');
 
             return new Promise(async (resolve, reject) => {
                 await ajax.post(url, state.recordLabel)  
@@ -88,7 +88,7 @@ export const recordLabel = {
             let recordLabelId = state.recordLabel.id; 
 
             return new Promise(async (resolve, reject) => {
-                await ajax.delete(`record-labels/record-label/` + recordLabelId)  
+                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/record-labels/record-label/` + recordLabelId)  
                             .then(response => {
                                 commit(mutation.SET_DELETED_RECORD_LABEL, response.data);  
                                 commit(mutation.REMOVE_RECORD_LABEL_FROM_RESULTS, recordLabelId); 

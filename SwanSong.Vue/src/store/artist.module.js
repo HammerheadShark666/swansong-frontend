@@ -92,7 +92,7 @@ export const artist = {
         async all ({ commit }, { pageNumber, pageSize }) { 
 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`artists?pageNumber=` + pageNumber + '&pageSize=' + pageSize)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/artists?pageNumber=` + pageNumber + '&pageSize=' + pageSize)
                         .then(response => {
                             commit(mutation.SET_ARTISTS_BY_PAGING, response.data);  
                             resolve();
@@ -104,7 +104,7 @@ export const artist = {
         async random ({ commit }) { 
 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`artists/random`)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/artists/random`)
                         .then(response => {
                             commit(mutation.SET_SEARCH_ARTISTS, response.data);  
                             resolve();
@@ -116,7 +116,7 @@ export const artist = {
         async search ({ commit }, criteria) { 
 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`artists/search/` + criteria)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/artists/search/` + criteria)
                         .then(response => {
                             commit(mutation.SET_SEARCH_ARTISTS, response.data);  
                             resolve();
@@ -128,7 +128,7 @@ export const artist = {
         async searchByLetter ({ commit }, letter) { 
 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`artists/search-by-letter/` + letter)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/artists/search-by-letter/` + letter)
                             .then(response => {
                                 commit(mutation.SET_SEARCH_ARTISTS, response.data);  
                                 resolve();
@@ -140,7 +140,7 @@ export const artist = {
         async getLookups ({ commit }) {
 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`artists/lookups`)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/artists/lookups`)
                         .then(response => {
                             commit(mutation.SET_ARTIST_LOOKUPS, response.data);   
                             resolve();
@@ -152,7 +152,7 @@ export const artist = {
         async getArtist ({ commit }, id) { 
 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`artists/artist/` + id)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/artists/artist/` + id)
                         .then(response => {
                             commit(mutation.SET_ARTIST, response.data);   
                             resolve();
@@ -166,7 +166,7 @@ export const artist = {
         }, 
         async saveArtist ({ state, dispatch }, id) {
  
-            let url = 'artists/artist/'  + (id > 0 ? 'update' : 'add');
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/artists/artist/`  + (id > 0 ? 'update' : 'add');
 
             return new Promise(async (resolve, reject) => {
                 await ajax.post(url, state.artist)
@@ -183,7 +183,7 @@ export const artist = {
             let artistId = state.artist.id; 
 
             return new Promise(async (resolve, reject) => {
-                await ajax.delete(`artists/artist/` + state.artist.id)  
+                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/artists/artist/` + state.artist.id)  
                             .then(response => {
                                 commit(mutation.SET_DELETED_ARTIST, response.data);  
                                 commit(mutation.REMOVE_ARTIST_FROM_SEARCH_RESULTS, artistId);
@@ -199,7 +199,7 @@ export const artist = {
         async savePhoto ({ commit }, { artistId, formData }) {   
 
             return new Promise(async (resolve, reject) => {
-                await ajax.post('/artists/artist/upload-photo/' + artistId, formData,  {
+                await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/artists/artist/upload-photo/` + artistId, formData,  {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }}).then(response => {

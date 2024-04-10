@@ -7,7 +7,7 @@ export const profilePasswordChange = {
     async savePasswordChange (context, passwordChange) {
 
       return new Promise(async (resolve, reject) => {
-        await ajax.post(`profile/password-change`, passwordChange)  
+        await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/profile/password-change`, passwordChange)  
                     .then(response => {
                         resolve(response);
                     }).catch(error => {

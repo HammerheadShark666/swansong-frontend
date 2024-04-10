@@ -118,7 +118,7 @@ export const member = {
         async all ({ commit }, { pageNumber, pageSize }) { 
 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`members?pageNumber=` + pageNumber + '&pageSize=' + pageSize)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members?pageNumber=` + pageNumber + '&pageSize=' + pageSize)
                         .then(response => {
                             commit(mutation.SET_MEMBERS_BY_PAGING, response.data);  
                             resolve();
@@ -129,7 +129,7 @@ export const member = {
         },     
         async random ({ commit }) { 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`members/random`)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/random`)
                         .then(response => {
                             commit(mutation.SET_SEARCH_MEMBERS, response.data);  
                             resolve();
@@ -140,7 +140,7 @@ export const member = {
         },  
         async getMembersForArtist ({ commit }, artistId) { 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`members/` + artistId)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/` + artistId)
                        .then(response => {
                            commit(mutation.SET_MEMBERS_RESULTS, response.data); 
                            commit(mutation.SET_ARTIST_ID, artistId); 
@@ -153,7 +153,7 @@ export const member = {
         },   
         async search ({ commit }, criteria) {   
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`members/search/` + criteria)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/search/` + criteria)
                         .then(response => {
                             commit(mutation.SET_SEARCH_MEMBERS, response.data);                             
                             resolve();
@@ -165,7 +165,7 @@ export const member = {
         },  
         async searchByLetter ({ commit }, letter) {
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`members/search-by-letter/` + letter)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/search-by-letter/` + letter)
                         .then(response => {
                             commit(mutation.SET_SEARCH_MEMBERS, response.data);   
                             resolve();
@@ -177,7 +177,7 @@ export const member = {
         },   
         async getMember ({ commit }, id) {   
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`members/member/` + id)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/` + id)
                        .then(response => {
                             commit(mutation.SET_MEMBER, response.data); 
                             resolve(); 
@@ -200,7 +200,7 @@ export const member = {
             var urlAction = isEdit ? "update" : "add";
 
             return new Promise(async (resolve, reject) => {
-                await ajax.post(`members/member/` + urlAction + `/`, state.member)  
+                await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/` + urlAction + `/`, state.member)  
                             .then(response => {
                                 if(response.data.isValid) {
                                     !isEdit
@@ -216,7 +216,7 @@ export const member = {
         },
         async deleteMember ({ commit }, id) {
             return new Promise(async (resolve, reject) => {
-                await ajax.delete(`members/member/` + id)  
+                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/` + id)  
                             .then(response => { 
                                 if(response.data.isValid)                          
                                     commit(mutation.SET_DELETED_MEMBER, id); 
@@ -230,7 +230,7 @@ export const member = {
         async savePhoto ({ commit }, { id, formData }) {
             return new Promise(async (resolve, reject) => {
                 if(id != undefined) {
-                    await ajax.post('/members/member/upload-photo/' + id, formData,  {
+                    await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/upload-photo/` + id, formData,  {
                                 headers: {
                                     'Content-Type': 'multipart/form-data'
                                 }  

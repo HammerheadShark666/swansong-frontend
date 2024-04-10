@@ -27,7 +27,7 @@ export const forgottenPassword = {
 		async forgottenPassword({commit }, email) {						
 			commit(mutation.VERIFYING_REGISTRATION_TOKEN);	
 			return new Promise(async (resolve, reject) => {
-				await ajax.post(`/forgot-password/`, { email: email })
+				await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/forgot-password/`, { email: email })
 						.then(() => {
 							commit(mutation.VERIFY_REGISTRATION_TOKEN_SUCCESS, "");
 							resolve();
@@ -40,7 +40,7 @@ export const forgottenPassword = {
 		async resetPassword({commit }, form) {						
 			commit(mutation.VERIFYING_REGISTRATION_TOKEN);	
 			return new Promise(async (resolve, reject) => {
-				await ajax.post(`/forgot-password/reset-password/`, form)
+				await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/forgot-password/reset-password/`, form)
 						.then(() => {
 							commit(mutation.VERIFY_REGISTRATION_TOKEN_SUCCESS, "");
 							resolve();

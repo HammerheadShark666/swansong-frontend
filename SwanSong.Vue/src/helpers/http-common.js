@@ -11,7 +11,7 @@ function refreshToken() {
 
 		isGettingRefreshToken = true;
 
-		return ajax.post(`refresh-token`, getRefreshToken())
+		return ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/refresh-token`, getRefreshToken())
 				.then(response => {   
 					if ((response.status === 400) && (response.data.Message === "Invalid token") && (response.config.url == "refresh-token")) {
 						sessionStorage.removeItem('user');    
