@@ -32,7 +32,7 @@ export function getAlbumSongsTotalLength(rows) {
 
         minutes = minutes + secondsToMinutes;
         seconds = leftOverSeconds;
-        sum = minutes + ":" + seconds;
+        sum = minutes + ":" + (seconds<10 ? "0" + seconds : seconds);
     }
 
     return sum;
