@@ -93,7 +93,7 @@ export default {
 							this.messages.push({ text: "A reset password email has been sent", severity:"info" });
 						},
 						(error) => {	
-							this.messages = error; 
+							this.messages = error.messages; 
 							this.disabled = false;
 						});
 				} else { 
