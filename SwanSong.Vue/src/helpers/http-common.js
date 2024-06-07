@@ -33,7 +33,7 @@ function refreshToken() {
 }
 
 const ajax = axios.create({
-    baseURL: (process.env.VUE_APP_BASE_URL !== undefined) ? process.env.VUE_APP_BASE_URL : ''
+    baseURL: (process.env.VUE_APP_API_URL !== undefined) ? process.env.VUE_APP_API_URL : ''
 });
  
 ajax.CancelToken = axios.CancelToken
