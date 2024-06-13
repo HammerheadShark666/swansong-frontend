@@ -48,11 +48,8 @@ export const albumSong = {
             state.albumSong.id = albumSong.id;
             state.albumSong.song.id = albumSong.songId;
             state.albumSongs.push(state.albumSong); 
-        },   
-        SET_DELETED_ALBUM_SONG (state, {id}) {
-            state.albumSongs = state.albumSongs.filter(albumSong => albumSong.id != id);
-            state.albumSong = getAlbumSong(0);
-        },  
+            state.albumSong = getAlbumSong(state.albumSong.albumId);
+        },          
         SET_SAVED_EDITED_ALBUM_SONG (state, albumSong) {
 
             var songs = state.albumSongs;
@@ -63,9 +60,12 @@ export const albumSong = {
                 return song;
             });
 
-            state.albumSongs = songs; 
+            state.albumSongs = songs;  
         },   
-          
+        SET_DELETED_ALBUM_SONG (state, {id}) {
+            state.albumSongs = state.albumSongs.filter(albumSong => albumSong.id != id);
+            state.albumSong = getAlbumSong(0);
+        },    
         CLEAR_ALBUM_SONGS(state) {
             state.albumSongs = [];
         },
@@ -90,33 +90,40 @@ export const albumSong = {
                             })
             })
         },
-        async saveAlbumSong ({ commit, state }) {          
-            
-            var isEdit = state.albumSong.id == 0 ? false : true;      
+        async addNewAlbumSong ({  commit, state }) {
 
-            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/song/` + (isEdit ? 'update' : 'add');
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/song/add`;
 
             return new Promise(async (resolve, reject) => {
-                await ajax.post(url, state.albumSong)  
-                            .then(response => {
-                                if(response.data.isValid) {
-                                    !isEdit
-                                        ? commit("SET_SAVED_ALBUM_SONG", response.data)                                 
-                                        : commit("SET_SAVED_EDITED_ALBUM_SONG", response.data);  
-                                }
-                                resolve(response.data);
-                            })
-                            .catch(error => { 
+                await ajax.post(url, state.albumSong)
+                            .then(response => { 
+                                commit("SET_SAVED_ALBUM_SONG", response.data)   
+                                resolve(response); 
+                            }).catch(error => {
                                 reject(error.response);
                             })
-            })
-        },  
+            });
+        },     
+        updateAlbumSong ({  commit, state }) {   
+
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/song/update`;
+
+            return new Promise(async (resolve, reject) => {
+                await ajax.put(url, state.albumSong)  
+                       .then(response => { 
+                            commit("SET_SAVED_EDITED_ALBUM_SONG", state.albumSong)
+                            resolve(response.data);  
+                       })
+                       .catch(error => {
+                            reject(error.response);
+                       })
+            });
+        },          
         async deleteAlbumSong ({ commit }, id) {
             return new Promise(async (resolve, reject) => {
                 await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/song/` + id)  
-                            .then(response => {
-                                if(response.data.isValid)                              
-                                    commit(mutation.SET_DELETED_ALBUM_SONG, { id, response }); 
+                            .then(response => {                            
+                                commit(mutation.SET_DELETED_ALBUM_SONG, { id }); 
                                 resolve(response);
                             })
                             .catch(error => {                          

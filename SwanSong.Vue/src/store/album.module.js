@@ -161,9 +161,9 @@ export const album = {
         async addAlbum({commit}) {
             commit(mutation.SET_NEW_ALBUM);       
         },
-        saveAlbum ({ state }, id) {   
+        addNewAlbum ({ state }) {   
 
-            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/` + (id > 0 ? 'update' : 'add');
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/add`;
 
             return new Promise(async (resolve, reject) => {
                 await ajax.post(url, state.album)  
@@ -175,6 +175,20 @@ export const album = {
                        })
             });
         },
+        updateAlbum ({ state }) {   
+
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/update`;
+
+            return new Promise(async (resolve, reject) => {
+                await ajax.put(url, state.album)  
+                       .then(response => { 
+                            resolve(response);  
+                       })
+                       .catch(error => {
+                            reject(error.response);
+                       })
+            });
+        },      
         async deleteAlbum ({ commit, state, dispatch }) { 
 
             let albumId = state.album.id; 

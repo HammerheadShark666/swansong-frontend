@@ -112,6 +112,7 @@ import DialogMessages from '../library/DialogMessages.vue'
 import { formatDate } from '../../helpers/helper'   
 import { getMemberImageUrl, getDefaultMemberImageUrl } from '../../helpers/imageHelper'
 import { Edit, Delete } from '@element-plus/icons'
+import { MESSAGE_INFO } from '../../helpers/helper'
 
 export default defineComponent({
 
@@ -143,8 +144,8 @@ export default defineComponent({
         },
         async deleteArtistMemberOnClick(id) {
             await this.$store.dispatch("member/deleteMember", id).then(
-						(response) => {	                            
-                            this.messages =  response.messages;
+						() => {	                            
+                            this.messages = [ {"text" : "Member deleted.", "severity": MESSAGE_INFO}];
 						},
 						(error) => { 
                             this.errors = error.data.messages;

@@ -164,9 +164,9 @@ export const artist = {
         addArtist({commit}) {
             commit(mutation.SET_NEW_ARTIST, getArtistDetails());       
         }, 
-        async saveArtist ({ state, dispatch }, id) {
+        async addNewArtist ({ state, dispatch }) {
  
-            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/artists/artist/`  + (id > 0 ? 'update' : 'add');
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/artists/artist/add`;
 
             return new Promise(async (resolve, reject) => {
                 await ajax.post(url, state.artist)
@@ -177,7 +177,21 @@ export const artist = {
                                 reject(error.response);
                             })
             });
-        },        
+        },     
+        updateArtist ({ state }) {   
+
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/artists/artist/update`;
+
+            return new Promise(async (resolve, reject) => {
+                await ajax.put(url, state.artist)  
+                       .then(response => { 
+                            resolve(response);  
+                       })
+                       .catch(error => {
+                            reject(error.response);
+                       })
+            });
+        },   
         async deleteArtist ({ commit, state, dispatch }) {
 
             let artistId = state.artist.id; 

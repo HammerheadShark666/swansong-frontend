@@ -1,39 +1,41 @@
 <template>
-    <el-card class="box-card">
-    <template #header>
-        <div class="card-header">
-        <span>Photo</span> 
-        </div>
-    </template>
-        <el-row class="messages">
-            <el-col :span="24">                 
-                <alerts v-bind:visible="messages.length > 0" v-bind:messages="messages"></alerts>
-            </el-col>
-        </el-row>   
-        <el-row>
-            <el-col :span="6"> 
-                <el-image v-if="album.photo" class="album-photo" v-bind:src="getImageUrl(album.photo)"></el-image>
-                <el-image v-else class="album-photo" v-bind:src="getDefaultImageUrl()"></el-image>
-            </el-col>
-            <el-col :span="17" class="upload">
-                <el-upload
-                    class="upload-demo" 
-                    action="#"
-                    :http-request="uploadFile" 
-                    :file-list="fileList"
-                    list-type="picture"
-                    ref="albumPhotoUpload"
-                    single>
-                    <el-button size="small" type="primary">Click to upload</el-button>
-                    <template #tip>
-                    <div class="el-upload__tip">
-                        jpg/png files with a size less than 500kb
-                    </div>
-                    </template>
-                </el-upload> 
-            </el-col>            
-        </el-row>  
-    </el-card>
+    <div>
+        <el-card class="box-card">
+        <template #header>
+            <div class="card-header">
+            <span>Photo</span> 
+            </div>
+        </template>
+            <el-row class="messages">
+                <el-col :span="24">                 
+                    <alerts v-bind:visible="messages.length > 0" v-bind:messages="messages"></alerts>
+                </el-col>
+            </el-row>   
+            <el-row>
+                <el-col :span="6"> 
+                    <el-image v-if="album.photo" class="album-photo" v-bind:src="getImageUrl(album.photo)"></el-image>
+                    <el-image v-else class="album-photo" v-bind:src="getDefaultImageUrl()"></el-image>
+                </el-col>
+                <el-col :span="17" class="upload">
+                    <el-upload
+                        class="upload-demo" 
+                        action="#"
+                        :http-request="uploadFile" 
+                        :file-list="fileList"
+                        list-type="picture"
+                        ref="albumPhotoUpload"
+                        single>
+                        <el-button size="small" type="primary">Click to upload</el-button>
+                        <template #tip>
+                        <div class="el-upload__tip">
+                            jpg/png files with a size less than 500kb
+                        </div>
+                        </template>
+                    </el-upload> 
+                </el-col>            
+            </el-row>  
+        </el-card>
+    </div>
 </template>
 
 <script>

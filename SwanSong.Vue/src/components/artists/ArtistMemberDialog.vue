@@ -56,7 +56,7 @@
                     </el-form-item> 
                     <div class="form-item-button form-item-buttons">  
                         <el-button type="primary" class="cancel-member-button" @click="closeDialog">Cancel</el-button>     
-                        <el-button class="member-save-button" :disabled="disabled" type="primary" @click="submitForm('memberForm')">Save</el-button>
+                        <el-button class="member-save-button" :disabled="disabled" type="primary" @click="submitForm()">Save</el-button>
                     </div>
                 </el-form>
             </el-card>
@@ -72,6 +72,7 @@ import { delayAlertRemove } from '../../helpers/helper'
 import { emitter } from '../../main'
 import Alerts from '../library/Alerts.vue' 
 import ArtistMemberPhoto from '../artists/ArtistMemberPhoto.vue'
+import { MESSAGE_INFO } from '../../helpers/helper'
 
 export default defineComponent({   
     el: 'MemberDialog', 
@@ -116,15 +117,16 @@ export default defineComponent({
         }); 
     }, 
     methods: {   
-        submitForm(formName) {
+        submitForm() {
             this.messages = [];
-			this.$refs[formName].validate((valid) => {
+			this.$refs['memberForm'].validate((valid) => {
 				if (valid) { 
                     this.disabled = true;
-					this.$store.dispatch("member/saveMember").then(
-						(response) => {
-                            this.messages = response.messages;
-                            this.resetForm();
+                    let action = this.member.id > 0 ? "update": "addNew";
+					this.$store.dispatch("member/" + action + "Member").then(
+						() => {
+                            this.messages = [ {"text" : "Member Saved.", "severity": MESSAGE_INFO}];
+                            this.disabled = false;
                             delayAlertRemove().then(function() {
                                 this.messages = [];                                
                             }.bind(this));  
@@ -156,9 +158,9 @@ export default defineComponent({
         openDialog() {
             this.showDialog = true;
         },
-        resetForm() {   
-            this.disabled = false;
-        }
+        // resetForm() {   
+        //     this.disabled = false;
+        // }
      }
 });
 

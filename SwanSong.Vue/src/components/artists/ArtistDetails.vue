@@ -62,9 +62,9 @@ import { defineComponent } from 'vue'
 import { getListOfNumbers, delayAlertRemove } from '../../helpers/helper' 
 import { emitter } from '../../main'
 import Alerts from '../library/Alerts.vue'  
+import { MESSAGE_INFO } from '../../helpers/helper'
 
-export default defineComponent({
-   
+export default defineComponent({   
     el: 'ArtistDetails',       
     components:{  
         'alerts': Alerts
@@ -127,7 +127,7 @@ export default defineComponent({
                     this.artistImage = "/images/artists/default-band-image.jpg";
                 }
 
-                this.artistId = artist.id;
+                this.artistId = artist.id; 
             })        
     },
     mounted() {
@@ -143,16 +143,21 @@ export default defineComponent({
 			this.$refs['artistDetailsForm'].validate((valid) => {
 				if (valid) {
                         this.disabled = true;
-                        this.$store.dispatch("artist/saveArtist", this.artist.id).then(
-						(response) => {			
-                            this.messages = response.data.messages;	 
-                            this.resetForm();
-                            if(this.$router.currentRoute.value.path == "/artists/artist/add")
-                                this.$router.push("/artists/artist/" + response.data.id);       
- 
-                            delayAlertRemove().then(function() {
-                                this.messages = [];       
-                            }.bind(this));     
+
+                        let action = this.artist.id > 0 ? "update": "addNew";
+
+                        this.$store.dispatch("artist/" + action + "Artist").then(
+						(response) => {		
+                                this.resetForm();
+                                
+                                if(action == "addNew")
+                                    this.$router.push("/artists/artist/" + response.data.id);      
+                                else     
+                                    this.messages = [ {"text" : "Artist Saved.", "severity": MESSAGE_INFO}];
+                                    
+                                delayAlertRemove().then(function() {
+                                    this.messages = [];
+                                }.bind(this));
 						},
 						(error) => { 
                             this.messages = error.data.messages;

@@ -1,28 +1,30 @@
 <template>
-	<el-card class="box-card">
-		<template #header>
-			<div class="card-header">
-				<el-row class="card-header-row">
-					<el-col :span="12">
-						<span>{{member.stageName}}</span>
-					</el-col>
-					<el-col :span="12" class="member-member-title" v-if="member.artistId != null">
-						<router-link :to="{ name: 'artists-artist', params:{artistId: member.artistId} }" class="nav-link nav-link-member"> 
-							<span>{{artistName}}</span> 
-						</router-link>
-					</el-col>
-				</el-row>       
-			</div>
-		</template>
-		<el-row>    
-			<el-col :span="14" class="member-details">
-				<member-details></member-details>
-			</el-col>
-			<el-col :span="10"> 
-				<member-photo  v-if="member.id > 0"></member-photo> 
-			</el-col>
-		</el-row>    
-	</el-card>
+	<div>
+		<el-card class="box-card">
+			<template #header>
+				<div class="card-header">
+					<el-row class="card-header-row">
+						<el-col :span="12">
+							<span>{{member.stageName}}</span>
+						</el-col>
+						<el-col :span="12" class="member-member-title" v-if="member.artistId != null">
+							<router-link :to="{ name: 'artists-artist', params:{artistId: member.artistId} }" class="nav-link nav-link-member"> 
+								<span>{{artistName}}</span> 
+							</router-link>
+						</el-col>
+					</el-row>       
+				</div>
+			</template>
+			<el-row>    
+				<el-col :span="14" class="member-details">
+					<member-details></member-details>
+				</el-col>
+				<el-col :span="10"> 
+					<member-photo  v-if="member.id > 0"></member-photo> 
+				</el-col>
+			</el-row>    
+		</el-card>
+	</div>
 </template>
 
 <script>
@@ -31,8 +33,7 @@ import { defineComponent } from '@vue/composition-api'
 import MemberDetails from './MemberDetails'
 import MemberPhoto from './MemberPhoto' 
 
-export default defineComponent({
-   
+export default defineComponent({ 
     el: 'Member',  
     components:{ 
 		'member-details': MemberDetails,

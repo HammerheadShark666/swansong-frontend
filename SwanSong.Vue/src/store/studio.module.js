@@ -4,6 +4,7 @@ import ajax from '../helpers/http-common'
 const mutation = {  
     SET_STUDIOS: "SET_STUDIOS",
     SET_STUDIO: "SET_STUDIO",
+    SET_UPDATED_STUDIO: "SET_UPDATED_STUDIO",
     SET_SAVED_STUDIO: "SET_SAVED_STUDIO",
     SET_DELETED_STUDIO: "SET_DELETED_STUDIO",
     REMOVE_STUDIO_FROM_RESULTS: "REMOVE_STUDIO_FROM_RESULTS"
@@ -29,16 +30,14 @@ export const studio = {
         },
         SET_STUDIO(state, studio) {
             state.studio = studio;
+        },       
+        SET_SAVED_STUDIO(state, studio) {            
+            state.studios.push({id: studio.id, name: studio.name});
+            state.studio = getStudioDetails();
         },
-        SET_SAVED_STUDIO(state, studio) {
-            state.studio = studio;
-            let objIndex = state.studios.findIndex((obj => obj.id == studio.id));  
-
-            if(objIndex > -1)
-                state.studios[objIndex].name = studio.name;
-            else 
-                state.studios.push({id: studio.id, name: studio.name});
-
+        SET_UPDATED_STUDIO(state, studio) {
+            let objIndex = state.studios.findIndex((obj => obj.id == studio.id));
+            state.studios[objIndex].name = studio.name;
             state.studio = getStudioDetails();
         },
         SET_DELETED_STUDIO ( state ) {
@@ -68,15 +67,29 @@ export const studio = {
         },        
         setStudio({ commit }, studio) {
             commit(mutation.SET_STUDIO, studio); 
-        },
-        async saveStudio ({ commit, state }) {   
-            
-            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/studios/studio/` + (state.studio.id > 0 ? 'update' : 'add');
+        },     
+        async addStudio ({ commit, state }) {  
+
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/studios/studio/add`;
 
             return new Promise(async (resolve, reject) => {
-                await ajax.post(url, state.studio)  
+                await ajax.post(url, state.studio )  
                             .then(response => {
                                 commit(mutation.SET_SAVED_STUDIO, response.data);   
+                                resolve(response);
+                            }).catch(error => {
+                                reject(error.response);
+                            })
+            });
+        },
+        async updateStudio ({ commit, state }) {  
+
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/studios/studio/update`;
+
+            return new Promise(async (resolve, reject) => {
+                await ajax.put(url, state.studio )  
+                            .then(response => {
+                                commit(mutation.SET_UPDATED_STUDIO, state.studio);   
                                 resolve(response);
                             }).catch(error => {
                                 reject(error.response);

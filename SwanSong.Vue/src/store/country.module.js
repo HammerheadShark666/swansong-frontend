@@ -5,6 +5,7 @@ const mutation = {
     SET_COUNTRIES: "SET_COUNTRIES",
     SET_COUNTRY: "SET_COUNTRY",
     SET_SAVED_COUNTRY: "SET_SAVED_COUNTRY",
+    SET_UPDATED_COUNTRY: "SET_UPDATED_COUNTRY",
     SET_DELETED_COUNTRY: "SET_DELETED_COUNTRY",
     REMOVE_COUNTRY_FROM_RESULTS: "REMOVE_COUNTRY_FROM_RESULTS"
 }
@@ -31,14 +32,12 @@ export const country = {
             state.country = country;
         },
         SET_SAVED_COUNTRY(state, country) {
-            state.country = country;
+            state.countries.push({id: country.id, name: country.name});
+            state.country = getCountryDetails();
+        },
+        SET_UPDATED_COUNTRY(state, country) { 
             let objIndex = state.countries.findIndex((obj => obj.id == country.id));  
-
-            if(objIndex > -1)
-                state.countries[objIndex].name = country.name;
-            else 
-                state.countries.push({id: country.id, name: country.name});
-
+            state.countries[objIndex].name = country.name; 
             state.country = getCountryDetails();
         },
         SET_DELETED_COUNTRY ( state ) {
@@ -69,14 +68,28 @@ export const country = {
         setCountry({ commit }, country) {
             commit(mutation.SET_COUNTRY, country); 
         },
-        async saveCountry ({ commit, state }) {  
+        async addCountry ({ commit, state }) {  
 
-            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/countries/country/` + (state.country.id > 0 ? 'update' : 'add');
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/countries/country/add`; // + (state.country.id > 0 ? 'update' : 'add');
 
             return new Promise(async (resolve, reject) => {
                 await ajax.post(url, state.country )  
                             .then(response => {
                                 commit(mutation.SET_SAVED_COUNTRY, response.data);   
+                                resolve(response);
+                            }).catch(error => {
+                                reject(error.response);
+                            })
+            });
+        },
+        async updateCountry ({ commit, state }) {  
+
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/countries/country/update`;
+
+            return new Promise(async (resolve, reject) => {
+                await ajax.put(url, state.country )  
+                            .then(response => {
+                                commit(mutation.SET_UPDATED_COUNTRY, state.country);   
                                 resolve(response);
                             }).catch(error => {
                                 reject(error.response);

@@ -47,6 +47,7 @@ import { delayAlertRemove } from '../../../helpers/helper'
 import Alerts from '../../library/Alerts.vue'
 import { emitter } from '../../../main' 
 import { Delete } from '@element-plus/icons'
+import { MESSAGE_INFO } from '../../../helpers/helper'
 
 export default defineComponent({
    
@@ -83,16 +84,18 @@ export default defineComponent({
             this.messages = messages;
         });
     }, 
-    methods: {     
-        
+    methods: {          
         saveStudioOnClick() {
-            this.messages = [];            
+            this.messages = [];
 			this.$refs['studioDetailsForm'].validate((valid) => {
 				if (valid) {
                     this.disabled = true;
-                    this.$store.dispatch("studio/saveStudio").then(
-                    (response) => {			
-                        this.messages = response.data.messages;
+
+                    let action = this.studio.id > 0 ? "update": "add";
+
+                    this.$store.dispatch("studio/" + action + "Studio").then(
+                    () => {
+                        this.messages = [ {"text" : "Studio saved.", "severity": MESSAGE_INFO}];
                         this.resetForm();
                         delayAlertRemove().then(function() {
                             this.messages = [];                               
@@ -108,9 +111,9 @@ export default defineComponent({
         async deleteStudioOnClick() {
             this.messages = []; 
             await this.$store.dispatch("studio/deleteStudio").then(
-                (response) => {                         
-                    this.messages = response.data.messages;	 
-                    this.disabled = false;                                                
+                () => {                         
+                    this.messages = [ {"text" : "Studio deleted.", "severity": MESSAGE_INFO}]; 
+                    this.resetForm();                                                                                           
                     delayAlertRemove().then(function() {
                         this.messages = [];                               
                     }.bind(this)); 
