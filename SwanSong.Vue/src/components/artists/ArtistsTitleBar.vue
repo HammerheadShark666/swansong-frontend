@@ -35,6 +35,7 @@
 import { defineComponent } from 'vue'
 import ArtistSearch from './ArtistSearch.vue'
 import DialogMessages from '../library/DialogMessages.vue' 
+import { MESSAGE_INFO } from '../../helpers/helper'
 
 export default defineComponent({
 
@@ -64,9 +65,9 @@ export default defineComponent({
         async deleteArtistOnClick() { 
             this.messages = [];
             await this.$store.dispatch("artist/deleteArtist").then(
-                        (response) => {                             
+                        () => {                             
                             this.$router.push("/artists/artist/add");    
-                            this.messages = response.data.messages; 
+                            this.messages = [ {"text" : "Artist deleted.", "severity": MESSAGE_INFO}];
 						},
 						(error) => {  
                             this.messages = error.response.data.errors;

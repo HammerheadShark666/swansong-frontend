@@ -1,40 +1,42 @@
 <template>
-    <el-card class="box-card card-margin-right">
-    <template #header>
-        <div class="card-header">
-        <span>Photo</span> 
-        </div>
-    </template>
-        <el-row class="messages">
-            <el-col :span="24">                 
-                <alerts v-bind:visible="messages.length > 0" v-bind:messages="messages"></alerts>
-            </el-col>
-        </el-row>    
-        <el-row :gutter="20">                     
-            <el-col :span="5" class="photo-column"> 
-                <el-image v-if="member.photo" class="member-photo" v-bind:src="getImageUrl(member.photo)"></el-image>
-                <el-image v-else class="member-photo" v-bind:src="getDefaultImageUrl()"></el-image>
-            </el-col>
-            <el-col :span="19" class="upload">
-                <el-upload
-                    class="upload-demo" 
-                    :before-upload="isImageValid"
-                    action="#"
-                    :http-request="uploadFile" 
-                    :file-list="fileList"
-                    list-type="picture"
-                    ref="memberPhotoUpload"
-                    single>
-                    <el-button size="small" type="primary">Click to upload</el-button>
-                    <template #tip>
-                    <div class="el-upload__tip">
-                        jpg/png files with a size less than 500kb
-                    </div>
-                    </template>
-                </el-upload> 
-            </el-col>
-        </el-row>     
-    </el-card>
+    <div>
+        <el-card class="box-card card-margin-right">
+            <template #header>
+                <div class="card-header">
+                <span>Photo</span> 
+                </div>
+            </template>
+            <el-row class="messages">
+                <el-col :span="24">                 
+                    <alerts v-bind:visible="messages.length > 0" v-bind:messages="messages"></alerts>
+                </el-col>
+            </el-row>    
+            <el-row :gutter="20">                     
+                <el-col :span="5" class="photo-column"> 
+                    <el-image v-if="member.photo" class="member-photo" v-bind:src="getImageUrl(member.photo)"></el-image>
+                    <el-image v-else class="member-photo" v-bind:src="getDefaultImageUrl()"></el-image>
+                </el-col>
+                <el-col :span="19" class="upload">
+                    <el-upload
+                        class="upload-demo" 
+                        :before-upload="isImageValid"
+                        action="#"
+                        :http-request="uploadFile" 
+                        :file-list="fileList"
+                        list-type="picture"
+                        ref="memberPhotoUpload"
+                        single>
+                        <el-button size="small" type="primary">Click to upload</el-button>
+                        <template #tip>
+                        <div class="el-upload__tip">
+                            jpg/png files with a size less than 500kb
+                        </div>
+                        </template>
+                    </el-upload> 
+                </el-col>
+            </el-row>     
+        </el-card>
+    </div>
 </template>
 
 <script>
@@ -45,7 +47,6 @@ import { MESSAGE_ERROR, MESSAGE_INFO, delayAlertRemove } from '../../helpers/hel
 import { getMemberImageUrl, getDefaultMemberImageUrl } from '../../helpers/imageHelper'
 
 export default defineComponent({
-   
     el: 'MemberPhoto',    
     data() {
 		return {         			

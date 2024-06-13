@@ -38,7 +38,7 @@ import { emitter } from '../../main'
 import DialogMessages from '../library/DialogMessages.vue'
  
 export default defineComponent({
-
+    inheritAttrs: false, 
 	name: "Members",
 	data() {
 		return {

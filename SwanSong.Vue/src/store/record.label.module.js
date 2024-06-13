@@ -5,6 +5,7 @@ const mutation = {
     SET_RECORD_LABELS: "SET_RECORD_LABELS",
     SET_RECORD_LABEL: "SET_RECORD_LABEL",
     SET_SAVED_RECORD_LABEL: "SET_SAVED_RECORD_LABEL",
+    SET_UPDATED_RECORD_LABEL: "SET_UPDATED_RECORD_LABEL",
     SET_DELETED_RECORD_LABEL: "SET_DELETED_RECORD_LABEL",
     REMOVE_RECORD_LABEL_FROM_RESULTS: "REMOVE_RECORD_LABEL_FROM_RESULTS"
 }
@@ -29,16 +30,14 @@ export const recordLabel = {
         },
         SET_RECORD_LABEL(state, recordLabel) {
             state.recordLabel = recordLabel;
+        },       
+        SET_SAVED_RECORD_LABEL(state, recordLabel) {            
+            state.recordLabels.push({id: recordLabel.id, name: recordLabel.name});
+            state.recordLabel = getRecordLabelDetails();
         },
-        SET_SAVED_RECORD_LABEL(state, recordLabel) {
-            state.recordLabel = recordLabel;
-            let objIndex = state.recordLabels.findIndex((obj => obj.id == recordLabel.id));  
-
-            if(objIndex > -1)
-                state.recordLabels[objIndex].name = recordLabel.name;
-            else 
-                state.recordLabels.push({id: recordLabel.id, name: recordLabel.name});
-
+        SET_UPDATED_RECORD_LABEL(state, recordLabel) {
+            let objIndex = state.recordLabels.findIndex((obj => obj.id == recordLabel.id)); 
+            state.recordLabels[objIndex].name = recordLabel.name;
             state.recordLabel = getRecordLabelDetails();
         },
         SET_DELETED_RECORD_LABEL ( state ) {
@@ -68,15 +67,29 @@ export const recordLabel = {
         },        
         setRecordLabel({ commit }, recordLabel) {
             commit(mutation.SET_RECORD_LABEL, recordLabel); 
-        },
-        async saveRecordLabel ({ commit, state }) {  
- 
-            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/record-labels/record-label/` + (state.recordLabel.id > 0 ? 'update' : 'add');
+        },       
+        async addRecordLabel ({ commit, state }) {  
+
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/record-labels/record-label/add`;
 
             return new Promise(async (resolve, reject) => {
-                await ajax.post(url, state.recordLabel)  
+                await ajax.post(url, state.recordLabel )  
                             .then(response => {
                                 commit(mutation.SET_SAVED_RECORD_LABEL, response.data);   
+                                resolve(response);
+                            }).catch(error => {
+                                reject(error.response);
+                            })
+            });
+        },
+        async updateRecordLabel ({ commit, state }) {  
+
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/record-labels/record-label/update`;
+
+            return new Promise(async (resolve, reject) => {
+                await ajax.put(url, state.recordLabel )  
+                            .then(response => {
+                                commit(mutation.SET_UPDATED_RECORD_LABEL, state.recordLabel);   
                                 resolve(response);
                             }).catch(error => {
                                 reject(error.response);

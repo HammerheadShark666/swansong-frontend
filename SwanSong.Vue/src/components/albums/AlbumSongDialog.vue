@@ -68,6 +68,7 @@ import { defineComponent } from '@vue/composition-api'
 import { getListOfNumbers, validateLength, delayAlertRemove } from '../../helpers/helper' 
 import { emitter } from '../../main'
 import Alerts from '../library/Alerts.vue' 
+import { MESSAGE_INFO } from '../../helpers/helper'
 
 export default defineComponent({   
     el: 'AlbumSongDialog', 
@@ -131,15 +132,16 @@ export default defineComponent({
             this.messages = [];
 			this.$refs[formName].validate((valid) => {
 				if (valid) { 
+
                     this.disabled = true;
-					this.$store.dispatch("albumSong/saveAlbumSong").then(
-						(response) => {
-                            this.messages = response.messages;
-                            this.resetForm();
+                    let action = this.albumSong.id > 0 ? "update": "addNew";
+					this.$store.dispatch("albumSong/" + action + "AlbumSong").then(
+						() => {
+                            this.messages = [ {"text" : "Album song Saved.", "severity": MESSAGE_INFO}];
+                            this.disabled = false;
                             delayAlertRemove().then(function() {
                                 this.messages = [];                                
-                            }.bind(this));  
-                            this.$store.dispatch("albumSong/addAlbumSong", this.$store.state.album.album.id);  
+                            }.bind(this));                       
 						},
 						(error) => {
                             this.messages = error.data.messages;
@@ -186,7 +188,7 @@ export default defineComponent({
 }
 
 .length {
-    width: 30%;
+    width: 40%;
 }
 
 .alert {

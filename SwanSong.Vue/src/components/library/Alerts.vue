@@ -13,13 +13,8 @@ import { MESSAGE_ERROR, MESSAGE_INFO, MESSAGE_WARNING } from '../../helpers/help
 
 export default {
 	name: "Alerts", 
-    props: ['messages'],    
-    computed: {
-        show() { 
-            return this.visible;     
-        },
-    },
-	methods: {      
+    props: ['messages'],
+	methods: {    
         infoMessages() {      
             return getMessagesBySeverity(this.messages, MESSAGE_INFO); 
         },

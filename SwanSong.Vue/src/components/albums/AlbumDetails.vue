@@ -1,84 +1,86 @@
 <template>
-    <el-card class="box-card card-margin-right">
-        <template #header>
-            <div class="card-header">
-                <span>Details</span> 
-            </div>
-        </template>
-        <el-row class="messages">
-            <el-col :span="24">                 
-                <alerts v-bind:visible="messages.length > 0" v-bind:messages="messages"></alerts>
-            </el-col>
-        </el-row>   
-        <el-form 
-            ref="albumDetailsForm" 
-            :label-position="labelPosition" 
-            :rules="rules" 
-            :model="album"
-            label-width="105px">               
-                <el-form-item label="Name" prop="name">
-                    <el-input class="album-name" placeholder="Album Name" maxlength="120" show-word-limit v-model="album.name"></el-input>
-                </el-form-item> 
-                <el-form-item  label="Artist" prop="artistId">
-                    <el-select v-model="album.artistId" placeholder="Select" class="artist-select" v-on:change="loadArtistInTitleBar($event)">
-                        <el-option
-                            v-for="item in artists"
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>    
-                <el-form-item label="Release Date" prop="releaseDate"> 
-                    <el-date-picker   
-                        class="date-picker"
-                        v-model="album.releaseDate"
-                        type="date"
-                        placeholder="Pick a day">
-                    </el-date-picker>   
-                </el-form-item>          
-                <el-form-item label="Recorded Date" prop="recordedDate">
-                    <el-date-picker 
-                        class="date-picker"
-                        v-model="album.recordedDate"
-                        type="date"
-                        placeholder="Pick a day">
-                    </el-date-picker>
-                </el-form-item>       
-                <el-form-item label="Record Label" prop="recordLabel">
-                    <el-select v-model="album.labelId" placeholder="Select" class="record-label-select">
-                        <el-option
-                            v-for="item in recordLabels"
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="Recorded At" prop="recordedAt">
-                    <el-select v-model="album.studioId" placeholder="Select" class="studio-select">
-                        <el-option
-                            v-for="studio in studios"
-                            :key="studio.id"
-                            :label="studio.name"
-                            :value="studio.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item> 
-                <el-form-item label="Producers" prop="producers">
-                    <el-input placeholder="Producers" maxlength="250" show-word-limit v-model="album.producers"></el-input>
-                </el-form-item>          
-                <el-form-item label="Arrangers" prop="arrangers">
-                    <el-input  placeholder="Arrangers" maxlength="250" show-word-limit v-model="album.arrangers"></el-input>
-                </el-form-item>          
-                <el-form-item label="Artwork" prop="artwork">
-                    <el-input placeholder="Artwork" maxlength="100" show-word-limit v-model="album.artwork"></el-input>
-                </el-form-item>           
-                <el-form-item class="form-item-button form-item-buttons">                    
-                    <el-button type="primary" :disabled="disabled" class="save-album-button" @click="submitForm()">Save</el-button>
-                </el-form-item>     
-        </el-form>    
-    </el-card>
+    <div>
+        <el-card class="box-card card-margin-right">
+            <template #header>
+                <div class="card-header">
+                    <span>Details</span> 
+                </div>
+            </template>
+            <el-row class="messages">
+                <el-col :span="24">                 
+                    <alerts v-bind:visible="messages.length > 0" v-bind:messages="messages"></alerts>
+                </el-col>
+            </el-row>   
+            <el-form 
+                ref="albumDetailsForm" 
+                :label-position="labelPosition" 
+                :rules="rules" 
+                :model="album"
+                label-width="105px">               
+                    <el-form-item label="Name" prop="name">
+                        <el-input class="album-name" placeholder="Album Name" maxlength="120" show-word-limit v-model="album.name"></el-input>
+                    </el-form-item> 
+                    <el-form-item  label="Artist" prop="artistId">
+                        <el-select v-model="album.artistId" placeholder="Select" class="artist-select" v-on:change="loadArtistInTitleBar($event)">
+                            <el-option
+                                v-for="item in artists"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>    
+                    <el-form-item label="Release Date" prop="releaseDate"> 
+                        <el-date-picker   
+                            class="date-picker"
+                            v-model="album.releaseDate"
+                            type="date"
+                            placeholder="Pick a day">
+                        </el-date-picker>   
+                    </el-form-item>          
+                    <el-form-item label="Recorded Date" prop="recordedDate">
+                        <el-date-picker 
+                            class="date-picker"
+                            v-model="album.recordedDate"
+                            type="date"
+                            placeholder="Pick a day">
+                        </el-date-picker>
+                    </el-form-item>       
+                    <el-form-item label="Record Label" prop="recordLabel">
+                        <el-select v-model="album.labelId" placeholder="Select" class="record-label-select">
+                            <el-option
+                                v-for="item in recordLabels"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="Recorded At" prop="recordedAt">
+                        <el-select v-model="album.studioId" placeholder="Select" class="studio-select">
+                            <el-option
+                                v-for="studio in studios"
+                                :key="studio.id"
+                                :label="studio.name"
+                                :value="studio.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item> 
+                    <el-form-item label="Producers" prop="producers">
+                        <el-input placeholder="Producers" maxlength="250" show-word-limit v-model="album.producers"></el-input>
+                    </el-form-item>          
+                    <el-form-item label="Arrangers" prop="arrangers">
+                        <el-input  placeholder="Arrangers" maxlength="250" show-word-limit v-model="album.arrangers"></el-input>
+                    </el-form-item>          
+                    <el-form-item label="Artwork" prop="artwork">
+                        <el-input placeholder="Artwork" maxlength="100" show-word-limit v-model="album.artwork"></el-input>
+                    </el-form-item>           
+                    <el-form-item class="form-item-button form-item-buttons">                    
+                        <el-button type="primary" :disabled="disabled" class="save-album-button" @click="submitForm()">Save</el-button>
+                    </el-form-item>     
+            </el-form>    
+        </el-card>
+    </div>
 </template>
 
 <script>
@@ -87,6 +89,7 @@ import { defineComponent } from 'vue'
 import { delayAlertRemove } from '../../helpers/helper'
 import { emitter } from '../../main'  
 import Alerts from '../library/Alerts.vue' 
+import { MESSAGE_INFO } from '../../helpers/helper'
 
 export default defineComponent({   
     el: 'AlbumDetails', 
@@ -155,13 +158,18 @@ export default defineComponent({
 			this.$refs['albumDetailsForm'].validate((valid) => {
 				if (valid) {
                         this.disabled = true;
-                        this.$store.dispatch("album/saveAlbum", this.album.id).then(
+
+                        let action = this.album.id > 0 ? "update": "addNew";
+
+                        this.$store.dispatch("album/" + action + "Album").then(
                             (response) => {	 
-                                this.messages = response.data.messages;	 
+
                                 this.resetForm();
-                                
-                                if(this.$router.currentRoute.value.path == "/albums/album/add")
-                                        this.$router.push("/albums/album/" + response.data.id);           
+                                 
+                                if(action == "addNew")
+                                    this.$router.push("/albums/album/" + response.data.id);      
+                                else     
+                                    this.messages = [ {"text" : "Album Saved.", "severity": MESSAGE_INFO}];
                                     
                                 delayAlertRemove().then(function() {
                                     this.messages = [];

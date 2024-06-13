@@ -77,6 +77,7 @@
 <script>
 
 import Alerts from '../library/Alerts.vue' 
+import { MESSAGE_INFO } from '../../helpers/helper'
 
 export default {
 	name: "Register",
@@ -131,8 +132,8 @@ export default {
 					this.disabled = true;
 
 					this.$store.dispatch("register/register", this.registerForm).then(
-						(data) => {  							 
-							this.messages = data.messages;
+						() => {  							 
+							this.messages = [ {"text" : "Registration successful, please check your email for verification instructions.", "severity": MESSAGE_INFO}];
 							this.successful = true;   
 						},
 						(error) => {

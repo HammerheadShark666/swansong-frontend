@@ -44,7 +44,8 @@ import { defineComponent } from '@vue/composition-api'
 import { formatDate } from '../../helpers/helper'
 import { getMemberImageUrl, getDefaultMemberImageUrl } from '../../helpers/imageHelper'
 
-export default defineComponent({      
+export default defineComponent({    
+    inheritAttrs: false,   
     el: '#table',  
     emits: ["closeDrawer"],   
     data() {

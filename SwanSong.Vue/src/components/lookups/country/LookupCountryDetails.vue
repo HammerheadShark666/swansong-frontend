@@ -47,6 +47,7 @@ import { delayAlertRemove } from '../../../helpers/helper'
 import Alerts from '../../library/Alerts.vue'
 import { emitter } from '../../../main' 
 import { Delete } from '@element-plus/icons'
+import { MESSAGE_INFO } from '../../../helpers/helper'
 
 export default defineComponent({
    
@@ -89,9 +90,13 @@ export default defineComponent({
 			this.$refs['countryDetailsForm'].validate((valid) => {
 				if (valid) {
                     this.disabled = true;
-                    this.$store.dispatch("country/saveCountry").then(
-                    (response) => {			
-                        this.messages = response.data.messages;
+
+                    let action = this.country.id > 0 ? "update": "add";
+
+
+                    this.$store.dispatch("country/" + action + "Country").then(
+                    () => {			
+                        this.messages = [ {"text" : "Country Saved.", "severity": MESSAGE_INFO}];
                         this.resetForm();
                         delayAlertRemove().then(function() {
                             this.messages = [];                               
@@ -107,9 +112,10 @@ export default defineComponent({
         async deleteCountryOnClick() {
             this.messages = []; 
             await this.$store.dispatch("country/deleteCountry").then(
-                        (response) => {                         
-                            this.messages = response.data.messages; 
-                            this.disabled = false;                                  
+                        () => {                         
+                            this.messages = [ {"text" : "Country deleted.", "severity": MESSAGE_INFO}]; 
+                            this.disabled = false;    
+                            this.resetForm();                              
                             delayAlertRemove().then(function() {
                                this.messages = [];                               
                             }.bind(this)); 

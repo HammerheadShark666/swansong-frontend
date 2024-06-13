@@ -36,7 +36,8 @@ import { defineComponent } from 'vue'
 import AlbumSearch from './AlbumSearch.vue'
 import { emitter } from '../../main'
 import DialogMessages from '../library/DialogMessages.vue'
- 
+import { MESSAGE_INFO } from '../../helpers/helper'
+
 export default defineComponent({
 
 	name: "Albums",
@@ -66,12 +67,12 @@ export default defineComponent({
         async deleteAlbumOnClick() {
             emitter.emit("clear-album-messages", []);
             await this.$store.dispatch("album/deleteAlbum").then(
-                        (response) => {   
-                            this.$router.push("/albums/album/add");                       
-                            this.messages = response.data.messages;	  
+                        () => {
+                            this.$router.push("/albums/album/add");
+                            this.messages = [ {"text" : "Album deleted.", "severity": MESSAGE_INFO}];
 						},
 						(error) => {  
-                            this.messages = error.data.messages;
+                            this.messages = error.data.errors;
 						});
         },
         closeMessagesDialog() { 

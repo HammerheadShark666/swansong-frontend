@@ -110,6 +110,9 @@ export const member = {
         SET_ARTIST_ID(state, artistId) {
             state.artistId = artistId
         },
+        SET_MEMBER_ARTIST_ID(state, artistId) {
+            state.member.artistId = artistId
+        },
         RESET_MEMBER(state) {
             state.member = getMemberDetails(0)
         }
@@ -140,7 +143,7 @@ export const member = {
         },  
         async getMembersForArtist ({ commit }, artistId) { 
             return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/` + artistId)
+                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/artist/` + artistId)
                        .then(response => {
                            commit(mutation.SET_MEMBERS_RESULTS, response.data); 
                            commit(mutation.SET_ARTIST_ID, artistId); 
@@ -190,36 +193,42 @@ export const member = {
         addMember({commit}) {
             commit(mutation.SET_MEMBER, getMemberDetails(this.artistId));
         },
-        async saveMember ({ commit, state }) {
+        async addNewMember ({  commit, state }) {  
 
-            var isEdit = state.member.id == 0 ? false : true;
+            commit("SET_MEMBER_ARTIST_ID", state.artistId);
 
-            if(!isEdit)
-                state.member.artistId = state.artistId;
-            
-            var urlAction = isEdit ? "update" : "add";
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/add`;
 
             return new Promise(async (resolve, reject) => {
-                await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/` + urlAction + `/`, state.member)  
+                await ajax.post(url, state.member)
                             .then(response => {
-                                if(response.data.isValid) {
-                                    !isEdit
-                                    ? commit("SET_SAVED_MEMBER", response.data)  
-                                    : commit("SET_SAVED_EDITED_MEMBER"); 
-                                }
-                                resolve(response.data); 
-                            })
-                            .catch(error => {
+                                commit("SET_SAVED_MEMBER", response.data)   
+                                resolve(response); 
+                            }).catch(error => {
                                 reject(error.response);
                             })
+            });
+        },     
+        updateMember ({  commit, state }) {   
+
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/update`;
+
+            return new Promise(async (resolve, reject) => {
+                await ajax.put(url, state.member)  
+                       .then(response => { 
+                            commit("SET_SAVED_EDITED_MEMBER")
+                            resolve(response.data);  
+                       })
+                       .catch(error => {
+                            reject(error.response);
+                       })
             });
         },
         async deleteMember ({ commit }, id) {
             return new Promise(async (resolve, reject) => {
                 await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/` + id)  
-                            .then(response => { 
-                                if(response.data.isValid)                          
-                                    commit(mutation.SET_DELETED_MEMBER, id); 
+                            .then(response => {                                                          
+                                commit(mutation.SET_DELETED_MEMBER, id); 
                                 resolve(response.data);
                             })
                             .catch(error => {                          
