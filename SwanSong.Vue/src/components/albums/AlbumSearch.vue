@@ -15,17 +15,19 @@
                     <el-form 
                         ref="albumSearchForm"  
                         :rules="rules" 
-                        class="search-form"
+                        class="search-form" 
+                        @submit.prevent 
                         :model="albumSearchForm">
                         <el-row>
                             <el-col :span="20">
                                 <el-form-item prop="searchText" class="search-text">
-                                    <el-input ref="searchAlbums" placeholder="Search For..." minlength="3" maxlength="100" show-word-limit v-model="albumSearchForm.searchText"></el-input>
+                                    <el-input ref="searchAlbums" placeholder="Search For..." minlength="3" 
+                                                maxlength="100" show-word-limit v-model="albumSearchForm.searchText" @keyup.enter.native="searchOnReturnKey"></el-input>
                                 </el-form-item> 
                             </el-col>
                             <el-col :span="4">
                                 <el-form-item class="form-item-button">                                      
-                                    <el-button type="primary" class="search-button" @click="submitForm('albumSearchForm')">                                        
+                                    <el-button type="primary" class="search-button" @click="submitForm()">                                        
                                         <el-icon style="vertical-align:middle;">
                                             <search />
                                         </el-icon>                             
@@ -55,6 +57,7 @@ export default {
                 searchText: ''
             },
             drawerOpen: false,
+            formName: 'albumSearchForm',
             direction: 'rtl', 
             alphabet: getAlphabet(),
             rules: { 	
@@ -83,15 +86,21 @@ export default {
         onLoadAlbum() {
             this.drawerOpen = false;
         },
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
+        submitForm() {
+            this.$refs[this.formName].validate((valid) => {
                 if (valid) {
                     this.$refs.albumSearchResults.searchAlbums(this.albumSearchForm.searchText);
                 } else { 
                     return false;
                 }
             })
-        }
+        },
+		searchOnReturnKey(event) { 
+			if(event.key == "Enter")
+			{
+				this.submitForm(); 
+			} 
+		}
     }
 };
 </script>

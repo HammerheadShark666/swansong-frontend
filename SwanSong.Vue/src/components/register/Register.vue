@@ -43,7 +43,7 @@
 													<el-input type="password" show-password v-model="registerForm.password"></el-input>
 												</el-form-item>									
 												<el-form-item label="Confirm Password" prop="confirmpassword">
-													<el-input type="password" show-password v-model="registerForm.confirmpassword"></el-input>
+													<el-input type="password" show-password v-model="registerForm.confirmpassword" v-on:keyup="registerOnReturnKey"></el-input>
 												</el-form-item>									
 											</el-col>
 										</el-row>	
@@ -158,7 +158,13 @@ export default {
 		resetForm() {  
             this.$refs["registerForm"].resetFields();
             this.disabled = false;
-        }	
+        },		
+		registerOnReturnKey: function(event) { 
+			if(event.key == "Enter")
+			{
+				this.submitForm();
+			}
+		}	
 	},
 };
 </script>

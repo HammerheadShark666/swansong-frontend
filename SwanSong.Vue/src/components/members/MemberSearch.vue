@@ -16,16 +16,18 @@
                         ref="memberSearchForm"  
                         :rules="rules" 
                         class="search-form"
+                        @submit.prevent
                         :model="memberSearchForm">
                         <el-row>
                             <el-col :span="20">
                                 <el-form-item prop="searchText" class="search-text">
-                                    <el-input ref="searchMembers" placeholder="Search For..." minlength="3" maxlength="100" show-word-limit v-model="memberSearchForm.searchText"></el-input>
+                                    <el-input ref="searchMembers" placeholder="Search For..." minlength="3" maxlength="100" show-word-limit 
+                                        v-model="memberSearchForm.searchText" @keyup.enter.native="searchOnReturnKey"></el-input>
                                 </el-form-item> 
                             </el-col>
                             <el-col :span="4">
                                 <el-form-item class="form-item-button">                                      
-                                    <el-button type="primary" class="search-button" @click="submitForm('memberSearchForm')">                                        
+                                    <el-button type="primary" class="search-button" @click="submitForm()">                                        
                                         <el-icon style="vertical-align:middle;">
                                             <search />
                                         </el-icon>                             
@@ -55,6 +57,7 @@ export default {
                 searchText: ''
             },
             drawerOpen: false,
+            formName: 'memberSearchForm',
             direction: 'rtl', 
             alphabet: getAlphabet(),
             rules: { 	
@@ -83,15 +86,21 @@ export default {
         onLoadMember() {
             this.drawerOpen = false;
         },
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
+        submitForm() {
+            this.$refs[this.formName].validate((valid) => {
                 if (valid) {
                     this.$refs.memberSearchResults.searchMembers(this.memberSearchForm.searchText); 
                 } else { 
                     return false;
                 }
             })
-        }
+        },
+		searchOnReturnKey(event) { 
+			if(event.key == "Enter")
+			{
+				this.submitForm(); 
+			} 
+		}
     }
 };
 </script>

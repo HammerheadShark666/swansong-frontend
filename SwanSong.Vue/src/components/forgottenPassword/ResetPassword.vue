@@ -34,7 +34,7 @@
 												<el-input type="password" minlength="8" maxlength="25" show-password v-model="resetPasswordForm.password"></el-input>
                                             </el-form-item>									
                                             <el-form-item label="Confirm Password" prop="confirmPassword">
-                                                <el-input type="password" minlength="8" maxlength="25"  show-password v-model="resetPasswordForm.confirmPassword"></el-input>
+                                                <el-input type="password" minlength="8" maxlength="25"  show-password v-model="resetPasswordForm.confirmPassword" v-on:keyup="resetPasswordOnReturnKey"></el-input>
                                             </el-form-item>					
 										</el-col>
 									</el-row>	
@@ -119,6 +119,12 @@ export default {
 		},
 		resetForm() {
 			this.$refs["resetPasswordForm"].resetFields(); 
+		},		
+		resetPasswordOnReturnKey: function(event) { 
+			if(event.key == "Enter")
+			{
+				this.submitForm();
+			}
 		}		
 	},
 };
