@@ -16,16 +16,18 @@
                         ref="artistSearchForm"  
                         :rules="rules" 
                         class="search-form"
+                        @submit.prevent
                         :model="artistSearchForm">
                         <el-row>
                             <el-col :span="20">
                                 <el-form-item prop="searchText" class="search-text">
-                                    <el-input ref="searchArtists" placeholder="Search For..." minlength="1" maxlength="100" show-word-limit v-model="artistSearchForm.searchText"></el-input>
+                                    <el-input ref="searchArtists" placeholder="Search For..." minlength="1" maxlength="100" show-word-limit 
+                                        v-model="artistSearchForm.searchText" @keyup.enter.native="searchOnReturnKey"></el-input>
                                 </el-form-item> 
                             </el-col>
                             <el-col :span="4">
                                 <el-form-item class="form-item-button">
-                                    <el-button type="primary" class="search-button" @click="submitForm('artistSearchForm')">                                        
+                                    <el-button type="primary" class="search-button" @click="submitForm()">                                        
                                         <el-icon style="vertical-align:middle;">
                                             <search />
                                         </el-icon>
@@ -55,6 +57,7 @@ import SearchByLetterSelector from '../library/SearchByLetterSelector.vue'
             },
             loading: false,
             drawerOpen: false,
+            formName: 'artistSearchForm',
             direction: 'rtl', 
             alphabet: getAlphabet(),
             rules: {	
@@ -80,15 +83,21 @@ import SearchByLetterSelector from '../library/SearchByLetterSelector.vue'
         onLoadArtist() {
             this.drawerOpen = false;
         },
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
+        submitForm() {
+            this.$refs[this.formName].validate((valid) => {
                 if (valid) {
                     this.$refs.artistSearchResults.searchArtists(this.artistSearchForm.searchText); 
                 } else { 
                     return false;
                 }
             })
-        }
+        },
+		searchOnReturnKey(event) { 
+			if(event.key == "Enter")
+			{
+				this.submitForm(); 
+			} 
+		}
     }
   };
 </script>

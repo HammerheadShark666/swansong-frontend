@@ -8,11 +8,12 @@
         <el-form 
             ref="recordLabelDetailsForm" 
             :label-position="labelPosition" 
+            @submit.prevent
             :rules="rules" 
             :model="recordLabel"
             label-width="120px">    
             <el-form-item label="Name" prop="name">
-                <el-input placeholder="Record Label Name" maxlength="50" show-word-limit v-model="recordLabel.name"></el-input>
+                <el-input placeholder="Record Label Name" maxlength="50" show-word-limit v-model="recordLabel.name" @keyup.enter.native="saveOnReturnKey"></el-input>
             </el-form-item>  
             <el-row>
                 <el-col :span="24">    
@@ -58,7 +59,8 @@ export default defineComponent({
     }, 
     data() {
         return {        
-            recordLabelId: 0,
+            recordLabelId: 0, 
+            formName: 'recordLabelDetailsForm',
             messages: [],
             disabled: false,
             labelPosition: 'left',   
@@ -87,7 +89,7 @@ export default defineComponent({
     methods: {     
         saveRecordLabelOnClick() {
             this.messages = [];
-			this.$refs['recordLabelDetailsForm'].validate((valid) => {
+			this.$refs[this.formName].validate((valid) => {
 				if (valid) {
                     this.disabled = true;
 
@@ -123,9 +125,15 @@ export default defineComponent({
 						});
         },
         resetForm() {  
-            this.$refs['recordLabelDetailsForm'].resetFields(); 
+            this.$refs[this.formName].resetFields(); 
             this.disabled = false;
-        }
+        },
+        saveOnReturnKey(event) { 
+			if(event.key == "Enter")
+			{
+				this.saveRecordLabelOnClick(); 
+			} 
+		}
     } 
 })
 </script>

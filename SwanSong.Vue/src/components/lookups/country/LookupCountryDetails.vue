@@ -8,11 +8,12 @@
         <el-form 
             ref="countryDetailsForm" 
             :label-position="labelPosition" 
+            @submit.prevent
             :rules="rules" 
             :model="country"
             label-width="120px">    
             <el-form-item label="Name" prop="name">
-                <el-input placeholder="Country Name" maxlength="50" show-word-limit v-model="country.name"></el-input>
+                <el-input placeholder="Country Name" maxlength="50" show-word-limit v-model="country.name" @keyup.enter.native="saveOnReturnKey"></el-input>
             </el-form-item>  
             <el-row>
                 <el-col :span="24">    
@@ -59,6 +60,7 @@ export default defineComponent({
     data() {
         return {        
             countryId: 0,
+            formName: 'countryDetailsForm',
             messages: [],
             disabled: false,
             labelPosition: 'left',   
@@ -87,7 +89,7 @@ export default defineComponent({
     methods: {     
         saveCountryOnClick() {
             this.messages = [];
-			this.$refs['countryDetailsForm'].validate((valid) => {
+			this.$refs[this.formName].validate((valid) => {
 				if (valid) {
                     this.disabled = true;
 
@@ -125,9 +127,15 @@ export default defineComponent({
 						});
         },
         resetForm() {  
-            this.$refs['countryDetailsForm'].resetFields();  
+            this.$refs[this.formName].resetFields();  
             this.disabled = false;
-        }
+        },
+        saveOnReturnKey(event) { 
+			if(event.key == "Enter")
+			{
+				this.saveCountryOnClick(); 
+			} 
+		}
     } 
 })
 </script>

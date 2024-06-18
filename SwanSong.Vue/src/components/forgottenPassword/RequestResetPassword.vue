@@ -27,7 +27,7 @@
 									<el-row>
 										<el-col :span="24" class="reg-col">
 											<el-form-item label="Email" prop="email">
-												<el-input type="email" v-model="requestResetPasswordForm.email"></el-input>
+												<el-input type="email" v-model="requestResetPasswordForm.email" v-on:keyup="resetPasswordOnReturnKey"></el-input>
 											</el-form-item>				
 										</el-col>
 									</el-row>	
@@ -38,7 +38,7 @@
 												</router-link>
 											</el-col>		
 										<el-col :span="12" class="reg-col">
-											<el-form-item class="form-item-button">
+											<el-form-item class="form-item-button save-button-form-item">
 												<el-button :disabled="disabled" type="primary" class="request-reset-password-button" @click="submitForm()">Send</el-button>
 											</el-form-item>
 										</el-col>
@@ -104,7 +104,13 @@ export default {
 		resetForm() {
 			this.$refs["requestResetPasswordForm"].resetFields(); 
 			this.disabled = false;
-		}		
+		},
+		resetPasswordOnReturnKey: function(event) { 
+			if(event.key == "Enter")
+			{
+				this.submitForm();
+			}
+		}
 	},
 };
 
@@ -154,6 +160,10 @@ label {
 
 .vertical-center-inner { 
     width: 30%; 
+}
+
+.save-button-form-item {
+	float: right;
 }
 
 </style>

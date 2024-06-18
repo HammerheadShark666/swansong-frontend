@@ -8,11 +8,12 @@
         <el-form 
             ref="studioDetailsForm" 
             :label-position="labelPosition" 
+            @submit.prevent
             :rules="rules" 
             :model="studio"
             label-width="120px">    
             <el-form-item label="Name" prop="name">
-                <el-input placeholder="Studio Name" maxlength="50" show-word-limit v-model="studio.name"></el-input>
+                <el-input placeholder="Studio Name" maxlength="50" show-word-limit v-model="studio.name" @keyup.enter.native="saveOnReturnKey"></el-input>
             </el-form-item>  
             <el-row>
                 <el-col :span="24">    
@@ -60,6 +61,7 @@ export default defineComponent({
         return {        
             studioId: 0,
             messages: [],
+            formName: 'studioDetailsForm',
             disabled: false,
             labelPosition: 'left',   
             rules:  {				
@@ -87,7 +89,7 @@ export default defineComponent({
     methods: {          
         saveStudioOnClick() {
             this.messages = [];
-			this.$refs['studioDetailsForm'].validate((valid) => {
+			this.$refs[this.formName].validate((valid) => {
 				if (valid) {
                     this.disabled = true;
 
@@ -123,9 +125,15 @@ export default defineComponent({
                 });
         },
         resetForm() {  
-            this.$refs['studioDetailsForm'].resetFields(); 
+            this.$refs[this.formName].resetFields(); 
             this.disabled = false;
-        }
+        },
+        saveOnReturnKey(event) { 
+			if(event.key == "Enter")
+			{
+				this.saveStudioOnClick(); 
+			} 
+		}
     } 
 })
 </script>

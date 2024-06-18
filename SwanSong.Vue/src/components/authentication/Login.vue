@@ -30,7 +30,7 @@
 												<el-input type="email" v-model="loginForm.email"></el-input>
 											</el-form-item>				
 											<el-form-item label="Password" prop="password">
-												<el-input type="password" show-password v-model="loginForm.password"></el-input>
+												<el-input type="password" show-password v-model="loginForm.password" v-on:keyup="loginOnReturnKey"></el-input>
 											</el-form-item>					
 										</el-col>
 									</el-row>	
@@ -118,7 +118,13 @@ export default {
 					return false
 				}
 			})
-		}		
+		},		
+		loginOnReturnKey: function(event) { 
+			if(event.key == "Enter")
+			{
+				this.submitForm();
+			}
+		}
 	},
 };
 
