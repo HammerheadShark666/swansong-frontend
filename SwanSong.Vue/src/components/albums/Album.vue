@@ -68,7 +68,11 @@ export default defineComponent({
 	margin-top:0px;
 	color:white;
 	padding: 0px!important;
-} 
+}  
+
+.nav-link-artist:hover {
+	color: #B68D40;
+}
 
 .card-header-row {
 	margin-top: 0px;

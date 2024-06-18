@@ -72,6 +72,10 @@ export default defineComponent({
 	padding: 0px!important;
 } 
 
+.nav-link-member:hover {
+	color: #B68D40;
+}
+
 .card-header-row {
 	margin-top: 0px;
 }
