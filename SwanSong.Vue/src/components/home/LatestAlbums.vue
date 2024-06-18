@@ -21,7 +21,7 @@
                                 trigger="hover" 
                             >
                                 <template #reference>
-                                    <el-card :body-style="{ padding: '0px', width: '100px' }">
+                                    <el-card :body-style="{ padding: '0px', width: '100px' }" class="album-card">
                                         <el-image v-if="album.photo" class="list-album-photo" v-bind:src="getImageUrl(album.photo)"></el-image>
                                         <el-image v-else class="list-album-photo" v-bind:src="getDefaultImageUrl()"></el-image>  
                                     </el-card>
@@ -142,6 +142,7 @@ export default defineComponent({
     height: 105px; 
     background-color: black; 
     border: 1px black solid;
+    margin: 1px;
 }
 
 h5 {
@@ -198,5 +199,12 @@ h5 {
     font-weight: bold;
 }
 
+.album-card {
+    border: none;
+}
+
+.album-card:hover {
+    background-color: #5ef1f167!important;
+}
 
 </style>
