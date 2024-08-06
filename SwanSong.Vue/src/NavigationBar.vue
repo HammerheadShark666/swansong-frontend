@@ -54,8 +54,8 @@
 				</router-link>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" @click.prevent="logOut">
-					<font-awesome-icon icon="sign-out-alt" /> LogOut
+				<a class="nav-link logout" @click.prevent="logOut">
+					<font-awesome-icon icon="sign-out-alt" /> <div class="logout-text">LogOut</div>
 				</a>
 			</li>
 		</div>
@@ -105,6 +105,18 @@ export default {
     height: 33px;
     width: 50px; 
     background-color: black; 
+}
+
+.logout{
+	width: 90px;
+}
+
+.logout-text {
+	float: right;
+}
+
+.logout-text:hover {
+	cursor: pointer;
 }
 
 </style>
