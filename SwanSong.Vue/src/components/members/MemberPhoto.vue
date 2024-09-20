@@ -41,7 +41,7 @@
 
 <script>
 
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent } from 'vue'
 import Alerts from '../library/Alerts.vue' 
 import { MESSAGE_ERROR, MESSAGE_INFO, delayAlertRemove } from '../../helpers/helper'
 import { getMemberImageUrl, getDefaultMemberImageUrl } from '../../helpers/imageHelper'

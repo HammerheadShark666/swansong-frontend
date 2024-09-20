@@ -14,7 +14,7 @@
 
 <script>
 
-import { defineComponent } from '@vue/composition-api'  
+import { defineComponent } from 'vue'  
 import UsersTable from './UsersTable.vue'
 
 export default defineComponent({

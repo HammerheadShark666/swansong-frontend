@@ -32,7 +32,7 @@
 
 <script>
 
-import { defineComponent } from '@vue/composition-api'    
+import { defineComponent } from 'vue'    
 import LookupStudioTable from '../studio/LookupStudioTable.vue'; 
 import LookupStudioDetails from '../studio/LookupStudioDetails.vue'; 
 

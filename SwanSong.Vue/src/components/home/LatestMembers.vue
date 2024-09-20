@@ -33,7 +33,7 @@
 
 <script> 
 
-import { defineComponent } from '@vue/composition-api'  
+import { defineComponent } from 'vue'  
 import { formatDate, getPages } from '../../helpers/helper'
 import { getMemberImageUrl, getDefaultMemberImageUrl } from '../../helpers/imageHelper'
 

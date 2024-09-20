@@ -32,7 +32,7 @@
 
 <script>
 
-import { defineComponent } from '@vue/composition-api'    
+import { defineComponent } from 'vue'    
 import LookupRecordLabelTable from '../recordLabel/LookupRecordLabelTable.vue'; 
 import LookupRecordLabelDetails from '../recordLabel/LookupRecordLabelDetails.vue'
 

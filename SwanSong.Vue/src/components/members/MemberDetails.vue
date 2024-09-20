@@ -65,7 +65,7 @@
 
 <script>
 
-import { defineComponent } from '@vue/composition-api'   
+import { defineComponent } from 'vue'   
 import { delayAlertRemove } from '../../helpers/helper' 
 import { emitter } from '../../main'  
 import Alerts from '../library/Alerts.vue' 

@@ -32,7 +32,7 @@
 
 <script>
 
-import { defineComponent } from '@vue/composition-api'    
+import { defineComponent } from 'vue'    
 import LookupCountryTable from '../country/LookupCountryTable.vue'; 
 import LookupCountryDetails from '../country/LookupCountryDetails.vue'; 
 

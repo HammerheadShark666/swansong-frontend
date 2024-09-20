@@ -57,7 +57,7 @@
 
 <script> 
 
-import { defineComponent } from '@vue/composition-api'  
+import { defineComponent } from 'vue'  
 import { formatDate, getYear } from '../../helpers/helper'
 
 export default defineComponent({      
