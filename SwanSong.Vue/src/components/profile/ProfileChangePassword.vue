@@ -34,7 +34,7 @@
 <script>
 
 import Alerts from '../library/Alerts.vue' 
-import { defineComponent } from '@vue/composition-api'    
+import { defineComponent } from 'vue'    
 import { delayAlertRemove } from '../../helpers/helper'
 
 export default defineComponent({

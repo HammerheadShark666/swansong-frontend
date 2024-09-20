@@ -16,7 +16,6 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/vue-fontawesome": "^3.0.0-3",
-    "@vue/composition-api": "^1.7.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "cli-plugin-eslint": "^0.1.0",

@@ -40,7 +40,7 @@
 
 <script>
 
-import { defineComponent } from '@vue/composition-api'   
+import { defineComponent } from 'vue'   
 import { getArtistImageUrl, getDefaultArtistImageUrl } from '../../helpers/imageHelper'
 
 export default defineComponent({

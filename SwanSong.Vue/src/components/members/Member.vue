@@ -29,7 +29,7 @@
 
 <script>
 
-import { defineComponent } from '@vue/composition-api'   
+import { defineComponent } from 'vue'   
 import MemberDetails from './MemberDetails'
 import MemberPhoto from './MemberPhoto' 
 

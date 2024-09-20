@@ -20,7 +20,7 @@
 
 <script>
 
-import { defineComponent } from '@vue/composition-api'   
+import { defineComponent } from 'vue'   
 import LookupCountry from './country/LookupCountry.vue'; 
 import LookupRecordLabel from './recordLabel/LookupRecordLabel.vue'; 
 import LookupStudio from './studio/LookupStudio.vue';  

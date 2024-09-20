@@ -29,8 +29,8 @@
 </template>
 
 <script>
-
-import { defineComponent } from '@vue/composition-api'   
+  
+import { defineComponent } from 'vue';
 import AlbumDetails from './AlbumDetails'
 import AlbumPhoto from './AlbumPhoto'
 import AlbumSongs from './AlbumSongs.vue'
