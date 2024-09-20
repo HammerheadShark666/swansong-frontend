@@ -15,7 +15,8 @@ jobs:
     name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v2
-        with:
+        with: 
+          node-version: '16'  # or your preferred version
           submodules: true
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
