@@ -19,7 +19,7 @@
                     label="Photo"                    
                     width="95">                   
                      <template #default="scope"> 
-                        <el-image v-if="scope.row.photo" class="member-photo" v-bind:src="getImageUrl(scope.row.photo)"></el-image>
+                        <el-image v-if="scope.row.member.photo" class="member-photo" v-bind:src="getImageUrl(scope.row.member.photo)"></el-image>
                         <el-image v-else class="member-photo" v-bind:src="getDefaultImageUrl()"></el-image>                        
                     </template>
                 </el-table-column>  
@@ -27,7 +27,7 @@
                     label="Name"                    
                     width="200">
                     <template #default="scope">
-                        <span class="song-title">{{ scope.row.stageName }}</span>
+                        <span class="song-title">{{ scope.row.member.stageName }}</span>
                     </template>
                 </el-table-column>  
                 <el-table-column 
@@ -52,16 +52,16 @@
                                 </template>
                                 <el-row>
                                     <el-col>
-                                        <span>Stage name: {{scope.row.stageName}}</span>
+                                        <span>Stage name: {{scope.row.member.stageName}}</span>
                                     </el-col>
                                     <el-col>
-                                        <span>Real name: {{scope.row.firstName}} {{scope.row.middleName}} {{scope.row.surname}}</span>
+                                        <span>Real name: {{scope.row.firstName}} {{scope.row.member.middleName}} {{scope.row.member.surname}}</span>
                                     </el-col>
                                     <el-col>
-                                        <span>Date of birth: {{formatDate(scope.row.dateOfBirth)}}</span>
+                                        <span>Date of birth: {{formatDate(scope.row.member.dateOfBirth)}}</span>
                                     </el-col>
                                     <el-col>
-                                        <span>Date of death: {{formatDate(scope.row.dateOfDeath)}}</span>
+                                        <span>Date of death: {{formatDate(scope.row.member.dateOfDeath)}}</span>
                                     </el-col>
                                 </el-row>
                             </el-card>
@@ -89,7 +89,8 @@
                         :icon="InfoFilled"
                         icon-color="#626AEF"
                         title="Are you sure to delete this member?"
-                        @confirm="deleteArtistMemberOnClick(scope.row.id)" 
+                        @confirm="deleteArtistMemberOnClick(scope.row.id
+)" 
                     >
                     <template #reference>
                         <el-icon style="vertical-align: middle;">
@@ -131,7 +132,7 @@ export default defineComponent({
     },
     computed: {
         members() { 
-            return this.$store.state.member.members;        
+            return this.$store.state.artistMember.members;        
         }
     }, 
 	methods: {	
@@ -139,11 +140,11 @@ export default defineComponent({
         getImageUrl: getMemberImageUrl,
         getDefaultImageUrl: getDefaultMemberImageUrl,     
         editArtistMemberOnClick(row) {
-            this.$store.dispatch("member/editMember",  row);
+            this.$store.dispatch("artistMember/editMember",  row);
             this.$refs.artistMemberDialog.openDialog(); 
         },
         async deleteArtistMemberOnClick(id) {
-            await this.$store.dispatch("member/deleteMember", id).then(
+            await this.$store.dispatch("artistMember/deleteArtistMember", id).then(
 						() => {	                            
                             this.messages = [ {"text" : "Member deleted.", "severity": MESSAGE_INFO}];
 						},

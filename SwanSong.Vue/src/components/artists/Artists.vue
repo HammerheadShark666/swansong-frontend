@@ -43,7 +43,7 @@ export default {
 		async loadArtist(id) {   
 			this.$store.dispatch("artist/getArtist", id).then(
 					() => {		
-						this.$store.dispatch("member/getMembersForArtist", id);
+						this.$store.dispatch("artistMember/getMembersForArtist", id);
 						this.$store.dispatch("album/getAlbumsForArtist", id);	
 					},
 					(error) => { 

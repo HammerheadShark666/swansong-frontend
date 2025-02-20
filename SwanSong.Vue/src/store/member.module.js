@@ -140,20 +140,7 @@ export const member = {
                            reject(error.response);
                         })
             });
-        },  
-        async getMembersForArtist ({ commit }, artistId) { 
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/artist/` + artistId)
-                       .then(response => {
-                           commit(mutation.SET_MEMBERS_RESULTS, response.data); 
-                           commit(mutation.SET_ARTIST_ID, artistId); 
-                           resolve();
-                       })
-                       .catch(error => { 
-                           reject(error.response);
-                       })
-            })
-        },   
+        },     
         async search ({ commit }, criteria) {   
             return new Promise(async (resolve, reject) => {
                 await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/search/` + criteria)
@@ -197,8 +184,8 @@ export const member = {
 
             commit("SET_MEMBER_ARTIST_ID", state.artistId);
 
-            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/add`;
-
+            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/add`; 
+            
             return new Promise(async (resolve, reject) => {
                 await ajax.post(url, state.member)
                             .then(response => {

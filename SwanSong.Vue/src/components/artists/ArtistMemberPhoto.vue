@@ -12,7 +12,7 @@
         </el-row>  
         <el-row>      
             <el-col :span="4" :gutter="10"> 
-                <el-image v-if="member.photo" class="artist-member-photo" v-bind:src="getImageUrl(member.photo)"></el-image>
+                <el-image v-if="artistMember.member.photo" class="artist-member-photo" v-bind:src="getImageUrl(artistMember.member.photo)"></el-image>
                 <el-image v-else class="artist-member-photo" v-bind:src="getDefaultImageUrl()"></el-image>
             </el-col>
             <el-col :span="20" class="upload">
@@ -57,9 +57,9 @@ export default defineComponent({
         'alerts': Alerts
     },  
     computed: {
-        member: {
+        artistMember: {
             get() {
-                return this.$store.state.member.member;
+                return this.$store.state.artistMember.artistMember;
             }   
         }
     },     
@@ -77,7 +77,7 @@ export default defineComponent({
             this.messages = [];
 			let formData = new FormData();
 			formData.append("file", param.file);
-			let id = this.member.id; 	 
+			let id = this.artistMember.member.id; 	 
 			await this.$store.dispatch("member/savePhoto", { id, formData }).then(
 						() => {	  
                             this.$refs.artistMemberPhotoUpload.clearFiles();  

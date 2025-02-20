@@ -27,8 +27,8 @@
                                     <el-image v-else class="search-album-photo" v-bind:src="getDefaultImageUrl()"></el-image>
                                 </el-col> 
                                 <el-col :span="20" fixed class="album-text-container">    
-                                    <h6 class="album-title">{{ props.row.name }}</h6>                          
-                                    <p class="paragraph-no-bottom-margin">{{ props.row.artistName }}</p>  
+                                    <div class="album-title">{{ props.row.name }}</div>                          
+                                    <div class="paragraph-no-bottom-margin search-album-artist">{{ props.row.artistName }}</div>  
                                 </el-col>  
                             </el-row>    
                         </router-link>   
@@ -154,14 +154,12 @@ export default defineComponent({
     word-break: keep-all;
     font-weight: 500;
     font-size:1.0em;
-    margin-top:5px;
     margin-left:15px;
     font-size:100%;
 }
 
 .album-text-container { 
-    color: black;
-    padding-top:6px;
+    color: black; 
 }   
 
 .nav-link-search {
@@ -171,6 +169,17 @@ export default defineComponent({
 
 .search-results {
     margin-top: 15px;
+} 
+
+.search-album-artist {
+    white-space: pre-wrap;
+    word-break: keep-all; 
+    font-size:1.0em;
+    white-space: pre-wrap;
+    word-break: keep-all; 
+    font-size:1.0em; 
+    margin-left:15px;
+    font-size:100%;
 }
 
 </style>

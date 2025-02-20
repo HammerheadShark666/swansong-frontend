@@ -13,12 +13,14 @@ import { song } from "./song.module";
 import { studio } from "./studio.module";
 import { profile } from "./profile.module";
 import { profilePasswordChange } from "./profile.password.change.module"
+import { artistMember } from "./artist.member.module";
 
 const store = createStore({
   modules: {
     album,
     albumSong,
     artist,
+    artistMember,
     authentication,
     country,
     forgottenPassword,

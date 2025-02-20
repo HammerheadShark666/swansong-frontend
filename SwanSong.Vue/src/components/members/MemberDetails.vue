@@ -44,17 +44,7 @@
                             type="date"
                             placeholder="Pick a day">
                         </el-date-picker>
-                    </el-form-item>       
-                    <el-form-item label="Artist" prop="artistId">
-                        <el-select v-model="member.artistId" placeholder="Select" class="artist-select">
-                            <el-option
-                                v-for="item in artists"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>     
+                    </el-form-item>
                     <el-form-item class="form-item-button form-item-buttons">                    
                         <el-button type="primary" class="save-member-button" @click="submitForm()">Save</el-button>
                     </el-form-item>     
@@ -93,9 +83,7 @@ export default defineComponent({
                 ],
                 surname: [ { required: true, message: 'Please input Surname', trigger: 'blur' },
                            { min: 1, max: 50, message: 'Length should be 1 to 50', trigger: 'blur' } 
-                ],		 	
-                artistId: [ { required: true, message: 'Please select an artist' }, 
-                            { validator: this.artistSelected } ],
+                ]
             }       
         }
     },  
@@ -103,7 +91,7 @@ export default defineComponent({
         member: {
             get() {
                 return this.$store.state.member.member;
-            },   
+            },  
             set(member) {
                 this.$store.commit("SET_DETAILS", {member});
             }     
@@ -115,8 +103,7 @@ export default defineComponent({
         }
     },
     async created() {
-        await this.$store.dispatch("member/addMember");  
-        await this.$store.dispatch("artist/getLookups");        
+        await this.$store.dispatch("member/addMember");      
     },
     mounted() {
         this.$store.dispatch("member/clear");  
