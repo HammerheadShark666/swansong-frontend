@@ -10,8 +10,8 @@
                     <div class="card-header">      
                         <el-row class="title-row">       
                             <el-col :span="24">
-                                <span v-if="member.id == 0">Add Member</span>
-                                <span v-if="member.id > 0">Edit Member</span>
+                                <span v-if="artistMember.id == 0">Add Member</span>
+                                <span v-if="artistMember.id > 0">Edit Member</span>
                             </el-col>                            
                         </el-row>  
                     </div>
@@ -25,31 +25,31 @@
                     ref="memberForm" 
                     :label-position="labelPosition" 
                     :rules="rules" 
-                    :model="member"                    
+                    :model="artistMember"                    
                     label-width="120px">
 
-                    <el-form-item label="Stage Name" :label-width="formLabelWidth" prop="stageName">
-                        <el-input v-model="member.stageName" maxlength="150" show-word-limit class="stage-name"></el-input>
+                    <el-form-item label="Stage Name" :label-width="formLabelWidth" prop="member.stageName">
+                        <el-input v-model="artistMember.member.stageName" maxlength="150" show-word-limit class="stage-name"></el-input>
                     </el-form-item>
-                    <el-form-item label="First Name" :label-width="formLabelWidth" prop="firstName">
-                        <el-input v-model="member.firstName" maxlength="50" show-word-limit class="first-name"></el-input>
+                    <el-form-item label="First Name" :label-width="formLabelWidth" prop="member.firstName">
+                        <el-input v-model="artistMember.member.firstName" maxlength="50" show-word-limit class="first-name"></el-input>
                     </el-form-item>
-                    <el-form-item label="Middle Name" :label-width="formLabelWidth" prop="middleName">
-                        <el-input v-model="member.middleName" maxlength="50" show-word-limit class="middle-name"></el-input>
+                    <el-form-item label="Middle Name" :label-width="formLabelWidth" prop="member.middleName">
+                        <el-input v-model="artistMember.member.middleName" maxlength="50" show-word-limit class="middle-name"></el-input>
                     </el-form-item>
-                    <el-form-item label="Surname" :label-width="formLabelWidth" prop="surname">
-                        <el-input v-model="member.surname" maxlength="50" show-word-limit class="surname"></el-input>
+                    <el-form-item label="Surname" :label-width="formLabelWidth" prop="member.surname">
+                        <el-input v-model="artistMember.member.surname" maxlength="50" show-word-limit class="surname"></el-input>
                     </el-form-item>
-                    <el-form-item label="Date of Birth" :label-width="formLabelWidth" prop="dateOfBirth">   
+                    <el-form-item label="Date of Birth" :label-width="formLabelWidth" prop="member.dateOfBirth">   
                         <el-date-picker
-                            v-model="member.dateOfBirth"
+                            v-model="artistMember.member.dateOfBirth"
                             type="date"
                             placeholder="Pick a day">
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="Date of Death" :label-width="formLabelWidth" prop="dateOfDeath">   
+                    <el-form-item label="Date of Death" :label-width="formLabelWidth" prop="member.dateOfDeath">   
                         <el-date-picker
-                            v-model="member.dateOfDeath"
+                            v-model="artistMember.member.dateOfDeath"
                             type="date"
                             placeholder="Pick a day">
                         </el-date-picker>
@@ -60,7 +60,7 @@
                     </div>
                 </el-form>
             </el-card>
-            <artist-member-photo v-if="member.id > 0"></artist-member-photo>           
+            <artist-member-photo v-if="artistMember.member.id > 0"></artist-member-photo>           
         </el-dialog> 
     </div>
 </template>
@@ -105,9 +105,9 @@ export default defineComponent({
         'alerts': Alerts
     },
     computed: {
-        member: {
+        artistMember: {
             get() {
-                return this.$store.state.member.member;
+                return this.$store.state.artistMember.artistMember;
             },  
         }
     },     
@@ -121,9 +121,10 @@ export default defineComponent({
             this.messages = [];
 			this.$refs['memberForm'].validate((valid) => {
 				if (valid) { 
-                    this.disabled = true;
-                    let action = this.member.id > 0 ? "update": "addNew";
-					this.$store.dispatch("member/" + action + "Member").then(
+                    this.disabled = true; 
+                    let dispatchUrl = this.artistMember.member.id > 0 ?  "artistMember/saveUpdatedArtistMember":  "artistMember/saveNewArtistMember";
+                   
+					this.$store.dispatch(dispatchUrl).then(
 						() => {
                             this.messages = [ {"text" : "Member Saved.", "severity": MESSAGE_INFO}];
                             this.disabled = false;
@@ -133,8 +134,8 @@ export default defineComponent({
                             this.memberState = 'Add';                            
 						},
 						(error) => {
-                            this.messages = error.data.messages;
                             this.disabled = false;
+                            this.messages = error.data.messages;
 						});
 				} else { 
 					return false
@@ -142,7 +143,7 @@ export default defineComponent({
 			})
 		},        
         addArtistMemberOnClick() {
-            this.$store.dispatch("member/addMember"); 
+            this.$store.dispatch("artistMember/addArtistMember"); 
             this.memberState = 'Add';
             this.showDialog = true;
         },        
@@ -157,10 +158,7 @@ export default defineComponent({
         },
         openDialog() {
             this.showDialog = true;
-        },
-        // resetForm() {   
-        //     this.disabled = false;
-        // }
+        }
      }
 });
 
