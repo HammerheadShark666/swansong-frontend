@@ -16,28 +16,10 @@ require('dotenv').config();
 import mitt from 'mitt';
 export const emitter = mitt(); 
  
-// createApp(App)
-//   .use(router)
-//   .use(store)
-//   .use(ElementPlus)
-//   .component("font-awesome-icon", FontAwesomeIcon)
-//   .component("search", Search)
-//   .mount("#app");
-
-
-  const app = createApp(App) 
-              .use(router)
-              .use(store)
-              .use(ElementPlus)
-              .component("font-awesome-icon", FontAwesomeIcon)
-              .component("search", Search);
-
-  // 🔥 Global Error Handler
-  // app.config.errorHandler = (err) => {
-  //   console.error("Global Vue Error:", err);
-  //   alert("An unexpected error occurred. Please try again.");
-  // };
-  
-  app.mount("#app");
-
-
+createApp(App)
+  .use(router)
+  .use(store)
+  .use(ElementPlus)
+  .component("font-awesome-icon", FontAwesomeIcon)
+  .component("search", Search)
+  .mount("#app");
