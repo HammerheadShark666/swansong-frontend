@@ -81,14 +81,14 @@ export default defineComponent({
                 await this.$store.dispatch("album/search", criteria).then(
 						( ) => {},
 						(error) => { 
-                            this.errors = error;
+                            console.log(error); 
 						});
         },
         async searchAlbumsByLetter(letter) {   
                 await this.$store.dispatch("album/searchByLetter", letter).then(
 						( ) => {},
 						(error) => { 
-                            this.errors = error;
+                            console.log(error); 
 						});
         },
         async pageChange(val){

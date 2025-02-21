@@ -43,30 +43,15 @@ export const song = {
     actions: {
         async getSongsForAlbum ({ commit }, albumId) { 
 
-           return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/songs/by-album/` + albumId)
-                       .then(response => {
-                            commit(mutation.SET_ALBUM_SONGS_RESULTS, response.data);  
-                            resolve();
-                       })
-                       .catch(error => { 
-                            reject(error.response);
-                       })
-
-            });
+            const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/songs/by-album/` + albumId);
+            commit(mutation.SET_ALBUM_SONGS_RESULTS, response.data);  
+            return;
         },         
         async saveSong ({ commit, state }) {
             
-            return new Promise((resolve, reject) => {
-                ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/songs/song/save/`, state.song)  
-                       .then(response => {
-                            commit("SET_SAVED_SONG", response.data);  
-                            resolve();
-                       })
-                       .catch(error => { 
-                            reject(error.response);
-                       })
-            })
+            const response = ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/songs/song/save/`, state.song);
+            commit("SET_SAVED_SONG", response.data); 
+            return;
         },     
         addSong({commit}) {
             commit(mutation.SET_SONG_DETAILS, newSong);       

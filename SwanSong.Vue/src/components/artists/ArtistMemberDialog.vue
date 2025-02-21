@@ -28,16 +28,16 @@
                     :model="artistMember"                    
                     label-width="120px">
 
-                    <el-form-item label="Stage Name" :label-width="formLabelWidth" prop="member.stageName">
+                    <el-form-item label="Stage Name*" :label-width="formLabelWidth" prop="member.stageName">
                         <el-input v-model="artistMember.member.stageName" maxlength="150" show-word-limit class="stage-name"></el-input>
                     </el-form-item>
-                    <el-form-item label="First Name" :label-width="formLabelWidth" prop="member.firstName">
+                    <el-form-item label="First Name*" :label-width="formLabelWidth" prop="member.firstName">
                         <el-input v-model="artistMember.member.firstName" maxlength="50" show-word-limit class="first-name"></el-input>
                     </el-form-item>
                     <el-form-item label="Middle Name" :label-width="formLabelWidth" prop="member.middleName">
                         <el-input v-model="artistMember.member.middleName" maxlength="50" show-word-limit class="middle-name"></el-input>
                     </el-form-item>
-                    <el-form-item label="Surname" :label-width="formLabelWidth" prop="member.surname">
+                    <el-form-item label="Surname*" :label-width="formLabelWidth" prop="member.surname">
                         <el-input v-model="artistMember.member.surname" maxlength="50" show-word-limit class="surname"></el-input>
                     </el-form-item>
                     <el-form-item label="Date of Birth" :label-width="formLabelWidth" prop="member.dateOfBirth">   
@@ -68,7 +68,7 @@
 <script>
 
 import { defineComponent } from 'vue'  
-import { delayAlertRemove } from '../../helpers/helper' 
+import { delayAlertRemove, getErrorMessages } from '../../helpers/helper' 
 import { emitter } from '../../main'
 import Alerts from '../library/Alerts.vue' 
 import ArtistMemberPhoto from '../artists/ArtistMemberPhoto.vue'
@@ -135,7 +135,7 @@ export default defineComponent({
 						},
 						(error) => {
                             this.disabled = false;
-                            this.messages = error.data.messages;
+                            this.messages = getErrorMessages(error); 
 						});
 				} else { 
 					return false

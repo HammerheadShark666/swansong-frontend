@@ -33,6 +33,7 @@
 <script>
 
 import Alerts from '../library/Alerts.vue' 
+import { getErrorMessages } from '../../helpers/helper' 
 
 export default {
 	name: "VerifyEmail",
@@ -55,9 +56,9 @@ export default {
 					this.messages = []; 
 					this.successful = true; 
 				},
-				(error) => {					 
-					this.messages = error.data.messages;
+				(error) => {
 					this.successful = false; 
+					this.messages = getErrorMessages(error);
 				}
 			);
 		}		 		

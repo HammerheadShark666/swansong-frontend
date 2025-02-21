@@ -1,4 +1,3 @@
-/* eslint-disable no-async-promise-executor */
 import ajax from '../helpers/http-common'
 
 const mutation = {  
@@ -54,16 +53,9 @@ export const studio = {
     actions: {
         async getAll ({ commit }) {
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/studios`)
-                       .then(response => {
-                           commit(mutation.SET_STUDIOS, response.data); 
-                           resolve();
-                       })
-                       .catch(error => {
-                           reject(error.response);
-                       })
-            })
+            const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/studios`);
+            commit(mutation.SET_STUDIOS, response.data); 
+            return;
         },        
         setStudio({ commit }, studio) {
             commit(mutation.SET_STUDIO, studio); 
@@ -72,45 +64,26 @@ export const studio = {
 
             let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/studios/studio/add`;
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.post(url, state.studio )  
-                            .then(response => {
-                                commit(mutation.SET_SAVED_STUDIO, response.data);   
-                                resolve(response);
-                            }).catch(error => {
-                                reject(error.response);
-                            })
-            });
+            const response = await ajax.post(url, state.studio);
+            commit(mutation.SET_SAVED_STUDIO, response.data);   
+            return response;
         },
         async updateStudio ({ commit, state }) {  
 
             let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/studios/studio/update`;
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.put(url, state.studio )  
-                            .then(response => {
-                                commit(mutation.SET_UPDATED_STUDIO, state.studio);   
-                                resolve(response);
-                            }).catch(error => {
-                                reject(error.response);
-                            })
-            });
+            const response = await ajax.put(url, state.studio);
+            commit(mutation.SET_UPDATED_STUDIO, state.studio); 
+            return response;
         },
         async deleteStudio ({ commit, state }) { 
 
-            let studioId = state.studio.id; 
+            let studioId = state.studio.id;
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/studios/studio/` + studioId)  
-                            .then(response => {
-                                commit(mutation.SET_DELETED_STUDIO, response.data);  
-                                commit(mutation.REMOVE_STUDIO_FROM_RESULTS, studioId); 
-                                resolve(response);
-                            }).catch(error => {
-                                reject(error.response);
-                            })
-
-                });
+            const response = await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/studios/studio/` + studioId);
+            commit(mutation.SET_DELETED_STUDIO, response.data);  
+            commit(mutation.REMOVE_STUDIO_FROM_RESULTS, studioId); 
+            return response;
         },
         add({ commit }) {
             commit(mutation.SET_STUDIO, getStudioDetails()); 

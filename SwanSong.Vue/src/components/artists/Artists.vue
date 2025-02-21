@@ -21,8 +21,7 @@
 
 <script>  
 import ArtistsTitleBar from './ArtistsTitleBar'
-import Artist from './Artist' 
-import { ElMessage } from 'element-plus'
+import Artist from './Artist'
 
 export default {
 	name: "Artists", 
@@ -47,14 +46,7 @@ export default {
 						this.$store.dispatch("album/getAlbumsForArtist", id);	
 					},
 					(error) => { 
-						if(error.status == 404){
-							ElMessage({
-								duration:0,
-								showClose: true, 
-								type: 'error',
-								message: 'Artist not found.',
-							});
-						}								 
+						console.log(error); 
 					});	 
 		}
 	}

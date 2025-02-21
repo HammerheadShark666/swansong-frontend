@@ -1,4 +1,4 @@
-/* eslint-disable no-async-promise-executor */
+
 import ajax from '../helpers/http-common'
 
 const mutation = { 
@@ -33,22 +33,23 @@ export const authentication = {
 	},
 	actions: {
 		async login({ commit, dispatch }, loginForm) {
-			return new Promise(async (resolve, reject) => {
-				await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/login`, loginForm)
-						.then(response => {
-							
-							if (response.data.jwtToken) {
-								sessionStorage.setItem('user', JSON.stringify(response.data));
-							}				 
-							commit(mutation.LOGIN_SUCCESS, response.data);  
-							dispatch("profile/getProfile", '', { root:true });   
-							resolve(response);							
-						})
-						.catch(error => {
-							commit(mutation.LOGIN_FAILURE);
-							reject(error);
-						})
-			})
+
+			try
+			{
+				const response = await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/login`, loginForm)
+				if (response.data.jwtToken) {
+					sessionStorage.setItem('user', JSON.stringify(response.data));
+				}				 
+				commit(mutation.LOGIN_SUCCESS, response.data);  
+				dispatch("profile/setProfile", response.data.profile);
+				dispatch("profile/getProfile", '', { root:true });   
+				return response;
+			} 
+			catch(error)
+			{
+				commit(mutation.LOGIN_FAILURE);
+				throw error;
+			}
 		},
 		logout({ commit }) {
 			sessionStorage.removeItem('user');

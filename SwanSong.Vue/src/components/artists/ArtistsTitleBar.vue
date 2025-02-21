@@ -35,7 +35,7 @@
 import { defineComponent } from 'vue'
 import ArtistSearch from './ArtistSearch.vue'
 import DialogMessages from '../library/DialogMessages.vue' 
-import { MESSAGE_INFO } from '../../helpers/helper'
+import { MESSAGE_INFO, getErrorMessages } from '../../helpers/helper'
 
 export default defineComponent({
 
@@ -70,7 +70,7 @@ export default defineComponent({
                             this.messages = [ {"text" : "Artist deleted.", "severity": MESSAGE_INFO}];
 						},
 						(error) => {  
-                            this.messages = error.response.data.errors;
+                            this.messages = getErrorMessages(error); 
 						});
         },
         getTitle() {

@@ -136,10 +136,10 @@ export default {
 							this.messages = [ {"text" : "Registration successful, please check your email for verification instructions.", "severity": MESSAGE_INFO}];
 							this.successful = true;   
 						},
-						(error) => {
-							this.messages = error.data.messages;
+						(error) => {							
 							this.successful = false; 
 							this.disabled = false;
+							this.messages = error.response.data.messages;
 						});
 				} else { 
 					return false

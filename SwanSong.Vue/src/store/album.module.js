@@ -1,4 +1,3 @@
-/* eslint-disable no-async-promise-executor */
 import ajax from '../helpers/http-common' 
 
 const mutation = { 
@@ -99,137 +98,55 @@ export const album = {
     },
     actions: {
         async all ({ commit }, { pageNumber, pageSize }) { 
-
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`albums?pageNumber=` + pageNumber + '&pageSize=' + pageSize)
-                        .then(response => {
-                            commit(mutation.SET_ALBUMS_BY_PAGING, response.data);  
-                            resolve();
-                        }).catch(error => { 
-                           reject(error.response);
-                        })
-            });
+          const response = await ajax.get(`albums?pageNumber=` + pageNumber + '&pageSize=' + pageSize);
+          commit(mutation.SET_ALBUMS_BY_PAGING, response.data);
         }, 
-        async random ({ commit }) { 
-
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/random`)
-                        .then(response => {
-                            commit(mutation.SET_SEARCH_ALBUMS, response.data);  
-                            resolve();
-                        }).catch(error => { 
-                           reject(error.response);
-                        })
-            });
+        async random ({ commit }) {       
+          const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/random`);                 
+          commit(mutation.SET_SEARCH_ALBUMS, response.data);
         },   
-        async search ({ commit }, criteria) {   
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/search/` + criteria)
-                        .then(response => {
-                            commit(mutation.SET_SEARCH_ALBUMS, response.data);                             
-                            resolve();
-                        })
-                        .catch(error => {
-                            reject(error.response);
-                        })
-            });
+        async search ({ commit }, criteria) {        
+          const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/search/` + criteria);                 
+          commit(mutation.SET_SEARCH_ALBUMS, response.data);
         },
         async searchByLetter ({ commit }, letter) {
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/search-by-letter/` + letter)
-                        .then(response => {
-                            commit(mutation.SET_SEARCH_ALBUMS, response.data);   
-                            resolve();
-                        })
-                        .catch(error => { 
-                            reject(error.response);
-                        })
-            });
+          const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/search-by-letter/` + letter);
+          commit(mutation.SET_SEARCH_ALBUMS, response.data);
         },  
-        async getAlbum ({ commit }, id) {   
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/` + id)
-                       .then(response => {
-                            commit(mutation.SET_ALBUM, response.data); 
-                            resolve(); 
-                       })
-                       .catch(error => { 
-                            reject(error.response);
-                       })
-            });
+        async getAlbum ({ commit }, id) {
+          const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/` + id);
+          commit(mutation.SET_ALBUM, response.data);
         },
         async addAlbum({commit}) {
-            commit(mutation.SET_NEW_ALBUM);       
+          commit(mutation.SET_NEW_ALBUM);       
         },
-        addNewAlbum ({ state }) {   
-
-            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/add`;
-
-            return new Promise(async (resolve, reject) => {
-                await ajax.post(url, state.album)  
-                       .then(response => { 
-                            resolve(response);  
-                       })
-                       .catch(error => {
-                            reject(error.response);
-                       })
-            });
+        async addNewAlbum ({ state }) {           
+          let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/add`;   
+          const response = await ajax.post(url, state.album);
+          return response;
         },
-        updateAlbum ({ state }) {   
-
-            let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/update`;
-
-            return new Promise(async (resolve, reject) => {
-                await ajax.put(url, state.album)  
-                       .then(response => { 
-                            resolve(response);  
-                       })
-                       .catch(error => {
-                            reject(error.response);
-                       })
-            });
+        async updateAlbum ({ state }) {  
+          let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/update`;
+          return await ajax.put(url, state.album);
         },      
         async deleteAlbum ({ commit, state, dispatch }) { 
-
-            let albumId = state.album.id; 
-
-            return new Promise(async (resolve, reject) => {
-                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/` + state.album.id)  
-                       .then(response => {                            
-                            commit(mutation.CLEAR_ALBUM);  
-                            commit(mutation.REMOVE_ALBUM_FROM_SEARCH_RESULTS, albumId);
-                            dispatch("albumSong/clearAlbumSongs", '', { root:true });
-                            resolve(response);
-                       })
-                       .catch(error => { 
-                            reject(error.response);
-                       })
-            });
+          let albumId = state.album.id; 
+          const response =  await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/` + state.album.id);
+          commit(mutation.CLEAR_ALBUM);  
+          commit(mutation.REMOVE_ALBUM_FROM_SEARCH_RESULTS, albumId);
+          dispatch("albumSong/clearAlbumSongs", '', { root:true });
+          return response;
         },
-        async savePhoto ({ commit }, { albumId, formData }) {
-            return new Promise(async (resolve, reject) => {
-                await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/upload-photo/` + albumId, formData,  {
-                    headers: {}  
-                    }).then(response => {
-                        commit(mutation.SET_ALBUM_PHOTO, response.data.filename);  
-                        resolve();
-                    })
-                    .catch(error => {
-                        reject(error.response);
-                    })
-            });
+        async savePhoto ({ commit }, { albumId, formData }) { 
+          const response = await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/album/upload-photo/` + albumId, formData,  {
+              headers: {} });
+          commit(mutation.SET_ALBUM_PHOTO, response.data.filename);
+          return response;
         },
-        async getAlbumsForArtist({ commit }, artistId) { 
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/artist/` + artistId)
-                        .then(response => {
-                            commit(mutation.SET_ARTIST_ALBUMS, response.data);  
-                            resolve();
-                        })
-                        .catch(error => {
-                            reject(error.response);
-                        })
-            });
+        async getAlbumsForArtist({ commit }, artistId) {
+            const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/albums/artist/` + artistId);
+            commit(mutation.SET_ARTIST_ALBUMS, response.data); 
+            return;
         },
         updateArtistName({ commit, rootState }, id) {
             commit(mutation.SET_ALBUM_ARTIST_NAME, rootState.artist.lookups.find(x => x.id === id).name);

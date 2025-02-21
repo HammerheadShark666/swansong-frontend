@@ -1,4 +1,4 @@
-/* eslint-disable no-async-promise-executor */
+
 import ajax from '../helpers/http-common'
 import _ from "lodash";
 
@@ -120,128 +120,73 @@ export const member = {
     actions: {     
         async all ({ commit }, { pageNumber, pageSize }) { 
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members?pageNumber=` + pageNumber + '&pageSize=' + pageSize)
-                        .then(response => {
-                            commit(mutation.SET_MEMBERS_BY_PAGING, response.data);  
-                            resolve();
-                        }).catch(error => { 
-                           reject(error.response);
-                        })
-            });
+            const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members?pageNumber=` + pageNumber + '&pageSize=' + pageSize);
+            commit(mutation.SET_MEMBERS_BY_PAGING, response.data);
+            return;
         },     
         async random ({ commit }) { 
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/random`)
-                        .then(response => {
-                            commit(mutation.SET_SEARCH_MEMBERS, response.data);  
-                            resolve();
-                        }).catch(error => { 
-                           reject(error.response);
-                        })
-            });
+
+            const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/random`);
+            commit(mutation.SET_SEARCH_MEMBERS, response.data); 
+            return;
         },     
-        async search ({ commit }, criteria) {   
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/search/` + criteria)
-                        .then(response => {
-                            commit(mutation.SET_SEARCH_MEMBERS, response.data);                             
-                            resolve();
-                        })
-                        .catch(error => {
-                            reject(error.response)
-                        })
-            });
+        async search ({ commit }, criteria) {
+            
+            const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/search/` + criteria);
+            commit(mutation.SET_SEARCH_MEMBERS, response.data); 
+            return;
         },  
         async searchByLetter ({ commit }, letter) {
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/search-by-letter/` + letter)
-                        .then(response => {
-                            commit(mutation.SET_SEARCH_MEMBERS, response.data);   
-                            resolve();
-                        })
-                        .catch(error => { 
-                            reject(error.response);
-                        })
-            });
+
+            const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/search-by-letter/` + letter);
+            commit(mutation.SET_SEARCH_MEMBERS, response.data); 
+            return;
         },   
-        async getMember ({ commit }, id) {   
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/` + id)
-                       .then(response => {
-                            commit(mutation.SET_MEMBER, response.data); 
-                            resolve(); 
-                       })
-                       .catch(error => { 
-                            reject(error.response);
-                       })
-            });
+        async getMember ({ commit }, id) { 
+            
+            const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/` + id);
+            commit(mutation.SET_MEMBER, response.data); 
+            return;
         }, 
         addMember({commit}) {
             commit(mutation.SET_MEMBER, getMemberDetails(this.artistId));
         },
         async addNewMember ({  commit, state }) {  
 
-            commit("SET_MEMBER_ARTIST_ID", state.artistId);
-
             let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/add`; 
-            
-            return new Promise(async (resolve, reject) => {
-                await ajax.post(url, state.member)
-                            .then(response => {
-                                commit("SET_SAVED_MEMBER", response.data)   
-                                resolve(response); 
-                            }).catch(error => {
-                                reject(error.response);
-                            })
-            });
+
+            commit("SET_MEMBER_ARTIST_ID", state.artistId);           
+            const response = await ajax.post(url, state.member);
+            commit("SET_SAVED_MEMBER", response.data);
+            return response;
         },     
-        updateMember ({  commit, state }) {   
+        async updateMember ({  commit, state }) {   
 
             let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/update`;
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.put(url, state.member)  
-                       .then(response => { 
-                            commit("SET_SAVED_EDITED_MEMBER")
-                            resolve(response.data);  
-                       })
-                       .catch(error => {
-                            reject(error.response);
-                       })
-            });
+            const response = await ajax.put(url, state.member);
+            commit("SET_SAVED_EDITED_MEMBER")
+            return response.data;
         },
         async deleteMember ({ commit }, id) {
-            return new Promise(async (resolve, reject) => {
-                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/` + id)  
-                            .then(response => {                                                          
-                                commit(mutation.SET_DELETED_MEMBER, id); 
-                                resolve(response.data);
-                            })
-                            .catch(error => {                          
-                                reject(error.response);
-                            })
-            });
+
+            const response = await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/` + id);
+            commit(mutation.SET_DELETED_MEMBER, id);
+            return response.data;
         },   
         async savePhoto ({ commit }, { id, formData }) {
-            return new Promise(async (resolve, reject) => {
-                if(id != undefined) {
-                    await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/upload-photo/` + id, formData,  {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
-                                }  
-                                }).then(response => {
-                                    var photoName = response.data.filename;
-                                    commit(mutation.SET_MEMBER_PHOTO, { id, photoName});  
-                                    resolve();
-                                })
-                                .catch(error => {
-                                    reject(error.response);
-                                })
-                } else {
-                    reject()
-                }
-            })
+
+            if(id != undefined) 
+            {
+                const response = await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/upload-photo/` + id, formData,  {
+                                    headers: {
+                                        'Content-Type': 'multipart/form-data'
+                                    }});
+                var photoName = response.data.filename;
+                commit(mutation.SET_MEMBER_PHOTO, { id, photoName});  
+                return;
+            } else
+                throw new Error("No member id for photo.");
         },         
         editMember({ commit }, member) {
             commit(mutation.SET_MEMBER, member);

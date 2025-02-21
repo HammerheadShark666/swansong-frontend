@@ -80,7 +80,7 @@ export default defineComponent({
             await this.$store.dispatch("artist/search", criteria).then(
                     () => {},
                     (error) => { 
-                        this.errors = error;
+                        console.log(error);
                     });
         },
         async searchArtistsByLetter(letter) {     
@@ -88,7 +88,7 @@ export default defineComponent({
             await this.$store.dispatch("artist/searchByLetter", letter).then(
                     () => {},
                     (error) => { 
-                        this.errors = error;
+                        console.log(error);
                     });
         },
         async pageChange(val){

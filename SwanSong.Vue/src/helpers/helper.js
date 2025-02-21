@@ -32,7 +32,7 @@ export function getAlbumSongsTotalLength(rows) {
 
         minutes = minutes + secondsToMinutes;
         seconds = leftOverSeconds;
-        sum = minutes + ":" + (seconds<10 ? "0" + seconds : seconds);
+        sum = (minutes<10 ? "0" + minutes : minutes) + ":" + (seconds<10 ? "0" + seconds : seconds);
     }
 
     return sum;
@@ -114,4 +114,12 @@ export function getPages(list) {
         pages[page].push(item);
     })
     return pages;   
+}
+
+export function getErrorMessages(error) {
+
+    if(error && error.response && error.response.data && error.response.data.messages)
+        return error.response.data.messages;
+    else 
+        return [{"text" : error.message, "severity": MESSAGE_ERROR}];
 }

@@ -36,7 +36,7 @@ import { defineComponent } from 'vue'
 import AlbumSearch from './AlbumSearch.vue'
 import { emitter } from '../../main'
 import DialogMessages from '../library/DialogMessages.vue'
-import { MESSAGE_INFO } from '../../helpers/helper'
+import { MESSAGE_INFO, getErrorMessages } from '../../helpers/helper'
 
 export default defineComponent({
 
@@ -72,7 +72,7 @@ export default defineComponent({
                             this.messages = [ {"text" : "Album deleted.", "severity": MESSAGE_INFO}];
 						},
 						(error) => {  
-                            this.messages = error.data.errors;
+                            this.messages = getErrorMessages(error); 
 						});
         },
         closeMessagesDialog() { 

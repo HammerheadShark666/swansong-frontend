@@ -1,4 +1,4 @@
-/* eslint-disable no-async-promise-executor */
+
 import ajax from '../helpers/http-common'
 import _ from "lodash";
 
@@ -11,7 +11,8 @@ const mutation = {
   SET_ARTIST_MEMBER: "SET_ARTIST_MEMBER",
   RESET_ARTIST_MEMBER: "RESET_ARTIST_MEMBER",
   SET_DELETED_ARTIST_MEMBER: "SET_DELETED_ARTIST_MEMBER",
-  SET_SAVED_EDITED_MEMBER: "SET_SAVED_EDITED_MEMBER"
+  SET_SAVED_EDITED_MEMBER: "SET_SAVED_EDITED_MEMBER",
+  SET_ARTIST_MEMBER_PHOTO: "SET_ARTIST_MEMBER_PHOTO",
 }
 
 const getArtistMemberDetails = (artistId) => { 
@@ -70,21 +71,29 @@ export const artistMember = {
       SET_DELETED_ARTIST_MEMBER (state, id) {
           state.members = state.members.filter(member => member.id != id);
           state.artistMember = getArtistMemberDetails(this.artistId);
-      }
+      },
+      SET_ARTIST_MEMBER_PHOTO (state, { id, photoName}) {    
+
+        state.artistMember.member.photo = photoName
+
+        var members = state.members;
+        members = members.map((mber) => {
+            if (mber.id === id) { 
+                mber.photo = photoName
+            }            
+            return mber;
+        });
+
+        state.members = members;
+    }, 
 },
   actions: { 
     async getMembersForArtist ({ commit }, artistId) {
-      return new Promise(async (resolve, reject) => {
-          await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/artist/members/` + artistId)
-                 .then(response => {
-                     commit(mutation.SET_ARTIST_MEMBERS_RESULTS, response.data); 
-                     commit(mutation.SET_ARTIST_ID, artistId); 
-                     resolve();
-                 })
-                 .catch(error => { 
-                     reject(error.response);
-                 })
-      })
+
+      const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/artist/members/` + artistId);
+      commit(mutation.SET_ARTIST_MEMBERS_RESULTS, response.data); 
+      commit(mutation.SET_ARTIST_ID, artistId); 
+      return;
     },   
     async saveNewArtistMember ({  commit, state }) {  
     
@@ -92,45 +101,38 @@ export const artistMember = {
 
       let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/artist/members/add`;
 
-
-      return new Promise(async (resolve, reject) => {
-          await ajax.post(url, state.artistMember)
-                      .then(response => {
-                          commit(mutation.SET_SAVED_ARTIST_MEMBER, response.data)   
-                          resolve(response); 
-                      }).catch(error => {
-                          reject(error.response);
-                      })
-      });
+      const response = await ajax.post(url, state.artistMember);
+      commit(mutation.SET_SAVED_ARTIST_MEMBER, response.data) 
+      return response;
     },     
-    saveUpdatedArtistMember ({  commit, state }) {   
+    async saveUpdatedArtistMember ({  commit, state }) {   
     
       let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/artist/members/member/update`;
 
-      return new Promise(async (resolve, reject) => {
-        await ajax.put(url, state.artistMember)  
-                    .then(response => { 
-                        commit(mutation.SET_SAVED_EDITED_ARTIST_MEMBER)
-                        resolve(response.data);  
-                    })
-                    .catch(error => {
-                        reject(error.response);
-                    })
-      });
+      const response = await ajax.put(url, state.artistMember);
+      commit(mutation.SET_SAVED_EDITED_ARTIST_MEMBER)
+      return response.data;
     },    
     async deleteArtistMember ({ commit }, id) {
- 
-      return new Promise(async (resolve, reject) => {
-          await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/artist/members/member/` + id)  
-                      .then(response => {                                                          
-                          commit(mutation.SET_DELETED_ARTIST_MEMBER, id); 
-                          resolve(response.data);
-                      })
-                      .catch(error => {                          
-                          reject(error.response);
-                      })
-      });
+
+      const response = await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/artist/members/member/` + id);
+      commit(mutation.SET_DELETED_ARTIST_MEMBER, id); 
+      return response.data;
     }, 
+    async savePhoto ({ commit }, { id, formData }) {
+    
+        if(id != undefined) 
+        {
+            const response = await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/members/member/upload-photo/` + id, formData,  {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }});
+            var photoName = response.data.filename;
+            commit(mutation.SET_ARTIST_MEMBER_PHOTO, { id, photoName});  
+            return;
+        } else
+            throw new Error("No member id for photo.");
+    },       
     addArtistMember({commit}) {
       commit(mutation.SET_ARTIST_MEMBER, getArtistMemberDetails(this.artistId));
     },  

@@ -78,7 +78,7 @@ export default defineComponent({
 			let formData = new FormData();
 			formData.append("file", param.file);
 			let id = this.artistMember.member.id; 	 
-			await this.$store.dispatch("member/savePhoto", { id, formData }).then(
+			await this.$store.dispatch("artistMember/savePhoto", { id, formData }).then(
 						() => {	  
                             this.$refs.artistMemberPhotoUpload.clearFiles();  
                             this.messages.push({text: "The member photo was saved", severity: MESSAGE_INFO });
