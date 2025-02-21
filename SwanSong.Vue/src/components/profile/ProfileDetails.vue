@@ -1,5 +1,5 @@
 <template>
-    <el-card class="box-card card-margin-right">
+    <el-card class="box-card card-margin-right" style="height: auto">
         <template #header>
             <div class="card-header">
                 <span>Details</span> 
@@ -29,17 +29,12 @@
                     <el-input type="email" placeholder="Email" show-word-limit v-model="profile.email"></el-input>
                 </el-form-item>  
 
-                <el-form-item>
-                    <el-button type="primary" @click="submitForm('profileDetailsForm')">
+                <el-form-item class="form-item-button form-item-buttons">  
+                    <el-button :disabled="disabled" type="primary" @click="submitForm('profileDetailsForm')">
                         Save
                     </el-button>
                     <el-button @click="resetForm()">Reset</el-button>
-                </el-form-item>  
-    
-                <!-- <el-form-item class="form-item-button form-item-buttons">                    
-                    <el-button type="primary" :disabled="disabled" class="save-profile-details-button" @click="submitForm('profileDetailsForm')">Save</el-button>
-                    <el-button type="primary" :disabled="disabled" class="reset-profile-details-button" @click="resetForm()">Reset</el-button>
-                </el-form-item>   -->
+                </el-form-item>
         </el-form>   
 	</el-card>
 </template>
@@ -47,9 +42,9 @@
 <script>
 
 import { defineComponent } from 'vue'    
-import { delayAlertRemove } from '../../helpers/helper' 
+import { delayAlertRemove, getErrorMessages, MESSAGE_INFO } from '../../helpers/helper' 
 import Alerts from '../library/Alerts.vue' 
-
+ 
 export default defineComponent({
    
     el: 'ProfileDetails', 
@@ -60,7 +55,7 @@ export default defineComponent({
         return {   
             messages: [],  
             labelPosition: 'left',   
-            disabled: false,      
+            disabled: false,
             rules: { 	email: [{required: true, message: 'Please input Email', trigger: 'blur'},
 								{min: 5, max: 150, message: 'Length should be 5 to 150', trigger: 'blur'},
 								{type: 'email', message: 'Please input correct Email'}],
@@ -78,8 +73,7 @@ export default defineComponent({
 
                 if(profile.email == null) {
                     profile = JSON.parse(sessionStorage.getItem('user')).profile; 
-                }
-
+                } 
                 return profile;
             },   
             set(profile) {
@@ -89,22 +83,23 @@ export default defineComponent({
     }, 
     methods: {     
         submitForm(formName) {
-            this.messages = [];
+            this.messages = [];  
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
                         this.disabled = true;
                         this.$store.dispatch("profile/saveProfile").then(
-						(response) => {			
-                            this.messages = response.data.messages;	  
+						() => {		                            
+                            this.messages = [ {"text" : "Profile Saved.", "severity": MESSAGE_INFO}];  
                             this.resetForm();
                             delayAlertRemove().then(function() {
                                 this.messages = [];  
                                 this.$store.dispatch("profile/clearMessages");   
-                            }.bind(this));        
-						},
-						(error) => { 
-                            this.messages = error.data.messages;
+                            }.bind(this));   
                             this.disabled = false;
+						},
+						(error) => {
+                           this.disabled = false;
+                           this.messages = getErrorMessages(error);
 						});
                 }
             })

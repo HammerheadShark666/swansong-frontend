@@ -149,7 +149,7 @@ export default defineComponent({
                             this.messages = [ {"text" : "Member deleted.", "severity": MESSAGE_INFO}];
 						},
 						(error) => { 
-                            this.errors = error.data.messages;
+                            console.log(error);
 						});
         },        
         closeMessagesDialog() { 

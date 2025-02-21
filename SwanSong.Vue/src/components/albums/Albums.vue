@@ -21,8 +21,7 @@
 
 <script>  
 import AlbumsTitleBar from './AlbumsTitleBar'
-import Album from './Album' 
-import { ElMessage } from 'element-plus'
+import Album from './Album'
 
 export default {
 	name: "Albums",  
@@ -46,14 +45,7 @@ export default {
 						this.$store.dispatch("albumSong/getSongsForAlbum", id);	
 					},
 					(error) => { 
-						if(error.status == 404){
-							ElMessage({
-								duration:0,
-								showClose: true, 
-								type: 'error',
-								message: 'Album not found.',
-							});
-						}								 
+						console.log(error); 
 					});	
 		}
 	}

@@ -1,4 +1,3 @@
-/* eslint-disable no-async-promise-executor */
 import ajax from '../helpers/http-common'
 
 const mutation = {  
@@ -54,16 +53,9 @@ export const recordLabel = {
     actions: {
         async getAll ({ commit }) {
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/record-labels`)
-                       .then(response => {
-                           commit(mutation.SET_RECORD_LABELS, response.data); 
-                           resolve();
-                       })
-                       .catch(error => {
-                           reject(error.response);
-                       })
-            })
+            const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/record-labels`);
+            commit(mutation.SET_RECORD_LABELS, response.data); 
+            return;
         },        
         setRecordLabel({ commit }, recordLabel) {
             commit(mutation.SET_RECORD_LABEL, recordLabel); 
@@ -72,45 +64,26 @@ export const recordLabel = {
 
             let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/record-labels/record-label/add`;
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.post(url, state.recordLabel )  
-                            .then(response => {
-                                commit(mutation.SET_SAVED_RECORD_LABEL, response.data);   
-                                resolve(response);
-                            }).catch(error => {
-                                reject(error.response);
-                            })
-            });
+            const response = await ajax.post(url, state.recordLabel);
+            commit(mutation.SET_SAVED_RECORD_LABEL, response.data);
+            return response;
         },
         async updateRecordLabel ({ commit, state }) {  
 
             let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/record-labels/record-label/update`;
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.put(url, state.recordLabel )  
-                            .then(response => {
-                                commit(mutation.SET_UPDATED_RECORD_LABEL, state.recordLabel);   
-                                resolve(response);
-                            }).catch(error => {
-                                reject(error.response);
-                            })
-            });
+            const response = await ajax.put(url, state.recordLabel);
+            commit(mutation.SET_UPDATED_RECORD_LABEL, state.recordLabel);  
+            return response;
         },
         async deleteRecordLabel ({ commit, state }) { 
 
             let recordLabelId = state.recordLabel.id; 
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/record-labels/record-label/` + recordLabelId)  
-                            .then(response => {
-                                commit(mutation.SET_DELETED_RECORD_LABEL, response.data);  
-                                commit(mutation.REMOVE_RECORD_LABEL_FROM_RESULTS, recordLabelId); 
-                                resolve(response);
-                            }).catch(error => {
-                                reject(error.response);
-                            })
-
-                });
+            const response = await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/record-labels/record-label/` + recordLabelId);
+            commit(mutation.SET_DELETED_RECORD_LABEL, response.data);  
+            commit(mutation.REMOVE_RECORD_LABEL_FROM_RESULTS, recordLabelId); 
+            return response;
         },
         add({ commit }) {
             commit(mutation.SET_RECORD_LABEL, getRecordLabelDetails()); 

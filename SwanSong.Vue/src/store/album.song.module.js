@@ -1,4 +1,3 @@
-/* eslint-disable no-async-promise-executor */
 import ajax from '../helpers/http-common'
 import { cloneDeep } from 'lodash-es'
 
@@ -77,59 +76,26 @@ export const albumSong = {
         }        
     },
     actions: {       
-        async getSongsForAlbum ({ commit }, albumId) {            
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/` + albumId)
-                            .then(response => {
-                                var results = response.data
-                                commit(mutation.SET_ALBUM_SONGS, results);  
-                                resolve();
-                            })
-                            .catch(error => { 
-                                reject(error.response)
-                            })
-            })
+        async getSongsForAlbum ({ commit }, albumId) {               
+            const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/` + albumId);
+            commit(mutation.SET_ALBUM_SONGS, response.data);
         },
         async addNewAlbumSong ({  commit, state }) {
-
             let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/song/add`;
-
-            return new Promise(async (resolve, reject) => {
-                await ajax.post(url, state.albumSong)
-                            .then(response => { 
-                                commit("SET_SAVED_ALBUM_SONG", response.data)   
-                                resolve(response); 
-                            }).catch(error => {
-                                reject(error.response);
-                            })
-            });
+            const response = await ajax.post(url, state.albumSong);
+            commit("SET_SAVED_ALBUM_SONG", response.data);
+            return response;
         },     
-        updateAlbumSong ({  commit, state }) {   
-
+        async updateAlbumSong ({  commit, state }) {   
             let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/song/update`;
-
-            return new Promise(async (resolve, reject) => {
-                await ajax.put(url, state.albumSong)  
-                       .then(response => { 
-                            commit("SET_SAVED_EDITED_ALBUM_SONG", state.albumSong)
-                            resolve(response.data);  
-                       })
-                       .catch(error => {
-                            reject(error.response);
-                       })
-            });
+            const response = await ajax.put(url, state.albumSong);
+            commit("SET_SAVED_EDITED_ALBUM_SONG", state.albumSong);
+            return response.data;
         },          
         async deleteAlbumSong ({ commit }, id) {
-            return new Promise(async (resolve, reject) => {
-                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/song/` + id)  
-                            .then(response => {                            
-                                commit(mutation.SET_DELETED_ALBUM_SONG, { id }); 
-                                resolve(response);
-                            })
-                            .catch(error => {                          
-                                reject(error.response);
-                            })
-            });
+            const response = await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/album/songs/song/` + id);
+            commit(mutation.SET_DELETED_ALBUM_SONG, { id });
+            return response;
         },   
         addAlbumSong({ commit }, albumId) {
             commit(mutation.SET_ALBUM_SONG_DETAILS, getAlbumSong(albumId));  

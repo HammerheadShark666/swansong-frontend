@@ -1,4 +1,4 @@
-/* eslint-disable no-async-promise-executor */
+
 import ajax from '../helpers/http-common'
 
 const mutation = { 
@@ -24,31 +24,35 @@ export const forgottenPassword = {
 		} 
 	},
 	actions: {		 
-		async forgottenPassword({commit }, email) {						
-			commit(mutation.VERIFYING_REGISTRATION_TOKEN);	
-			return new Promise(async (resolve, reject) => {
+		async forgottenPassword({commit }, email) {			
+			
+			try 
+			{
+				commit(mutation.VERIFYING_REGISTRATION_TOKEN);	
 				await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/forgot-password/`, { email: email })
-						.then(() => {
-							commit(mutation.VERIFY_REGISTRATION_TOKEN_SUCCESS, "");
-							resolve();
-						})
-						.catch(error => {
-							reject(error.response.data);
-						})
-			})
+				commit(mutation.VERIFY_REGISTRATION_TOKEN_SUCCESS, "");
+				return;
+			} 
+			catch(error)
+			{
+				console.log(error);
+				throw error;
+			}
 		},
-		async resetPassword({commit }, form) {						
-			commit(mutation.VERIFYING_REGISTRATION_TOKEN);	
-			return new Promise(async (resolve, reject) => {
+		async resetPassword({commit }, form) {			
+			
+			try
+			{
+				commit(mutation.VERIFYING_REGISTRATION_TOKEN);
 				await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/forgot-password/reset-password/`, form)
-						.then(() => {
-							commit(mutation.VERIFY_REGISTRATION_TOKEN_SUCCESS, "");
-							resolve();
-						})
-						.catch(error => {
-							reject(error.response);
-						})
-			})
+				commit(mutation.VERIFY_REGISTRATION_TOKEN_SUCCESS, "");
+				return;
+			}
+			catch(error)
+			{
+				console.log(error);
+				throw error;
+			}
 		},		
 	}	
 };

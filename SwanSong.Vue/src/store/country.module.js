@@ -1,4 +1,4 @@
-/* eslint-disable no-async-promise-executor */
+
 import ajax from '../helpers/http-common'
 
 const mutation = {  
@@ -54,16 +54,9 @@ export const country = {
     actions: {
         async getAll ({ commit }) {
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/countries`)
-                       .then(response => {
-                           commit(mutation.SET_COUNTRIES, response.data); 
-                           resolve();
-                       })
-                       .catch(error => {
-                           reject(error.response);
-                       })
-            })
+            const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/countries`);
+            commit(mutation.SET_COUNTRIES, response.data); 
+            return;
         },        
         setCountry({ commit }, country) {
             commit(mutation.SET_COUNTRY, country); 
@@ -72,45 +65,26 @@ export const country = {
 
             let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/countries/country/add`; // + (state.country.id > 0 ? 'update' : 'add');
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.post(url, state.country )  
-                            .then(response => {
-                                commit(mutation.SET_SAVED_COUNTRY, response.data);   
-                                resolve(response);
-                            }).catch(error => {
-                                reject(error.response);
-                            })
-            });
+            const response = await ajax.post(url, state.country);
+            commit(mutation.SET_SAVED_COUNTRY, response.data); 
+            return response;
         },
         async updateCountry ({ commit, state }) {  
 
             let url = `/${process.env.VUE_APP_DEFAULT_VERSION}/countries/country/update`;
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.put(url, state.country )  
-                            .then(response => {
-                                commit(mutation.SET_UPDATED_COUNTRY, state.country);   
-                                resolve(response);
-                            }).catch(error => {
-                                reject(error.response);
-                            })
-            });
+            const response = await ajax.put(url, state.country);
+            commit(mutation.SET_UPDATED_COUNTRY, state.country); 
+            return response;
         },
         async deleteCountry ({ commit, state }) { 
 
             let countryId = state.country.id; 
 
-            return new Promise(async (resolve, reject) => {
-                await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/countries/country/` + countryId)  
-                            .then(response => {
-                                commit(mutation.SET_DELETED_COUNTRY, response.data);  
-                                commit(mutation.REMOVE_COUNTRY_FROM_RESULTS, countryId); 
-                                resolve(response);
-                            }).catch(error => {
-                                reject(error.response);
-                            })
-
-                });
+            const response = await ajax.delete(`/${process.env.VUE_APP_DEFAULT_VERSION}/countries/country/` + countryId);
+            commit(mutation.SET_DELETED_COUNTRY, response.data);  
+            commit(mutation.REMOVE_COUNTRY_FROM_RESULTS, countryId); 
+            return response;
         },
         add({ commit }) {
             commit(mutation.SET_COUNTRY, getCountryDetails()); 

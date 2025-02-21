@@ -1,4 +1,4 @@
-/* eslint-disable no-async-promise-executor */
+
 import ajax from '../helpers/http-common' 
 
 const mutation = { 
@@ -32,27 +32,17 @@ export const profile = {
   },
   actions: {     
     async getProfile ({ commit, state }) {
-      return new Promise(async (resolve, reject) => {
-        await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/profile`, state.profile)  
-                    .then(response => {
-                        commit(mutation.SET_PROFILE, response.data);  
-                        resolve(response);
-                    }).catch(error => {
-                        reject(error.response);
-                    })
-      });    
+
+      const response = await ajax.get(`/${process.env.VUE_APP_DEFAULT_VERSION}/profile`, state.profile);
+      commit(mutation.SET_PROFILE, response.data);
+      return response;
     },
     async saveProfile ({ dispatch, state }) {
 
-      return new Promise(async (resolve, reject) => {
-          await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/profile/update`, state.profile)  
-                      .then(response => { 
-                          dispatch("profile/getProfile", '', { root:true });   
-                          resolve(response);
-                      }).catch(error => {
-                          reject(error.response);
-                      })
-      });      
+      
+      const response = await ajax.put(`/${process.env.VUE_APP_DEFAULT_VERSION}/profile/update`, state.profile);
+      dispatch("profile/getProfile", '', { root:true });
+      return response;
     }, 
     clearMessages ({ commit }) {
       commit(mutation.CLEAR_MESSAGES);  

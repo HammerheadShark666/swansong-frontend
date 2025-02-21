@@ -103,7 +103,7 @@ export default defineComponent({
                             this.$refs.albumSongDialog.openDialog('Edit');
 						},
 						(error) => { 
-                            this.errors = error;
+                            console.log(error); 
 						});
         },
         async deleteAlbumSongOnClick(id) {
@@ -112,7 +112,7 @@ export default defineComponent({
                             this.messages = response;
 						},
 						(error) => { 
-                            this.errors = error;
+                            console.log(error); 
 						});
         },
         getSummaries(param) {      

@@ -100,9 +100,36 @@ ajax.interceptors.response.use(
 						}
 						return Promise.reject(_error);
 					}
-				}       
-			}
-		}
+				}   
+				
+				if (error.response) 
+					{
+						const { status } = error.response;
+						switch (status) {
+							case 400:						 
+								break;
+							case 401:
+								alert("Unauthorized! Please log in again."); 
+								break;
+							case 403:
+								alert("Forbidden! You don't have permission.");
+								break;
+							case 404:							
+								alert("Not found! The resource doesn't exist: " + error.response.config.url);
+								break;
+							case 500:
+								alert("Server error! Try again later.");
+								break;
+							default:
+								alert("An unexpected error occurred.");
+						}
+					} else if (error.request) {
+						alert("Network error! Check your internet connection.");
+					} else {
+						alert("An unexpected error occurred.");
+					} 
+			} 
+		} 
 		return Promise.reject(error);
 	}
 );

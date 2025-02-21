@@ -57,7 +57,8 @@
 
 <script>
  
-import Alerts from '../library/Alerts.vue' 
+import Alerts from '../library/Alerts.vue'
+import { getErrorMessages } from '../../helpers/helper'
 
 export default {
 	name: "ResetPassword",
@@ -99,9 +100,9 @@ export default {
 							this.successful = true;
 							this.resetForm();	 
 						},
-						(error) => {			 
-							this.messages = error.data.messages;
+						(error) => {			  
 							this.disabled = false;
+							this.messages = getErrorMessages(error);
 						});
 				} else { 
 					return false;

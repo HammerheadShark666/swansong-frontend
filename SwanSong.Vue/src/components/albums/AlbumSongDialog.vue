@@ -65,7 +65,7 @@
 <script>
 
 import { defineComponent } from 'vue'  
-import { getListOfNumbers, validateLength, delayAlertRemove } from '../../helpers/helper' 
+import { getListOfNumbers, validateLength, delayAlertRemove, getErrorMessages } from '../../helpers/helper' 
 import { emitter } from '../../main'
 import Alerts from '../library/Alerts.vue' 
 import { MESSAGE_INFO } from '../../helpers/helper'
@@ -144,7 +144,7 @@ export default defineComponent({
                             }.bind(this));                       
 						},
 						(error) => {
-                            this.messages = error.data.messages;
+                            this.messages = getErrorMessages(error); 
                             this.disabled = false;
 						});
 				} else { 

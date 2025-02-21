@@ -55,7 +55,8 @@
 
 <script>
 
-import Alerts from '../library/Alerts.vue'   
+import Alerts from '../library/Alerts.vue'
+import { getErrorMessages } from '../../helpers/helper'
 
 export default {
 	name: "RequestResetPassword",
@@ -93,8 +94,8 @@ export default {
 							this.messages.push({ text: "A reset password email has been sent", severity:"info" });
 						},
 						(error) => {	
-							this.messages = error.messages; 
 							this.disabled = false;
+							this.messages = getErrorMessages(error); 						
 						});
 				} else { 
 					return false;

@@ -1,5 +1,5 @@
 <template>
-    <el-card class="box-card card-margin-right">
+    <el-card class="box-card card-margin-right" style="height: auto">
         <template #header>
             <div class="card-header">
                 <span>Change Password</span> 
@@ -33,9 +33,9 @@
 
 <script>
 
-import Alerts from '../library/Alerts.vue' 
+import Alerts from '../library/Alerts.vue'
 import { defineComponent } from 'vue'    
-import { delayAlertRemove } from '../../helpers/helper'
+import { delayAlertRemove, getErrorMessages, MESSAGE_INFO } from '../../helpers/helper' 
 
 export default defineComponent({
    
@@ -73,16 +73,18 @@ export default defineComponent({
 				if (valid) {
                     this.disabled = true;
                     this.$store.dispatch("profilePasswordChange/savePasswordChange", this.changePasswordForm).then(
-                    (response) => {			
-                        this.messages = response.data.messages;
-                        this.resetForm();    
+                    () => {
+                        this.messages = [ {"text" : "Password has been changed.", "severity": MESSAGE_INFO}];  
+                        this.resetForm();
                         delayAlertRemove().then(function() {
-                            this.messages = [];                                      
-                        }.bind(this));            
+                            this.messages = [];  
+                            this.$store.dispatch("profile/clearMessages");   
+                        }.bind(this));   
+                        this.disabled = false;   
                     },
-                    (error) => { 
-                        this.messages = error.data.messages;
+                    (error) => {
                         this.disabled = false;
+                        this.messages = getErrorMessages(error);
                     });
                 } 
             })
@@ -112,8 +114,7 @@ export default defineComponent({
     margin-right: 10px;
 } 
 .save-change-password-button {
-	float: right;
-	margin-bottom: 5px;
+	float: right; 
 } 
 .box-card {
     height: 250px;

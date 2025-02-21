@@ -35,28 +35,22 @@ export const register = {
 				acceptterms: true
 			}
 
-			return new Promise(async (resolve, reject) => {
-				await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/register`, data)
-						.then(response => {
-							commit(mutation.REGISTER_SUCCESS);
-							resolve(response.data);
-						})
-						.catch(error => {
-							commit(mutation.REGISTER_FAILURE);
-							reject(error.response);
-						})    
-			})
+			try
+			{
+				const response = await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/register`, data);
+				commit(mutation.REGISTER_SUCCESS);
+				return response.data;
+			}
+			catch(error)
+			{
+				console.log(error);
+				commit(mutation.REGISTER_FAILURE); 
+				throw error;
+			}
 		},
 		async verifyRegistrationToken( commit, token) {			
-			return new Promise(async (resolve, reject) => {
-				await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/register/verify-email/`, { token: token })
-						.then(response => {
-							resolve(response.data.message);
-						})
-						.catch(error => {
-							reject(error.response);
-						})
-			})
+
+			return await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/register/verify-email/`, { token: token });
 		},
 	}	
 };
