@@ -29,7 +29,7 @@ export const forgottenPassword = {
 			try 
 			{
 				commit(mutation.VERIFYING_REGISTRATION_TOKEN);	
-				await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/forgot-password/`, { email: email })
+				await ajax.post(`/${process.env.VUE_APP_DEFAULT_VERSION}/forgot-password/`, { email: email, frontEndUrl: process.env.VUE_APP_FRONT_END_URL })
 				commit(mutation.VERIFY_REGISTRATION_TOKEN_SUCCESS, "");
 				return;
 			} 
